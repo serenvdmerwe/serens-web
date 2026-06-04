@@ -1,0 +1,28 @@
+/*
+Theme Name: SerensWeb Child
+Theme URI: https://www.turbopress.pro
+Description: SerensWeb child theme based on Twenty Twenty-Five. Freelance web developer building fast, modern, conversion focused sites and web apps. FSE block theme; tokens in theme.json, prototype CSS in /assets/css, sections delivered as block patterns.
+Author: TurboPress
+Author URI: https://www.turbopress.pro
+Template: twentytwentyfive
+Version: 0.1.0
+Text Domain: serens-web-child
+Requires at least: 6.7
+Requires PHP: 8.1
+*/
+
+/* ---------------------------------------------------------------------
+   Child-level overrides only. Design tokens live in assets/css/tokens.css
+   and the prototype CSS lives verbatim in assets/css/theme.css.
+
+   Production adaptation: the prototype established its container query
+   context on a wrapper named ".vp-host" (a prototype-only element). In
+   WordPress the real page wrapper is ".wp-site-blocks", so the named
+   "site" container is re-pointed onto it here. Every "@container site (...)"
+   rule in theme.css then resolves against the live page.
+   --------------------------------------------------------------------- */
+.wp-site-blocks {
+	container-type: inline-size;
+	container-name: site;
+	background: var(--color-dark);
+}

@@ -1,0 +1,88 @@
+name: serens-web
+
+services:
+  serens-web-caddy-service:
+    build:
+      context: ./caddy
+    container_name: serens-web-caddy-service
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+      - "8443:8443"
+      - "8443:8443/udp"
+    volumes:
+      - ./caddy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - ./wordpress:/var/www/html
+      - caddy_data:/data
+      - caddy_config:/config
+      - ./logs/caddy:/var/log/caddy
+    depends_on:
+      - serens-web-php-service
+    networks:
+      - app
+
+  serens-web-php-service:
+    build:
+      context: ./php
+      args:
+        PUSER: ${PUSER:-semantica}
+        PUID: ${PUID:-1000}
+        PGID: ${PGID:-1000}
+    container_name: serens-web-php-service
+    restart: unless-stopped
+    volumes:
+      - ./wordpress:/var/www/html
+    environment:
+      WORDPRESS_DB_HOST: serens-web-mariadb-service
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WP_REDIS_HOST: serens-web-redis-service
+    depends_on:
+      serens-web-mariadb-service:
+        condition: service_healthy
+      serens-web-redis-service:
+        condition: service_started
+    networks:
+      - app
+
+  serens-web-mariadb-service:
+    build:
+      context: ./mariadb
+    container_name: serens-web-mariadb-service
+    restart: unless-stopped
+    environment:
+      MARIADB_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MARIADB_DATABASE: ${MYSQL_DATABASE}
+      MARIADB_USER: ${MYSQL_USER}
+      MARIADB_PASSWORD: ${MYSQL_PASSWORD}
+    volumes:
+      - mariadb_data:/var/lib/mysql
+    ports:
+      - "127.0.0.1:3311:3306"
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - app
+
+  serens-web-redis-service:
+    image: redis:alpine
+    container_name: serens-web-redis-service
+    restart: unless-stopped
+    command: ["redis-server", "/usr/local/etc/redis/redis.conf"]
+    volumes:
+      - ./redis/redis.conf:/usr/local/etc/redis/redis.conf:ro
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge
+
+volumes:
+  mariadb_data:
+  caddy_data:
+  caddy_config:

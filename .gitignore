@@ -1,0 +1,18 @@
+# Secrets and local-only
+.env
+logs/
+*.sql
+*.sql.gz
+caddy-root.crt
+
+# WordPress core and uploads are not tracked. The child theme IS tracked,
+# so each directory on the path is re-included before its contents are ignored.
+wordpress/*
+!wordpress/wp-content/
+wordpress/wp-content/*
+!wordpress/wp-content/themes/
+wordpress/wp-content/themes/*
+!wordpress/wp-content/themes/serens-web-child/
+
+# Never track build artefacts or deps that might appear inside the theme.
+wordpress/wp-content/themes/serens-web-child/node_modules/

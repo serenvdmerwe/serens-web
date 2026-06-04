@@ -1,0 +1,69 @@
+[mysqld]
+# === BASIC SETTINGS ===
+user                    = mysql
+port                    = 3306
+socket                  = /var/run/mysqld/mysqld.sock
+datadir                 = /var/lib/mysql
+tmpdir                  = /tmp
+default-storage-engine  = InnoDB
+character-set-server    = utf8mb4
+collation-server        = utf8mb4_unicode_ci
+skip-name-resolve       = 1
+skip-external-locking   = 1
+pid-file                = /var/lib/mysql/mysql.pid
+default-time-zone       = '+02:00'
+
+# === PERFORMANCE — light for dev ===
+innodb_buffer_pool_size         = 2G
+innodb_buffer_pool_instances    = 2
+innodb_log_file_size            = 128M
+innodb_log_buffer_size          = 16M
+innodb_flush_log_at_trx_commit  = 2
+innodb_thread_concurrency       = 0
+innodb_flush_method             = O_DIRECT
+innodb_file_per_table           = 1
+innodb_io_capacity              = 2000
+innodb_io_capacity_max          = 4000
+innodb_read_io_threads          = 4
+innodb_write_io_threads         = 4
+
+# === CONNECTIONS ===
+max_connections                 = 30
+thread_cache_size               = 16
+table_open_cache                = 1024
+table_definition_cache          = 1024
+
+# === TEMP TABLES ===
+tmp_table_size                  = 64M
+max_heap_table_size             = 64M
+
+# === BUFFERS (per connection) ===
+read_buffer_size                = 1M
+sort_buffer_size                = 2M
+join_buffer_size                = 2M
+read_rnd_buffer_size            = 512K
+
+# === TIMEOUTS ===
+wait_timeout                    = 600
+interactive_timeout             = 600
+connect_timeout                 = 10
+
+# === LOGGING — verbose for dev ===
+slow-query-log                  = 1
+long_query_time                 = 0.5
+slow_query_log_file             = /proc/self/fd/2
+log-error                       = /proc/self/fd/2
+# general_log captures every query — useful for debugging, noisy otherwise.
+# Set to 0 if your terminal gets flooded.
+general_log                     = 1
+general_log_file                = /proc/self/fd/2
+
+# === BINARY LOGGING ===
+disable-log-bin                 = 1
+
+# === FILE & PACKET SETTINGS ===
+open_files_limit                = 65535
+max_allowed_packet              = 128M
+
+# === PERFORMANCE SCHEMA ===
+performance_schema              = ON
