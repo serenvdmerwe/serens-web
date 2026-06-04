@@ -8,7 +8,8 @@ studio. Dark, modern, high-craft, one continuous scroll: header, hero, about, st
 marketers, and product teams evaluating a senior independent developer.
 
 Theme: `serens-web-child` (Twenty Twenty-Five child, FSE block theme)
-Local URL: `https://serensweb.test:8443`
+Local URL: `https://serensweb.test`
+Admin: `https://serensweb.test/wp-admin` (user `admin`, password `admin`, local only)
 
 Design source of truth: `docs/handoff/`. Read `docs/handoff/HANDOFF.md` (the build
 contract and decisions) and `docs/handoff/design_handoff_serensweb_site/design-reference/`
@@ -31,10 +32,10 @@ Never commit directly to `main` for issue work. The only direct-to-main commit w
 Bring the stack up with `docker compose up -d` from the repo root. The stack is isolated so
 it runs alongside other local WordPress projects on this machine:
 - Containers are `serens-web`-prefixed: `serens-web-caddy-service`, `serens-web-php-service`, `serens-web-mariadb-service`, `serens-web-redis-service`.
-- Host ports: 8080 (http), 8443 (https), 3311 (MariaDB, bound to 127.0.0.1). Caddy holds 8080/8443 so tcg-forensics and wc-pumps keep 80/443.
+- Host ports: 80 (http), 443 (https), 3311 (MariaDB, bound to 127.0.0.1). Caddy holds 80/443, so only one local `.test` stack runs at a time. tcg-forensics and wc-pumps also use 80/443, so stop them (`docker compose stop` in their repo) before starting SerensWeb. Data stays isolated either way (prefixed containers, network, and named volumes).
 - Run wp-cli inside the PHP container: `docker compose exec serens-web-php-service wp ...`.
 - `wp-config.php` reads DB credentials via `getenv()` from the container environment, and sets `FS_METHOD` to `direct`.
-- The Caddy local CA must be trusted once per machine (see wp-local-stack docs). The site then validates at `https://serensweb.test:8443`.
+- The Caddy local CA must be trusted once per machine (see wp-local-stack docs). The site then validates at `https://serensweb.test`.
 
 ## Writing and Copy Rules
 

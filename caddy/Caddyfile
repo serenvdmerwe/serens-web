@@ -2,11 +2,11 @@
 	email accounts@semantica.co.za
 }
 
-http://serensweb.test:8080 {
-	redir https://serensweb.test:8443{uri} permanent
+http://serensweb.test {
+	redir https://serensweb.test{uri} permanent
 }
 
-https://serensweb.test:8443 {
+https://serensweb.test {
 	root * /var/www/html
 	tls internal
 
