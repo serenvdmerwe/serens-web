@@ -1,0 +1,17 @@
+/*
+Theme Name: SerensWeb Child
+Theme URI: https://www.turbopress.pro
+Description: SerensWeb child theme based on Twenty Twenty-Five. Freelance web developer building fast, modern, conversion focused sites and web apps, from headless commerce to AI powered tools. FSE block theme; tokens in theme.json, prototype CSS in /assets/css, sections delivered as block patterns.
+Author: TurboPress
+Author URI: https://www.turbopress.pro
+Template: twentytwentyfive
+Version: 0.1.0
+Text Domain: serensweb-child
+Requires at least: 6.7
+Requires PHP: 8.1
+*/
+
+/* Child-level overrides only. Design tokens live in assets/css/tokens.css and
+   the prototype CSS lives verbatim in assets/css/theme.css. The container query
+   context (container-name: site) sits on <body> inside theme.css, so no wrapper
+   re-point is needed here. */

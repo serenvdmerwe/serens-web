@@ -1,0 +1,47 @@
+{
+	email accounts@semantica.co.za
+}
+
+http://serensweb.test {
+	redir https://serensweb.test{uri} permanent
+}
+
+https://serensweb.test {
+	root * /var/www/html
+	tls internal
+
+	encode zstd gzip
+
+	handle /php-fpm-status {
+		@notlocal not remote_ip 127.0.0.1 ::1 172.16.0.0/12
+		respond @notlocal 403
+		reverse_proxy serens-web-php-service:9000 {
+			transport fastcgi {
+				env SCRIPT_FILENAME /php-fpm-status
+			}
+		}
+	}
+
+	php_fastcgi serens-web-php-service:9000 {
+		dial_timeout 100s
+		read_timeout 600s
+		write_timeout 600s
+	}
+
+	file_server
+
+	@disallowed {
+		path /xmlrpc.php
+		path *.sql
+		path /wp-config.php
+		path /wp-config-sample.php
+		path /.git/*
+		path /.env
+	}
+	respond @disallowed 403
+
+	log {
+		output file /var/log/caddy/access.log
+		format json
+	}
+}

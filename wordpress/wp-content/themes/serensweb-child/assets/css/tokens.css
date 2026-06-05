@@ -1,0 +1,53 @@
+/* =====================================================================
+   SerensWeb design tokens (mirrors theme.json). The prototype CSS in
+   theme.css consumes these custom property names directly, and the visitor
+   accent switcher rewrites --color-primary / --color-primary-strong on :root
+   at runtime, so this is the single source the whole site rethemes from.
+   ===================================================================== */
+:root {
+  /* Brand / accent - change THIS one value to retheme the whole site */
+  --color-primary:        #F6821F;          /* default accent    */
+  --color-primary-strong: #E5751A;          /* hover / pressed   */
+  --color-primary-soft:   color-mix(in oklab, var(--color-primary) 16%, transparent);
+  --color-primary-faint:  color-mix(in oklab, var(--color-primary) 8%, transparent);
+
+  /* Surfaces */
+  --color-dark:        #1A1A1A;   /* primary dark surface / text on light */
+  --color-dark-2:      #2A2A2A;   /* secondary dark surface              */
+  --color-dark-3:      #232323;   /* card on dark                        */
+  --color-smoke:       #F5F5F5;   /* light smoky background              */
+  --color-smoke-2:     #E8E8E8;   /* borders / light cards               */
+  --color-white:       #FCFCFB;
+
+  /* Text */
+  --color-text-light:  #EDEBE7;   /* off-white on dark */
+  --color-text-muted:  #A8A6A2;   /* muted on dark     */
+  --color-text-dark:   #1A1A1A;   /* on light          */
+  --color-text-dark-2: #5A5A58;   /* muted on light    */
+
+  /* Lines */
+  --hairline-dark:  rgba(255,255,255,0.10);
+  --hairline-light: rgba(0,0,0,0.09);
+
+  /* Type */
+  --font-sans: "Geist", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* Radii */
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-lg: 22px;
+  --r-pill: 999px;
+
+  /* Spacing rhythm */
+  --section-pad: clamp(64px, 9cqi, 132px);
+  --gutter: clamp(20px, 5cqi, 56px);
+  --maxw: 1240px;
+
+  /* Motion */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --dur: 0.55s;
+
+  --shadow-card: 0 1px 2px rgba(0,0,0,0.04), 0 12px 32px -12px rgba(0,0,0,0.16);
+  --shadow-pop:  0 24px 70px -24px rgba(0,0,0,0.45);
+}
