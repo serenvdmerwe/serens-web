@@ -5,6 +5,9 @@ logs/
 *.sql.gz
 caddy-root.crt
 
+# Private ops notes (deploy recipe, server details, credentials). Local only, never pushed.
+docs/private/
+
 # WordPress core and uploads are not tracked. The child theme IS tracked,
 # so each directory on the path is re-included before its contents are ignored.
 wordpress/*
