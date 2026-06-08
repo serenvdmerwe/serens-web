@@ -2,8 +2,8 @@
 /**
  * JSON-LD structured data: Organization + WebSite.
  *
- * The social profile URLs in sameAs are placeholders until the real GitHub /
- * LinkedIn / X profiles are confirmed (see the footer social links).
+ * sameAs lists the confirmed GitHub and LinkedIn profiles (see the footer
+ * social links). No X profile is used.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -22,7 +22,7 @@ add_action( 'wp_head', static function () {
 		'logo'        => esc_url( $logo ),
 		'email'       => 'hello@serensweb.dev',
 		'areaServed'  => 'Remote, worldwide',
-		// 'sameAs'   => [ 'https://github.com/...', 'https://www.linkedin.com/in/...', 'https://x.com/...' ],
+		'sameAs'      => [ 'https://github.com/serenvdmerwe', 'https://www.linkedin.com/in/serenvdmerwe' ],
 	];
 	echo '<script type="application/ld+json">' . wp_json_encode( $org ) . "</script>\n";
 
