@@ -34,11 +34,19 @@ add_action( 'wp_enqueue_scripts', static function () {
 	wp_enqueue_script( 'sw-reveal',       $theme_uri . '/assets/js/reveal.js',       [], $asset_version( 'assets/js/reveal.js' ), true );
 	wp_enqueue_script( 'sw-work',         $theme_uri . '/assets/js/work.js',         [], $asset_version( 'assets/js/work.js' ), true );
 	wp_enqueue_script( 'sw-contact-form', $theme_uri . '/assets/js/contact-form.js', [], $asset_version( 'assets/js/contact-form.js' ), true );
+	wp_enqueue_script( 'sw-engage',       $theme_uri . '/assets/js/engage.js',       [], $asset_version( 'assets/js/engage.js' ), true );
 
 	// Hand the contact form its REST endpoint and a nonce.
 	wp_localize_script( 'sw-contact-form', 'swContact', [
 		'url'   => esc_url_raw( rest_url( 'serensweb/v1/contact' ) ),
 		'nonce' => wp_create_nonce( 'wp_rest' ),
+	] );
+
+	// Hand the engagement switcher the WhatsApp number.
+	// TODO(fiancee round): set the number in international format, digits only,
+	// no plus or spaces, e.g. '27821234567'. Empty string disables the deep link.
+	wp_localize_script( 'sw-engage', 'swEngage', [
+		'whatsapp' => '',
 	] );
 } );
 
