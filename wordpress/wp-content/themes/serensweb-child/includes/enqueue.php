@@ -42,11 +42,10 @@ add_action( 'wp_enqueue_scripts', static function () {
 		'nonce' => wp_create_nonce( 'wp_rest' ),
 	] );
 
-	// Hand the engagement switcher the WhatsApp number.
-	// TODO(fiancee round): set the number in international format, digits only,
-	// no plus or spaces, e.g. '27821234567'. Empty string disables the deep link.
+	// Hand the engagement switcher the WhatsApp number (international format,
+	// digits only, no plus or spaces). Empty string disables the deep link.
 	wp_localize_script( 'sw-engage', 'swEngage', [
-		'whatsapp' => '',
+		'whatsapp' => '27769420144',
 	] );
 } );
 
