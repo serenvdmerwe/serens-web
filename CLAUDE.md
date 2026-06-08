@@ -72,7 +72,7 @@ wordpress/wp-content/themes/serensweb-child/
 ├── patterns/           # <page>-<section>.php - one section per file (added per page)
 └── assets/
     ├── css/            # tokens.css -> theme.css -> child style.css
-    ├── js/             # site-chrome.js, reveal.js (global); work.js, contact-form.js (guarded)
+    ├── js/             # site-chrome.js, reveal.js (global); work.js, contact-form.js, engage.js (guarded)
     ├── fonts/          # Geist-Variable.ttf, GeistMono-Variable.ttf (self-hosted, OFL bundled)
     └── images/         # logo.svg and other motifs
 ```
@@ -80,11 +80,13 @@ wordpress/wp-content/themes/serensweb-child/
 ## Client facts
 
 - One-person freelance web development studio. Voice: confident, precise, low-hype, senior.
-- Four service areas, intended to live on their own subdomains of serensweb.dev (commerce, ai, apps, studio). The subdomains do not exist yet. The cards and footer Services links currently point to the intended outbound URLs (new tab); confirm the subdomain model with the client before launch. Tracked TODO.
+- Four service areas (commerce, ai, apps, studio), originally intended for their own serensweb.dev subdomains. The subdomain idea is parked: the strength cards and footer Services links now anchor in-page to `#contact` (each card carries a `data-topic` the contact prefill reads). Revisit the subdomain model only if the client wants it later.
 - Signature feature: a visitor accent switcher (orange default, plus blue, purple, green) that re-themes the whole site live and persists per visitor in localStorage. Single control, in the header.
-- Contact form: theme-only REST endpoint `serensweb/v1/contact` in `includes/ajax-contact.php` validates server-side and sends via `wp_mail()`, keeping the plugin count at zero. Local dev has no SMTP, so mail does not deliver locally; configure SMTP or a transactional provider in production. Tracked TODO.
+- Engagement switcher in the contact section: a Full-time / Part-time / Project control that echoes the accent switcher. The chosen mode drives a reactive hint, the contact-form message prefill, and the WhatsApp deep-link text. Logic in `assets/js/engage.js`, guarded on `.engage-switch`.
+- Contact form: theme-only REST endpoint `serensweb/v1/contact` in `includes/ajax-contact.php` validates server-side and sends via `wp_mail()`, zero plugins. No SMTP is configured (local or production), so the form shows its success state but does NOT deliver email yet. Wiring delivery (a mailto handoff, or Gmail SMTP via WordPress's built-in PHPMailer, both plugin-free) is a tracked TODO. Until then the working contact channels are the WhatsApp button (number `27769420144`, set in `enqueue.php` as `swEngage.whatsapp`) and the `hello@serensweb.dev` mailto link.
+- Contact band has a Download CV button linking to `assets/docs/seren-cv.pdf` (self-hosted, no plugin). Drop the real PDF at that path; until then the link 404s.
 - Target zero plugins. Redis is wired (`WP_REDIS_HOST` is set) but the object-cache drop-in is not installed, so the active-plugin count stays at zero.
-- Contact email shown: hello@serensweb.dev. Footer social links are placeholders to replace (also the schema `sameAs`).
+- Contact email shown: hello@serensweb.dev. Footer social links and the schema `sameAs` point at the real profiles: `github.com/serenvdmerwe` and `linkedin.com/in/serenvdmerwe`. The X/Twitter icon was removed (not used).
 
 ## What NOT to do
 
