@@ -38,7 +38,7 @@
     return (templates[mode] || templates.project).replace('{topic}', topicSuffix());
   }
 
-  function apply(mode) {
+  function apply(mode, prefill) {
     grid.setAttribute('data-engage', mode);
     $$('.engage-opt', sw).forEach(b => b.setAttribute('aria-pressed', String(b.dataset.mode === mode)));
 
@@ -50,26 +50,27 @@
         : 'https://wa.me/';
     }
 
-    // Prefill the form message, but never clobber what the visitor typed:
-    // only overwrite when the field is empty or still holds our last auto-fill.
-    if (messageField && (messageField.value === '' || messageField.value === lastAutoFill)) {
+    // Prefill the form message only on an explicit choice, and never clobber
+    // what the visitor typed: overwrite only an empty field or our own last fill.
+    if (prefill && messageField && (messageField.value === '' || messageField.value === lastAutoFill)) {
       messageField.value = msg;
       lastAutoFill = msg;
     }
   }
 
   $$('.engage-opt', sw).forEach(b =>
-    b.addEventListener('click', () => apply(b.dataset.mode))
+    b.addEventListener('click', () => apply(b.dataset.mode, true))
   );
 
   // Strengths cards carry a topic; stash it and refresh the prefill on click.
   $$('.fcard[data-topic]').forEach(card =>
     card.addEventListener('click', () => {
       try { sessionStorage.setItem('sw-topic', card.dataset.topic); } catch (e) {}
-      apply(grid.getAttribute('data-engage') || 'project');
+      apply(grid.getAttribute('data-engage') || 'project', true);
     })
   );
 
-  // Apply the default (or whatever mode the markup ships with) on load.
-  apply(grid.getAttribute('data-engage') || 'project');
+  // On load, set the aria state and WhatsApp link from the default mode, but
+  // leave the message placeholder visible (no prefill until the visitor picks).
+  apply(grid.getAttribute('data-engage') || 'project', false);
 })();
