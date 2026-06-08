@@ -9,10 +9,33 @@
 <!-- wp:html -->
 <section class="section section--dark" id="contact" data-screen-label="Contact">
   <div class="hero__mesh" aria-hidden="true" style="opacity:0.5;"></div>
-  <div class="wrap contact__grid" style="position:relative;z-index:1;">
+  <div class="wrap contact__grid" data-engage="project" style="position:relative;z-index:1;">
     <div class="contact__lead reveal">
       <h2>Have a project in <em>mind?</em></h2>
-      <p class="lede" style="margin-top:22px;max-width:42ch;">Tell me a little about what you're building. I reply to every serious enquiry within one business day.</p>
+
+      <div class="engage-switch" role="group" aria-label="How would you like to work together?">
+        <span class="engage-switch__label">Work with me</span>
+        <div class="engage-opts">
+          <button type="button" class="engage-opt" data-mode="fulltime" aria-pressed="false">Full-time</button>
+          <button type="button" class="engage-opt" data-mode="parttime" aria-pressed="false">Part-time</button>
+          <button type="button" class="engage-opt" data-mode="project" aria-pressed="true">Project</button>
+        </div>
+      </div>
+
+      <p class="lede contact__hint" data-when="project" style="margin-top:22px;max-width:44ch;">Tell me a little about what you're building. I reply to every serious enquiry within one business day.</p>
+      <p class="lede contact__hint" data-when="role" style="margin-top:22px;max-width:44ch;">Considering me for a role? Download my CV, then send a note below or message me on WhatsApp.</p>
+
+      <div class="contact__actions">
+        <a class="btn btn--ghost contact__cv" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/docs/seren-cv.pdf' ); ?>" download>
+          Download CV (PDF)
+          <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4"/><path d="M5 21h14"/></svg>
+        </a>
+        <a class="btn btn--whatsapp" id="waLink" href="https://wa.me/" target="_blank" rel="noopener">
+          Message on WhatsApp
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.5 8.5 0 0 1-12.6 7.4L3 20l1.1-5.4A8.5 8.5 0 1 1 21 11.5Z"/></svg>
+        </a>
+      </div>
+
       <div class="contact__meta">
         <a href="mailto:hello@serensweb.dev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2.5"/><path d="m4 7 8 6 8-6"/></svg> hello@serensweb.dev</a>
         <div><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="11" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.5 8 12 8 12s8-6.5 8-12a8 8 0 0 0-8-8Z"/></svg> Remote, working worldwide</div>
