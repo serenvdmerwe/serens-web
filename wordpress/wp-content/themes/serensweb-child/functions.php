@@ -11,6 +11,7 @@
  *   enqueue.php       front-end and editor asset registration
  *   patterns.php      block pattern registration
  *   ajax-contact.php  REST handler for the contact form (wp_mail)
+ *   cpt-projects.php  Projects custom post type + project_type taxonomy
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -21,3 +22,4 @@ require_once __DIR__ . '/includes/schema.php';
 require_once __DIR__ . '/includes/enqueue.php';
 require_once __DIR__ . '/includes/patterns.php';
 require_once __DIR__ . '/includes/ajax-contact.php';
+require_once __DIR__ . '/includes/cpt-projects.php';
