@@ -3,23 +3,20 @@
  * Title: Home - About
  * Slug: serensweb-child/home-about
  * Categories: serensweb-child
- * Description: Light two-column about section with a statement, supporting paragraph, and the core-stack chip row.
+ * Description: Short About intro on the home page, linking to the full /about page. The longer copy and the core-stack chips live on /about.
  */
 ?>
 <!-- wp:html -->
-<section class="section section--light" id="about" data-screen-label="About">
+<section class="section section--light" id="about">
   <div class="wrap about__grid">
     <div class="reveal">
-      <p class="about__statement">A one-person studio for teams who want <em>senior engineering</em> without the agency overhead. Strategy, design and code from a single, accountable partner.</p>
+      <p class="about__statement">A one-person studio for teams who want <em>senior engineering</em> without the agency overhead.</p>
     </div>
     <div class="about__side reveal">
-      <p>I work directly with founders, marketers and product teams to turn ambitious ideas into polished, maintainable software. No handoffs, no bloat, just clean work that ships.</p>
-      <h3 class="about__stack-title">Core stack</h3>
-      <ul class="stack">
-        <li>TypeScript</li><li>React</li><li>Next.js</li><li>Astro</li>
-        <li>Node</li><li>WordPress</li><li>Tailwind</li><li>Shopify Hydrogen</li>
-        <li>Postgres</li><li>Edge / Workers</li>
-      </ul>
+      <p>Strategy, design and code from a single, accountable partner. I work directly with founders, marketers and product teams to ship polished, maintainable software.</p>
+      <a class="btn btn--ghost about__more" href="/about">More about me
+        <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+      </a>
     </div>
   </div>
 </section>

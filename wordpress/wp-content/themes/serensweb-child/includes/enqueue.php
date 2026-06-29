@@ -4,10 +4,10 @@
  *
  * Stylesheets:  tokens.css -> theme.css -> child style.css
  * Scripts:      site-chrome.js (accent switcher, header, drawer, smooth scroll,
- *               year), reveal.js (scroll reveal), work.js (project grid +
- *               lightbox), contact-form.js (validation + REST submit). Each
- *               script is self-guarded, so it no-ops on pages that lack its
- *               markup. Section markup is added by the page patterns.
+ *               current-nav marking, year), reveal.js (scroll reveal),
+ *               contact-form.js (validation + REST submit), engage.js
+ *               (engagement switcher). Each script is self-guarded, so it
+ *               no-ops on pages that lack its markup.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,7 +32,6 @@ add_action( 'wp_enqueue_scripts', static function () {
 	// Behaviour modules, deferred in the footer.
 	wp_enqueue_script( 'sw-site-chrome',  $theme_uri . '/assets/js/site-chrome.js',  [], $asset_version( 'assets/js/site-chrome.js' ), true );
 	wp_enqueue_script( 'sw-reveal',       $theme_uri . '/assets/js/reveal.js',       [], $asset_version( 'assets/js/reveal.js' ), true );
-	wp_enqueue_script( 'sw-work',         $theme_uri . '/assets/js/work.js',         [], $asset_version( 'assets/js/work.js' ), true );
 	wp_enqueue_script( 'sw-contact-form', $theme_uri . '/assets/js/contact-form.js', [], $asset_version( 'assets/js/contact-form.js' ), true );
 	wp_enqueue_script( 'sw-engage',       $theme_uri . '/assets/js/engage.js',       [], $asset_version( 'assets/js/engage.js' ), true );
 

@@ -106,3 +106,8 @@ Requires PHP: 8.1
 @container site (min-width: 1040px) {
   .projects-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Home teaser "view all" + About "more about me" + current-nav affordance */
+.work-more { margin-top: 36px; }
+.about__more { margin-top: 24px; }
+.nav a[aria-current="page"] { color: var(--color-primary); background: var(--hairline-dark); }
