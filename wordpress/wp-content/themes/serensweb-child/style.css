@@ -144,3 +144,8 @@ Requires PHP: 8.1
 @container site (min-width: 1040px) {
   .play-grid { grid-template-columns: repeat(3, 1fr); }
 }
+
+/* Footer now has two columns (Home + Contact); keep them 2-up, not 3-up */
+@container site (min-width: 700px) {
+  .footer__cols { grid-template-columns: repeat(2, 1fr); }
+}
