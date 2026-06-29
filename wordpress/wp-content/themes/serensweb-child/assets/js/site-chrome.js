@@ -81,4 +81,15 @@
       window.scrollTo({ top, behavior: 'smooth' });
     });
   });
+
+  /* ---- mark the current page in the global nav ---- */
+  (function markCurrent() {
+    const path = location.pathname.replace(/\/+$/, '') || '/';
+    $$('.nav a, .drawer a').forEach(a => {
+      const href = (a.getAttribute('href') || '').replace(/\/+$/, '');
+      if (href && href !== '/' && (path === href || path.startsWith(href + '/'))) {
+        a.setAttribute('aria-current', 'page');
+      }
+    });
+  })();
 })();
