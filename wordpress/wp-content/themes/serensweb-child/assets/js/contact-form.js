@@ -68,7 +68,7 @@
       if (msgField) {
         msgField.classList.add('invalid');
         const errEl = $('.field__err', msgField);
-        if (errEl) errEl.textContent = 'Something went wrong sending your message. Please email hello@serensweb.dev.';
+        if (errEl) errEl.textContent = 'Something went wrong sending your message. Please email vandermerweseren@gmail.com.';
       }
     }
   });

@@ -20,7 +20,7 @@ add_action( 'wp_head', static function () {
 		'description' => 'Freelance web developer building fast, modern, conversion focused sites and web apps.',
 		'url'         => home_url( '/' ),
 		'logo'        => esc_url( $logo ),
-		'email'       => 'hello@serensweb.dev',
+		'email'       => 'vandermerweseren@gmail.com',
 		'areaServed'  => 'Remote, worldwide',
 		'sameAs'      => [ 'https://github.com/serenvdmerwe', 'https://www.linkedin.com/in/serenvdmerwe' ],
 	];
