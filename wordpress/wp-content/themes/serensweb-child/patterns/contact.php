@@ -1,9 +1,9 @@
 <?php
 /**
- * Title: Home - Contact
- * Slug: serensweb-child/home-contact
+ * Title: Contact
+ * Slug: serensweb-child/contact
  * Categories: serensweb-child
- * Description: Dark contact section with a meta list and the validated contact form (posts to serensweb/v1/contact).
+ * Description: The full contact band (engagement switcher, WhatsApp, CV, validated form), carried over to the /contact page unchanged.
  */
 ?>
 <!-- wp:html -->

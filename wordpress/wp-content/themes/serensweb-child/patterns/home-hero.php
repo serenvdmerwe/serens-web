@@ -15,7 +15,7 @@
       <h1>Websites that <em>perform</em> as well as they look.</h1>
       <p class="hero__sub">I design and build fast, modern, conversion-focused sites and web apps, from headless commerce to AI-powered tools. Independent, end to end, shipped with care.</p>
       <div class="hero__cta">
-        <a href="#contact" class="btn btn--primary">
+        <a href="/contact" class="btn btn--primary">
           Start a project
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
         </a>

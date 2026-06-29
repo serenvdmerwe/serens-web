@@ -143,6 +143,9 @@
     { "name": "footer", "area": "footer", "title": "Footer" }
   ],
   "customTemplates": [
-    { "name": "page-home", "title": "Home", "postTypes": [ "page" ] }
+    { "name": "page-home", "title": "Home", "postTypes": [ "page" ] },
+    { "name": "page-contact", "title": "Contact", "postTypes": [ "page" ] },
+    { "name": "page-playground", "title": "Playground", "postTypes": [ "page" ] },
+    { "name": "page-about", "title": "About", "postTypes": [ "page" ] }
   ]
 }

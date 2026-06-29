@@ -2,14 +2,26 @@
    SerensWeb engagement switcher: lets a visitor pick how they want to
    work together (full-time / part-time / project). The chosen mode drives
    the reactive hint, the contact-form prefill, and the WhatsApp deep link.
-   Guarded on .engage-switch. The number is localized as swEngage.whatsapp;
-   strengths cards stash their topic so the prefill can mention it.
+   The number is localized as swEngage.whatsapp.
+
+   Cross-page: the strengths cards live on the home page and link to /contact,
+   carrying a data-topic. They stash that topic in sessionStorage on click
+   (this runs even though the contact band is not on the home page), and the
+   /contact page reads it on load to prefill the message.
    ===================================================================== */
 (function () {
   'use strict';
   const $ = (s, r = document) => r.querySelector(s);
   const $$ = (s, r = document) => [...r.querySelectorAll(s)];
 
+  // Always: strengths cards stash their topic before navigating to /contact.
+  $$('.fcard[data-topic]').forEach(card =>
+    card.addEventListener('click', () => {
+      try { sessionStorage.setItem('sw-topic', card.dataset.topic); } catch (e) {}
+    })
+  );
+
+  // The rest is the contact band, only present on the /contact page.
   const sw = $('.engage-switch');
   const grid = $('.contact__grid');
   if (!sw || !grid) return;
@@ -18,8 +30,6 @@
   const waLink = $('#waLink');
   const messageField = $('#contactForm [name="message"]');
 
-  // Per-mode message templates. {topic} is filled when the visitor arrived
-  // from a strengths card (the card click stores it in sessionStorage).
   const templates = {
     project:  'Hi Seren, I have a project in mind.{topic}',
     fulltime: 'Hi Seren, I would like to discuss a full-time role.{topic}',
@@ -50,8 +60,6 @@
         : 'https://wa.me/';
     }
 
-    // Prefill the form message only on an explicit choice, and never clobber
-    // what the visitor typed: overwrite only an empty field or our own last fill.
     if (prefill && messageField && (messageField.value === '' || messageField.value === lastAutoFill)) {
       messageField.value = msg;
       lastAutoFill = msg;
@@ -62,15 +70,9 @@
     b.addEventListener('click', () => apply(b.dataset.mode, true))
   );
 
-  // Strengths cards carry a topic; stash it and refresh the prefill on click.
-  $$('.fcard[data-topic]').forEach(card =>
-    card.addEventListener('click', () => {
-      try { sessionStorage.setItem('sw-topic', card.dataset.topic); } catch (e) {}
-      apply(grid.getAttribute('data-engage') || 'project', true);
-    })
-  );
-
-  // On load, set the aria state and WhatsApp link from the default mode, but
-  // leave the message placeholder visible (no prefill until the visitor picks).
-  apply(grid.getAttribute('data-engage') || 'project', false);
+  // On load: if the visitor arrived from a strengths card (topic stashed),
+  // prefill with that topic; otherwise just set the default state.
+  let hasTopic = false;
+  try { hasTopic = !!sessionStorage.getItem('sw-topic'); } catch (e) {}
+  apply(grid.getAttribute('data-engage') || 'project', hasTopic);
 })();
