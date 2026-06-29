@@ -8,6 +8,8 @@
 ?>
 <!-- wp:html -->
 <section class="section section--dark page-header">
+  <div class="hero__mesh" aria-hidden="true"></div>
+  <div class="hero__grid" aria-hidden="true"></div>
   <div class="wrap">
     <div class="section-head">
       <h1 class="h2">Playground</h1>
