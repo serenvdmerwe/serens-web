@@ -13,7 +13,7 @@
 		<!-- wp:html -->
 		<div class="section-head reveal">
 			<h2 class="h2">A few recent builds.</h2>
-			<p class="lede">Selected work across commerce, AI, apps, and brand sites.</p>
+			<p class="lede">A growing portfolio. Here is what I have been building.</p>
 		</div>
 		<!-- /wp:html -->
 
@@ -24,7 +24,7 @@
 			<!-- /wp:post-template -->
 			<!-- wp:query-no-results -->
 				<!-- wp:html -->
-				<p class="projects-empty">Case studies are on the way. In the meantime, see what I build in the strengths below.</p>
+				<p class="projects-empty">Case studies are on the way. In the meantime, see what I build in the strengths above.</p>
 				<!-- /wp:html -->
 			<!-- /wp:query-no-results -->
 		</div>

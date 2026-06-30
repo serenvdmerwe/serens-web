@@ -43,7 +43,7 @@
         <div class="play-card__viz" aria-hidden="true"><span>Live demo</span></div>
         <div class="play-card__body">
           <h3>Florida Risk Explorer</h3>
-          <p>Every hazard, every county. An interactive map for exploring natural and built risk across Florida, with layered legends and a per-county readout.</p>
+          <p>Pick a natural hazard, then tap any Florida county to see its risk, color-coded green (safest) to red (riskiest), with a full report card across every hazard. Built on public data from FEMA, NOAA, and state agencies.</p>
           <ul class="play-card__tech"><li>Vanilla JS</li><li>Interactive Map</li><li>Open Data</li></ul>
           <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/florida-risk-explorer.html' ); ?>" target="_blank" rel="noopener">
             Open the live map
@@ -56,16 +56,7 @@
         <div class="play-card__viz" aria-hidden="true"><span>Coming soon</span></div>
         <div class="play-card__body">
           <h3>Next experiment</h3>
-          <p>Another small build is on the way. Swap this placeholder for a real experiment when it ships.</p>
-          <ul class="play-card__tech"><li>TBC</li></ul>
-        </div>
-      </article>
-
-      <article class="play-card play-card--soon">
-        <div class="play-card__viz" aria-hidden="true"><span>Coming soon</span></div>
-        <div class="play-card__body">
-          <h3>Next experiment</h3>
-          <p>Another small build is on the way. Swap this placeholder for a real experiment when it ships.</p>
+          <p>Another small build is on the way.</p>
           <ul class="play-card__tech"><li>TBC</li></ul>
         </div>
       </article>

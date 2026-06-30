@@ -14,10 +14,10 @@
       <p class="lede">A lightweight, transparent process designed to remove surprises and keep momentum.</p>
     </div>
     <div class="steps reveal-stagger">
-      <div class="step"><span class="step__dot"></span><h3>Discover</h3><p>We align on goals, audience and scope, then I map the work into clear, costed milestones.</p></div>
+      <div class="step"><span class="step__dot"></span><h3>Discover</h3><p>We align on goals, audience and scope, then I map the work into clear, agreed milestones.</p></div>
       <div class="step"><span class="step__dot"></span><h3>Design</h3><p>Wireframes to high-fidelity UI, reviewed in the browser so you see exactly what ships.</p></div>
-      <div class="step"><span class="step__dot"></span><h3>Build</h3><p>Clean, tested, accessible code with previews at every step. No black boxes.</p></div>
-      <div class="step"><span class="step__dot"></span><h3>Launch &amp; support</h3><p>Performance pass, deploy to the edge, and ongoing support to keep things sharp.</p></div>
+      <div class="step"><span class="step__dot"></span><h3>Build</h3><p>Clean, accessible code with previews at every step. No black boxes.</p></div>
+      <div class="step"><span class="step__dot"></span><h3>Launch &amp; support</h3><p>Performance pass, a careful deploy, and support after launch to keep things sharp.</p></div>
     </div>
   </div>
 </section>

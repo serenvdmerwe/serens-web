@@ -32,8 +32,8 @@
   </div>
   <div class="wrap">
     <div class="section-head">
-      <h1 class="h2">Selected work</h1>
-      <p class="lede">Recent builds across commerce, AI, apps, and brand sites. Each one shipped end to end.</p>
+      <h1 class="h2">Projects</h1>
+      <p class="lede">A growing portfolio of work, designed and built end to end.</p>
     </div>
   </div>
 </section>

@@ -22,7 +22,7 @@
   <div class="wrap">
     <div class="section-head">
       <h1 class="h2">About</h1>
-      <p class="lede">A one-person studio for teams who want senior engineering without the agency overhead.</p>
+      <p class="lede">I'm Seren, an AI-augmented web developer. I design, build, and ship production sites and web apps end to end, using agentic AI workflows to move fast without cutting corners.</p>
     </div>
   </div>
 </section>
@@ -31,13 +31,13 @@
   <div class="wrap about-page__grid">
     <div class="about-page__photo" aria-hidden="true"><span>Photo</span></div>
     <div class="about-page__copy">
-      <p class="about__statement">Strategy, design and code from a <em>single, accountable partner.</em></p>
-      <p>I work directly with founders, marketers and product teams to turn ambitious ideas into polished, maintainable software. No handoffs, no bloat, just clean work that ships. Eight years building for clients, end to end, from headless commerce to AI-powered tools.</p>
+      <p class="about__statement">Strategy, design and code from one <em>accountable developer.</em></p>
+      <p>I work directly with founders, marketers and product teams to turn ideas into polished, maintainable software. No handoffs, no bloat, just clean work that ships. I lean on agentic AI workflows (Claude Code, MCP, and CI/CD pipelines) to build and review faster, across custom WordPress themes, React and Next.js apps, and AI-driven features.</p>
       <h3 class="about__stack-title">Core stack</h3>
       <ul class="stack">
-        <li>TypeScript</li><li>React</li><li>Next.js</li><li>Astro</li>
-        <li>Node</li><li>WordPress</li><li>Tailwind</li><li>Shopify Hydrogen</li>
-        <li>Postgres</li><li>Edge / Workers</li>
+        <li>PHP</li><li>TypeScript</li><li>React</li><li>Next.js</li>
+        <li>Node</li><li>WordPress</li><li>Tailwind</li><li>MySQL</li>
+        <li>REST APIs</li><li>Docker</li><li>GitHub Actions</li><li>Claude Code</li>
       </ul>
       <div class="about-page__links">
         <a class="btn btn--ghost" href="/playground">See the playground
