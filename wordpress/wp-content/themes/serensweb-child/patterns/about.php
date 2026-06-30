@@ -8,8 +8,17 @@
 ?>
 <!-- wp:html -->
 <section class="section section--dark page-header">
-  <div class="hero__mesh" aria-hidden="true"></div>
-  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero-bg hero-bg--cloud" aria-hidden="true">
+    <svg class="hero-bg__svg" viewBox="0 0 1200 600" preserveAspectRatio="none" focusable="false" aria-hidden="true">
+      <defs>
+        <filter id="abCloud" x="0" y="0" width="100%" height="100%">
+          <feTurbulence type="fractalNoise" baseFrequency="0.011 0.016" numOctaves="4" seed="11" stitchTiles="stitch"/>
+          <feColorMatrix type="matrix" values="0 0 0 0 0.043 0 0 0 0 0.043 0 0 0 0 0.055 2.4 0 0 0 -0.35"/>
+        </filter>
+      </defs>
+      <rect width="1200" height="600" filter="url(#abCloud)"/>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="section-head">
       <h1 class="h2">About</h1>
