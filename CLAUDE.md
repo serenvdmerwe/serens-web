@@ -2,10 +2,13 @@
 
 ## Project
 
-SerensWeb is a single-page marketing site for a one-person freelance web development
-studio. Dark, modern, high-craft, one continuous scroll: header, hero, about, strengths
-(four service areas), selected work, process, contact, footer. Primary audience: founders,
-marketers, and product teams evaluating a senior independent developer.
+SerensWeb (serensweb.com) is the personal portfolio site of Seren van der Merwe, an
+AI-augmented freelance web developer. (The separate studio brand is 33FIGs, 33figs.com.)
+Dark, modern, high-craft, multi-page: home, projects, playground, about, contact. The home
+page scrolls through hero, about, strengths (four service areas: WordPress custom themes,
+AI workflows, PWAs / mobile-first, portfolios / corporate), a projects teaser, process, and
+contact. Primary audience: founders, marketers, and product teams evaluating an independent
+developer. Voice is first person ("I"), AI-augmented, honest, not "senior".
 
 Theme: `serensweb-child` (Twenty Twenty-Five child, FSE block theme)
 Local URL: `https://serensweb.test`
@@ -79,12 +82,12 @@ wordpress/wp-content/themes/serensweb-child/
 
 ## Client facts
 
-- One-person freelance web development studio. Voice: confident, precise, low-hype, senior.
-- Four service areas (commerce, ai, apps, studio), originally intended for their own serensweb.dev subdomains. The subdomain idea is parked: the strength cards and footer Services links now anchor in-page to `#contact` (each card carries a `data-topic` the contact prefill reads). Revisit the subdomain model only if the client wants it later.
+- Personal portfolio of Seren van der Merwe, an AI-augmented freelance web developer (the studio brand 33FIGs, 33figs.com, is separate). Voice: first person ("I"), confident, precise, low-hype, AI-augmented. Do not call him "senior" (real timeline is roughly 2-3 years).
+- Four service areas: WordPress Custom Themes, AI Workflows, PWAs / Mobile-First, Portfolios / Corporate. Headless commerce / Shopify Hydrogen was dropped as unprovable. The old serensweb.dev subdomain idea is parked: the strength cards link to `/contact`, each carrying a `data-topic` (e.g. `WordPress Custom Themes`, `AI Workflows`) that the contact prefill reads.
 - Signature feature: a visitor accent switcher (orange default, plus blue, purple, green) that re-themes the whole site live and persists per visitor in localStorage. Single control, in the header.
 - Engagement switcher in the contact section: a Full-time / Part-time / Project control that echoes the accent switcher. The chosen mode drives a reactive hint, the contact-form message prefill, and the WhatsApp deep-link text. Logic in `assets/js/engage.js`, guarded on `.engage-switch`.
 - Contact form: theme-only REST endpoint `serensweb/v1/contact` in `includes/ajax-contact.php` validates server-side and sends via `wp_mail()`, zero plugins. No SMTP is configured (local or production), so the form shows its success state but does NOT deliver email yet. Wiring delivery (a mailto handoff, or Gmail SMTP via WordPress's built-in PHPMailer, both plugin-free) is a tracked TODO. Until then the working contact channels are the WhatsApp button (number `27769420144`, set in `enqueue.php` as `swEngage.whatsapp`) and the `vandermerweseren@gmail.com` mailto link.
-- Contact band has a Download CV button linking to `assets/docs/seren-cv.pdf` (self-hosted, no plugin). Drop the real PDF at that path; until then the link 404s.
+- Contact band has a Download CV button linking to `assets/docs/seren-cv.pdf` (self-hosted, no plugin). The real CV is in place; to update it, replace the file keeping the same name.
 - Target zero plugins. Redis is wired (`WP_REDIS_HOST` is set) but the object-cache drop-in is not installed, so the active-plugin count stays at zero.
 - Contact email shown: vandermerweseren@gmail.com. Footer social links and the schema `sameAs` point at the real profiles: `github.com/serenvdmerwe` and `linkedin.com/in/serenvdmerwe`. The X/Twitter icon was removed (not used).
 
@@ -96,3 +99,4 @@ wordpress/wp-content/themes/serensweb-child/
 - Don't add an eyebrow token to theme.json or an eyebrow label above a heading in patterns.
 - Don't reintroduce the `01` through `04` numerals on steps or cards.
 - Don't load fonts from a CDN. Geist and Geist Mono are self-hosted in `assets/fonts/`.
+- Don't reintroduce "studio", "senior", headless commerce, or fabricated metrics. This is Seren's personal AI-augmented portfolio; copy is first person and only makes provable claims.

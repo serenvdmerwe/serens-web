@@ -14,20 +14,20 @@
       <p class="lede">Four areas of focused expertise. Tell me which one fits what you are building.</p>
     </div>
     <div class="cards reveal-stagger">
-      <a class="fcard" href="/contact" data-topic="Custom E-Commerce and Headless Commerce">
+      <a class="fcard" href="/contact" data-topic="WordPress Custom Themes">
         <div class="fcard__ico">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18l-1.5 9H6.5L3 6Z"/><path d="M3 6 2 3"/><circle cx="9" cy="20" r="1.4"/><circle cx="17" cy="20" r="1.4"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 7l-5 5 5 5"/><path d="M16 7l5 5-5 5"/><path d="M13 4l-2 16"/></svg>
         </div>
-        <h3>Custom E-Commerce &amp; Headless Commerce</h3>
-        <p>Storefronts on Shopify Hydrogen and headless stacks. Fast, flexible, and built to convert.</p>
+        <h3>WordPress Custom Themes</h3>
+        <p>Bespoke block themes built by hand, not assembled from a page builder. Fast, accessible, and easy to maintain.</p>
         <span class="fcard__url"><span class="fcard__sub">Discuss</span> this<svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
       </a>
-      <a class="fcard" href="/contact" data-topic="AI-Integrated Web Apps">
+      <a class="fcard" href="/contact" data-topic="AI Workflows">
         <div class="fcard__ico">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M9 9h6v6H9z"/><path d="M9 2v2M15 2v2M9 20v2M15 20v2M2 9h2M2 15h2M20 9h2M20 15h2"/></svg>
         </div>
-        <h3>AI-Integrated Web Apps</h3>
-        <p>LLM features, assistants and automation woven into real products. Useful, not gimmicky.</p>
+        <h3>AI Workflows</h3>
+        <p>LLM features, assistants, and automation wired into real products and internal tools. Useful, not gimmicky.</p>
         <span class="fcard__url"><span class="fcard__sub">Discuss</span> this<svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
       </a>
       <a class="fcard" href="/contact" data-topic="Progressive Web Apps and Mobile-First Sites">

@@ -1,6 +1,6 @@
 <?php
 /**
- * JSON-LD structured data: Organization + WebSite.
+ * JSON-LD structured data: Person + WebSite.
  *
  * sameAs lists the confirmed GitHub and LinkedIn profiles (see the footer
  * social links). No X profile is used.
@@ -11,20 +11,18 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 add_action( 'wp_head', static function () {
-	$logo = get_stylesheet_directory_uri() . '/assets/images/logo.svg';
-
-	$org = [
+	$person = [
 		'@context'    => 'https://schema.org',
-		'@type'       => 'Organization',
-		'name'        => 'SerensWeb',
-		'description' => 'Freelance web developer building fast, modern, conversion focused sites and web apps.',
+		'@type'       => 'Person',
+		'name'        => 'Seren van der Merwe',
+		'jobTitle'    => 'AI-Augmented Web Developer',
+		'description' => 'AI-augmented web developer building fast, modern, conversion-focused websites and web apps.',
 		'url'         => home_url( '/' ),
-		'logo'        => esc_url( $logo ),
 		'email'       => 'vandermerweseren@gmail.com',
-		'areaServed'  => 'Remote, worldwide',
+		'knowsAbout'  => [ 'WordPress', 'PHP', 'React', 'Next.js', 'TypeScript', 'AI workflows' ],
 		'sameAs'      => [ 'https://github.com/serenvdmerwe', 'https://www.linkedin.com/in/serenvdmerwe' ],
 	];
-	echo '<script type="application/ld+json">' . wp_json_encode( $org ) . "</script>\n";
+	echo '<script type="application/ld+json">' . wp_json_encode( $person ) . "</script>\n";
 
 	$site = [
 		'@context' => 'https://schema.org',
