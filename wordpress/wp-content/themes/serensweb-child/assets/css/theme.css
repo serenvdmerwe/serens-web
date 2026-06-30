@@ -403,6 +403,11 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .accent-switch--header { gap: 8px; margin-left: auto; padding-right: 8px; margin-right: 4px; border-right: 1px solid var(--hairline-dark); }
 .accent-switch--header .accent-dots { gap: 8px; }
 .accent-switch--header .accent-dot { width: 18px; height: 18px; }
+/* Keep the 18px visual dot but enlarge the touch target to 24px (WCAG 2.5.8).
+   The dots are 8px apart, so a 3px bleed each side tiles without overlapping. */
+.accent-switch--header .accent-dot::before {
+  content: ""; position: absolute; inset: -3px; border-radius: 50%;
+}
 .accent-switch--header .accent-dot[aria-pressed="true"]::after { width: 6px; height: 6px; }
 
 /* ===================================================================
@@ -458,14 +463,17 @@ body.frozen .codecard__caret { animation: none; }
 @container site (min-width: 700px) {
   .cards { grid-template-columns: repeat(2, 1fr); }
   .work__grid { grid-template-columns: repeat(2, 1fr); }
-  .steps { grid-template-columns: repeat(4, 1fr); }
+  .steps { grid-template-columns: repeat(2, 1fr); }
   .footer__cols { grid-template-columns: repeat(3, 1fr); gap: 28px; }
 }
-@container site (min-width: 860px) {
+@container site (min-width: 820px) {
   .nav { display: flex; }
   .header__cta { display: inline-flex; }
   .burger { display: none; }
   .drawer { display: none; }
+}
+@container site (min-width: 860px) {
+  .steps { grid-template-columns: repeat(4, 1fr); }
   .about__grid { grid-template-columns: 1.4fr 1fr; }
   .contact__grid { grid-template-columns: 1fr 1fr; }
   .footer__top { grid-template-columns: 1.3fr 1fr; align-items: start; }

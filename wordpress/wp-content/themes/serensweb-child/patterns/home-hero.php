@@ -39,12 +39,12 @@
         <div class="codecard__url">serensweb.com</div>
       </div>
       <div class="codecard__body">
-<span class="ln"><span class="dim">// ship.config.ts</span></span>
-<span class="ln"><span class="key">export const</span> stack = {</span>
-<span class="ln">  framework: <span class="str">"headless"</span>,</span>
-<span class="ln">  perf: <span class="tag">"&lt;1s LCP"</span>,</span>
-<span class="ln">  a11y: <span class="str">"WCAG AA"</span>,</span>
-<span class="ln">  deploy: <span class="str">"edge / global"</span>,</span>
+<span class="ln"><span class="dim">// stack.config.ts</span></span>
+<span class="ln"><span class="key">export const</span> build = {</span>
+<span class="ln">  cms:  <span class="str">"wordpress / fse"</span>,</span>
+<span class="ln">  ai:   <span class="str">"assisted-workflow"</span>,</span>
+<span class="ln">  app:  <span class="str">"installable pwa"</span>,</span>
+<span class="ln">  ship: <span class="str">"independent"</span>,</span>
 <span class="ln">}</span>
 <span class="ln"><span class="dim">// status:</span> <span class="str">shipped</span> <span class="codecard__caret"></span></span>
       </div>
