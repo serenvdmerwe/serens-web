@@ -43,6 +43,7 @@
   --section-pad: clamp(64px, 9cqi, 132px);
   --gutter: clamp(20px, 5cqi, 56px);
   --maxw: 1240px;
+  --header-h: 72px;   /* sticky header bar height; drives scroll-padding */
 
   /* Motion */
   --ease: cubic-bezier(0.22, 1, 0.36, 1);

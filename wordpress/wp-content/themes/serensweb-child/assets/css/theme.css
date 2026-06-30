@@ -8,7 +8,13 @@
 
 /* ---- 2. RESET ---- */
 *, *::before, *::after { box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Anchor jumps clear the sticky header from one source of truth */
+  scroll-padding-top: calc(var(--header-h) + 12px);
+  /* Reserve the classic scrollbar so short and long pages centre identically */
+  scrollbar-gutter: stable;
+}
 body {
   margin: 0;
   font-family: var(--font-sans);
@@ -461,8 +467,6 @@ body.frozen .codecard__caret { animation: none; }
   .cards { grid-template-columns: repeat(4, 1fr); }
 }
 
-/* Scroll offset for sticky header on anchor jumps */
-.section, .footer { scroll-margin-top: 84px; }
 
 /* ===================================================================
    HERO BACKGROUNDS (accent-driven, static) - .hero-bg engine.
