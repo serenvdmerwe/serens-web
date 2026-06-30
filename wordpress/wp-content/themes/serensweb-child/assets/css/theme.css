@@ -463,3 +463,75 @@ body.frozen .codecard__caret { animation: none; }
 
 /* Scroll offset for sticky header on anchor jumps */
 .section, .footer { scroll-margin-top: 84px; }
+
+/* ===================================================================
+   HERO BACKGROUNDS (accent-driven, static) - .hero-bg engine.
+   Inline SVG paints with currentColor (set to --color-primary here),
+   so the accent switcher re-themes every hero live. No animation.
+   The legacy .hero__mesh / .hero__grid rules are left intact for the
+   contact section, which still uses them.
+   =================================================================== */
+.page-header { position: relative; isolation: isolate; }
+.page-header > .wrap { position: relative; z-index: 1; }
+
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  pointer-events: none; overflow: hidden;
+}
+.hero-bg__svg {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+  display: block; color: var(--color-primary);
+}
+
+.hero-bg__grid {
+  position: absolute; inset: 0; pointer-events: none; opacity: 0.55;
+  background-image:
+    linear-gradient(var(--hairline-dark) 1px, transparent 1px),
+    linear-gradient(90deg, var(--hairline-dark) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 30% 30%, #000 30%, transparent 78%);
+          mask-image: radial-gradient(ellipse 90% 70% at 30% 30%, #000 30%, transparent 78%);
+}
+
+.hero-bg::before, .hero-bg::after {
+  content: ""; position: absolute; pointer-events: none;
+  border-radius: 50%; filter: blur(72px);
+}
+.hero-bg::before {
+  width: 62cqi; height: 62cqi; top: -24cqi; right: -12cqi;
+  background: radial-gradient(circle, var(--color-primary), transparent 68%);
+  opacity: 0.5;
+}
+.hero-bg::after {
+  width: 46cqi; height: 46cqi; bottom: -22cqi; left: -10cqi;
+  background: radial-gradient(circle, var(--color-primary-strong), transparent 70%);
+  opacity: 0.26;
+}
+
+.hero-bg--traces .hero-bg__svg,
+.hero-bg--signature .hero-bg__svg {
+  -webkit-mask-image: radial-gradient(130% 130% at 70% 15%, #000 38%, transparent 86%);
+          mask-image: radial-gradient(130% 130% at 70% 15%, #000 38%, transparent 86%);
+}
+
+.hero-bg--ribbons::after { display: none; }
+.hero-bg--ribbons::before {
+  width: 120cqi; height: 80cqi; top: -10cqi; right: -10cqi; left: auto;
+  background: radial-gradient(ellipse at 60% 40%, var(--color-primary), transparent 60%);
+  opacity: 0.32; filter: blur(60px);
+}
+.hero-bg--ribbons .hero-bg__svg {
+  -webkit-mask-image: radial-gradient(140% 140% at 50% 50%, #000 45%, transparent 92%);
+          mask-image: radial-gradient(140% 140% at 50% 50%, #000 45%, transparent 92%);
+}
+
+.hero-bg--cloud::after { display: none; }
+.hero-bg--cloud::before {
+  width: 90cqi; height: 120cqi; top: -10cqi; left: 50cqi; right: auto;
+  background: radial-gradient(ellipse at center, var(--color-primary), transparent 62%);
+  opacity: 0.62; filter: blur(50px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-bg, .hero-bg__svg, .hero-bg__grid { animation: none; transition: none; }
+}

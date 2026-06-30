@@ -8,8 +8,18 @@
 ?>
 <!-- wp:html -->
 <section class="hero section--dark" id="hero" data-screen-label="Hero">
-  <div class="hero__mesh" aria-hidden="true"></div>
-  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero-bg hero-bg--signature" aria-hidden="true">
+    <span class="hero-bg__grid"></span>
+    <svg class="hero-bg__svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" focusable="false" aria-hidden="true">
+      <g fill="none" stroke="currentColor" stroke-width="2" stroke-opacity="0.20" stroke-linejoin="round">
+        <path d="M-10 470 H250 a14 14 0 0 0 14-14 V250 H560"/>
+        <path d="M1210 150 H960 a14 14 0 0 1-14 14 V360 H700"/>
+      </g>
+      <g fill="currentColor" fill-opacity="0.5">
+        <circle cx="560" cy="250" r="4"/><circle cx="700" cy="360" r="4"/>
+      </g>
+    </svg>
+  </div>
   <div class="wrap hero__inner">
     <div class="hero__copy reveal">
       <h1>Websites that <em>perform</em> as well as they look.</h1>
