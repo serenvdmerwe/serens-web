@@ -12,64 +12,18 @@ html {
   -webkit-text-size-adjust: 100%;
   /* Anchor jumps clear the sticky header from one source of truth */
   scroll-padding-top: calc(var(--header-h) + 12px);
-  /* Reserve the classic scrollbar so short and long pages centre identically */
-  scrollbar-gutter: stable;
 }
 
 /* ===================================================================
-   CUSTOM SCROLLBAR - minimal pill thumb plus accent up/down buttons.
-   Reads --color-primary, so the accent switcher re-themes it live.
-   WebKit (Chrome/Edge/Safari) gets the pill and arrow buttons; Firefox
-   gets the themed pill thumb only (no scrollbar-button API).
+   HIDDEN SCROLLBAR - the bar is visually removed on every browser while
+   scrolling stays fully functional (wheel, trackpad, keyboard, touch).
+   A hidden bar takes zero width, so short and long pages always centre
+   identically with no content shift, which is why no scrollbar-gutter is
+   needed. Firefox uses the standard property; Chromium and Safari use the
+   webkit pseudo-element.
    =================================================================== */
-/* Firefox has no webkit pseudo-elements, so theme it via the standard
-   properties. Scoped to Firefox so Chromium stays on the webkit path below
-   and keeps full control of size, arrows, and the transparent track. Mixing
-   the two APIs is what makes recent Chrome paint a light standard track. */
-@supports (-moz-appearance: none) {
-  html {
-    scrollbar-width: thin;
-    scrollbar-color: color-mix(in oklab, var(--color-primary) 55%, var(--color-dark-2)) transparent;
-  }
-}
-::-webkit-scrollbar { width: 16px; height: 16px; background: transparent; }
-::-webkit-scrollbar-track,
-::-webkit-scrollbar-track-piece,
-::-webkit-scrollbar-corner { background: transparent; }
-::-webkit-scrollbar-thumb {
-  background: color-mix(in oklab, var(--color-primary) 62%, var(--color-dark-2));
-  border-radius: 999px;
-  border: 3px solid transparent;
-  background-clip: padding-box;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--color-primary);
-  background-clip: padding-box;
-}
-/* Up (decrement) and down (increment) buttons, vertical only */
-::-webkit-scrollbar-button:vertical:decrement,
-::-webkit-scrollbar-button:vertical:increment {
-  height: 16px;
-  background-color: color-mix(in oklab, var(--color-primary) 68%, var(--color-dark-2));
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-position: center;
-  -webkit-mask-size: 11px 11px;
-}
-::-webkit-scrollbar-button:vertical:decrement:hover,
-::-webkit-scrollbar-button:vertical:increment:hover {
-  background-color: var(--color-primary);
-}
-::-webkit-scrollbar-button:vertical:decrement {
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 3.5l4 4-1 1-3-3-3 3-1-1z'/%3E%3C/svg%3E");
-}
-::-webkit-scrollbar-button:vertical:increment {
-  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12'%3E%3Cpath fill='%23000' d='M6 8.5l-4-4 1-1 3 3 3-3 1 1z'/%3E%3C/svg%3E");
-}
-/* Show only one arrow at each end; hide the double-button slots and all
-   horizontal buttons so the look stays minimal */
-::-webkit-scrollbar-button:vertical:start:increment,
-::-webkit-scrollbar-button:vertical:end:decrement,
-::-webkit-scrollbar-button:horizontal { display: none; }
+html { scrollbar-width: none; }
+::-webkit-scrollbar { width: 0; height: 0; display: none; }
 
 body {
   margin: 0;
