@@ -45,23 +45,40 @@ trusts the Caddy local CA at https://serensweb.test.
 
 ### Batch 1: scrollbar and scroll behaviour (global, low risk)
 
-**1.1 Accent-aware custom scrollbar.**
-Add a global scrollbar treatment that reads `--color-primary`, so it re-themes
-live with the accent switcher. Calm by default, accent on hover.
+**1.1 Accent-aware custom scrollbar: pill thumb plus up/down buttons.**
+Add a minimal global scrollbar treatment whose only visible parts are a
+pill-shaped thumb and up/down arrow buttons at the ends. Both the pill and the
+arrows read `--color-primary`, so they re-theme live with the accent switcher.
+Calm by default, full accent on hover.
 
-- Firefox: `html { scrollbar-width: thin; scrollbar-color: <thumb> <track>; }`
-  where thumb is `color-mix(in oklab, var(--color-primary) 55%, var(--color-dark-2))`
-  and track is `var(--color-dark)`. Firefox has no scrollbar hover state, so the
-  resting thumb is the muted accent mix.
-- WebKit (Chrome, Edge, Safari): `::-webkit-scrollbar { width: 12px; height: 12px; }`,
-  track `var(--color-dark)`, thumb the same muted accent mix with
-  `border-radius: 999px` and a `3px solid var(--color-dark)` border to inset it,
-  and `::-webkit-scrollbar-thumb:hover { background: var(--color-primary); }`.
+- WebKit (Chrome, Edge, Safari, the primary target on Windows):
+  - `::-webkit-scrollbar { width: 14px; height: 14px; }`.
+  - Track is transparent (minimal look): `::-webkit-scrollbar-track { background: transparent; }`.
+  - Pill thumb: `::-webkit-scrollbar-thumb { background: color-mix(in oklab, var(--color-primary) 55%, var(--color-dark-2)); border-radius: 999px; border: 3px solid transparent; background-clip: padding-box; }`
+    so it reads as an inset pill on the transparent track, and
+    `::-webkit-scrollbar-thumb:hover { background: var(--color-primary); background-clip: padding-box; }`.
+  - Up/down buttons: style the single increment and decrement buttons only
+    (`::-webkit-scrollbar-button:vertical:decrement` for up,
+    `::-webkit-scrollbar-button:vertical:increment` for down), each a fixed
+    `height: 14px`. Draw the arrow with a `-webkit-mask-image` of an inline SVG
+    chevron (up for decrement, down for increment), `mask-repeat: no-repeat`,
+    `mask-position: center`, and `background-color: color-mix(in oklab, var(--color-primary) 60%, var(--color-dark-2))`,
+    going to `var(--color-primary)` on `:hover`. The masked solid fill is what
+    lets the arrow colour follow the accent live. Suppress the unwanted button
+    slots (the double-button `:start:increment` and `:end:decrement`, and the
+    horizontal buttons) with `display: none` so only one arrow shows at each end.
+  - Horizontal scrollbars (inner scrollers) get the same transparent track and
+    pill thumb; horizontal arrow buttons are hidden to keep it clean.
+- Firefox (no button support in the standard scrollbar API): `html { scrollbar-width: thin; scrollbar-color: <thumb> transparent; }`
+  where thumb is `color-mix(in oklab, var(--color-primary) 55%, var(--color-dark-2))`.
+  Firefox shows the themed pill thumb only, no arrow buttons. This is an accepted
+  progressive-enhancement fallback.
 - The WebKit pseudo-elements are global, so inner scrollers (the lightbox panel,
-  the message textarea) inherit the same look with no extra rules. Firefox
-  inherits `scrollbar-color` from `html` down the tree.
+  the message textarea) inherit the same pill-and-arrow look with no extra rules.
+  Firefox inherits `scrollbar-color` from `html` down the tree.
 - Mobile keeps native overlay scrollbars; this treatment only shows where the OS
-  draws a classic scrollbar (most desktop and laptop setups).
+  draws a classic scrollbar (most desktop and laptop setups, including Windows
+  Chrome and Edge, which is where the arrow buttons actually render).
 
 **1.2 Stable scrollbar gutter.**
 `html { scrollbar-gutter: stable; }` reserves the scrollbar track so a short page
@@ -155,12 +172,15 @@ so it is decoration, not a screen-reader claim.
 
 ## Risks and constraints
 
-- `scrollbar-gutter: stable` reserves 12px on the side that holds the scrollbar.
+- `scrollbar-gutter: stable` reserves about 14px on the side that holds the
+  scrollbar (matching the `::-webkit-scrollbar` width).
   Confirm the sticky header and full-bleed hero backgrounds still look correct
   with that reserved gutter (they are full width inside `.header` and
   `.page-header`, so the inset is uniform).
 - Custom scrollbars are cosmetic only; native keyboard and wheel scrolling are
-  untouched. The thumb mix must stay legible on the dark track at every accent.
+  untouched. The thumb mix and the arrow glyphs must stay legible on the
+  transparent track at every accent. Arrow buttons are WebKit-only, so Firefox
+  intentionally shows the pill thumb without buttons.
 - Container-query breakpoints are shared across sections; moving the nav reveal to
   820 must not drag the section grid rules with it. Only the four header rules
   move.
