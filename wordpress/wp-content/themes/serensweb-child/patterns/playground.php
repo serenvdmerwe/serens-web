@@ -8,8 +8,26 @@
 ?>
 <!-- wp:html -->
 <section class="section section--dark page-header">
-  <div class="hero__mesh" aria-hidden="true"></div>
-  <div class="hero__grid" aria-hidden="true"></div>
+  <div class="hero-bg hero-bg--ribbons" aria-hidden="true">
+    <svg class="hero-bg__svg" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" focusable="false" aria-hidden="true">
+      <defs><filter id="rbGlow" x="-10%" y="-40%" width="120%" height="180%"><feGaussianBlur stdDeviation="10"/></filter></defs>
+      <g fill="none" stroke="currentColor" filter="url(#rbGlow)" stroke-opacity="0.45">
+        <path d="M-20 380 C 240 180, 460 520, 700 340 S 1080 180, 1220 300" stroke-width="5"/>
+        <path d="M-20 300 C 260 460, 440 180, 720 360 S 1040 460, 1220 250" stroke-width="5"/>
+      </g>
+      <g fill="none" stroke="currentColor" stroke-linecap="round">
+        <path d="M-20 380 C 240 180, 460 520, 700 340 S 1080 180, 1220 300" stroke-width="2.4" stroke-opacity="0.9"/>
+        <path d="M-20 300 C 260 460, 440 180, 720 360 S 1040 460, 1220 250" stroke-width="2.4" stroke-opacity="0.8"/>
+        <path d="M-20 440 C 260 300, 440 560, 720 420 S 1040 340, 1220 410" stroke-width="1.6" stroke-opacity="0.55"/>
+        <path d="M-20 220 C 240 360, 480 140, 720 280 S 1040 360, 1220 180" stroke-width="1.6" stroke-opacity="0.5"/>
+      </g>
+      <g fill="#fff">
+        <circle cx="700" cy="340" r="2.6" fill-opacity="0.9"/>
+        <circle cx="360" cy="470" r="2" fill-opacity="0.7"/>
+        <circle cx="940" cy="300" r="2" fill-opacity="0.7"/>
+      </g>
+    </svg>
+  </div>
   <div class="wrap">
     <div class="section-head">
       <h1 class="h2">Playground</h1>
