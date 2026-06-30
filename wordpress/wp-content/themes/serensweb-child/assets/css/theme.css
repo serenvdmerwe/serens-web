@@ -26,7 +26,7 @@ html {
   scrollbar-width: thin;
   scrollbar-color: color-mix(in oklab, var(--color-primary) 55%, var(--color-dark-2)) transparent;
 }
-::-webkit-scrollbar { width: 14px; height: 14px; }
+::-webkit-scrollbar { width: 14px; height: 14px; background: transparent; }
 ::-webkit-scrollbar-track { background: transparent; }
 ::-webkit-scrollbar-corner { background: transparent; }
 ::-webkit-scrollbar-thumb {
