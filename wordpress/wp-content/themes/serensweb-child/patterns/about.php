@@ -3,7 +3,7 @@
  * Title: About
  * Slug: serensweb-child/about
  * Categories: serensweb-child
- * Description: About page. Studio statement, supporting copy, photo placeholder, core stack chips, and links to the playground and contact.
+ * Description: About page. Statement, supporting copy, portrait photo, core stack chips, and links to the playground and contact.
  */
 ?>
 <!-- wp:html -->
@@ -29,7 +29,9 @@
 
 <section class="section section--light">
   <div class="wrap about-page__grid">
-    <div class="about-page__photo" aria-hidden="true"><span>Photo</span></div>
+    <div class="about-page__photo">
+      <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/seren-portrait.webp' ); ?>" width="1440" height="1440" alt="Seren van der Merwe" loading="lazy" decoding="async" />
+    </div>
     <div class="about-page__copy">
       <p class="about__statement">Strategy, design and code from one <em>accountable developer.</em></p>
       <p>I work directly with founders, marketers and product teams to turn ideas into polished, maintainable software. No handoffs, no bloat, just clean work that ships. I lean on agentic AI workflows (Claude Code, MCP, and CI/CD pipelines) to build and review faster, across custom WordPress themes, React and Next.js apps, and AI-driven features.</p>
