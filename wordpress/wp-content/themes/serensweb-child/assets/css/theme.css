@@ -484,6 +484,12 @@ body.frozen .codecard__caret { animation: none; }
 @container site (min-width: 1040px) {
   .cards { grid-template-columns: repeat(4, 1fr); }
 }
+/* Very narrow phones (~320px): tighten the header accent switch so the
+   wordmark, dots, and burger never crowd on one row. Only reduces gaps. */
+@container site (max-width: 380px) {
+  .accent-switch--header { gap: 6px; padding-right: 6px; margin-right: 2px; }
+  .accent-switch--header .accent-dots { gap: 6px; }
+}
 
 
 /* ===================================================================
