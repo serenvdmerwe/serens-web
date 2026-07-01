@@ -28,12 +28,13 @@ main password, and it can be revoked on its own.
 3. Name the app (for example "SerensWeb contact form") and create it.
 4. Copy the 16-character password. Google shows it once. Store it safely.
 
-## Environment variables
+## Settings
 
-`includes/smtp.php` reads these from the environment (same pattern as the DB
-credentials in `wp-config.php`):
+`includes/smtp.php` resolves each setting from a `wp-config.php` **constant**
+first, then a matching **environment variable**. So the same theme code works on
+shared hosting (constants) and on the Docker stack (env vars) with no changes.
 
-| Variable       | Required | Purpose                                              |
+| Key            | Required | Purpose                                              |
 |----------------|----------|------------------------------------------------------|
 | `SW_SMTP_USER` | yes      | Gmail address that authenticates and sends           |
 | `SW_SMTP_PASS` | yes      | The 16-character App Password (no spaces)             |
@@ -42,8 +43,15 @@ credentials in `wp-config.php`):
 | `SW_SMTP_PORT` | no       | Defaults to `587` (TLS). Use `465` for SSL.          |
 
 If `SW_SMTP_USER` or `SW_SMTP_PASS` is missing, `smtp.php` does nothing and
-delivery is skipped. Never commit these values. `.env` is gitignored and the
-secret must not go in the theme zip.
+delivery is skipped. Never commit these values, in either form.
+
+### Where the secret lives (and why it stays out of the zip)
+
+The repo tracks only the theme (`serensweb-child`); `wp-config.php` and the rest
+of WordPress are gitignored and are not part of the theme zip. That makes
+`wp-config.php` the right home for the secret on a live host: it sits above the
+theme, so it is never in the zip, never in git, and survives every theme
+re-upload. You set it once on the server.
 
 ## Local (Docker stack)
 
@@ -73,12 +81,32 @@ docker compose exec serens-web-php-service wp eval \
 `bool(true)` means PHPMailer handed the message to Gmail. Check the inbox to
 confirm delivery.
 
-## Production
+## Production on Hostinger (or any shared host)
 
-Set the same environment variables however the host injects environment into
-PHP (a panel setting, the service unit, or the container environment). The
-theme code is identical across environments; only the environment differs. Do
-not place the App Password in the repository or the theme zip.
+Shared hosts usually cannot set arbitrary `getenv()` variables, so use
+`wp-config.php` constants instead. This is the same place the database password
+already lives.
+
+1. In hPanel, open **File Manager** (or connect over SFTP) and edit
+   `wp-config.php` in the site root (the folder that contains `wp-content`).
+2. Add these lines above the `/* That's all, stop editing! */` comment:
+
+   ```php
+   define( 'SW_SMTP_USER', 'vandermerweseren@gmail.com' );
+   define( 'SW_SMTP_PASS', 'your16charapppassword' );
+   ```
+
+   Add `SW_SMTP_FROM`, `SW_SMTP_HOST`, or `SW_SMTP_PORT` the same way only if you
+   need to override the defaults.
+3. Save. Because the constants live in `wp-config.php`, they are not in git and
+   not in the theme zip, and they stay put when you re-upload the theme.
+4. In WordPress, set **Settings, General, Administration Email Address** to the
+   inbox that should receive enquiries, then send a test through
+   `https://<your-domain>/contact` and confirm it arrives.
+
+If port 587 is blocked by the host, set `define( 'SW_SMTP_PORT', 465 );` (the
+transport switches to SSL automatically). Do not place the App Password in the
+repository or the theme zip.
 
 ## Notes
 
