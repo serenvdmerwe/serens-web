@@ -6,9 +6,10 @@
  * server-side, then delivers with wp_mail(). Keeping this in the theme avoids a
  * form plugin and keeps the active-plugin count at zero.
  *
- * Note: local dev has no SMTP, so wp_mail() will not actually deliver here; the
- * endpoint still validates and responds. Configure SMTP (or a transactional
- * provider) in production for real delivery.
+ * Delivery transport lives in smtp.php: when Gmail SMTP credentials are set in
+ * the environment, wp_mail() sends through Gmail; when they are not (local dev
+ * by default), it still validates and responds but does not deliver. See
+ * docs/contact-email-setup.md.
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

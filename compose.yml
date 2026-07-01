@@ -38,6 +38,11 @@ services:
       WORDPRESS_DB_USER: ${MYSQL_USER}
       WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
       WP_REDIS_HOST: serens-web-redis-service
+      # Gmail SMTP for the contact form (see docs/contact-email-setup.md).
+      # Blank by default: leave unset locally and the form skips delivery.
+      SW_SMTP_USER: ${SW_SMTP_USER:-}
+      SW_SMTP_PASS: ${SW_SMTP_PASS:-}
+      SW_SMTP_FROM: ${SW_SMTP_FROM:-}
     depends_on:
       serens-web-mariadb-service:
         condition: service_healthy
