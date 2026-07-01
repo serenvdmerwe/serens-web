@@ -120,9 +120,54 @@ untouched.
 - Hard-refresh serensweb.com and confirm: the home page loads, the About portrait
   shows, the 33figs project image shows, and the Florida map button opens.
 
-## Related
+## Hostinger gotchas learned in the first production deploy
 
-- Contact form email delivery needs the Gmail App Password secret set in the
-  production environment. See `docs/contact-email-setup.md`. Until it is set the
-  form validates and shows success but sends nothing; WhatsApp and the mailto link
-  are the working channels.
+These bit us on the real serensweb.com deploy (2026-07-01). Save yourself the time.
+
+- **`wp db export` and `wp db import` silently no-op on this host.** They exit 0 and
+  write nothing, a managed-hosting restriction on the wrapper. Use the raw client
+  instead. Export a backup with `mysqldump`, import with `mysql`, reading the
+  credentials from wp-config:
+
+  ```
+  DB=$(wp config get DB_NAME); U=$(wp config get DB_USER)
+  P=$(wp config get DB_PASSWORD); H=$(wp config get DB_HOST)
+  mysqldump --no-tablespaces -h"$H" -u"$U" -p"$P" "$DB" > backup.sql   # backup
+  mysql -h"$H" -u"$U" -p"$P" "$DB" < fresh-local.sql                   # import
+  ```
+
+- **The LiteSpeed object-cache dropin serves stale reads.** After importing a
+  database whose `active_plugins` differs, the `wp-content/object-cache.php` dropin
+  is left orphaned (LiteSpeed inactive, dropin still loaded) and keeps returning the
+  pre-import cached values. `wp option get siteurl` will lie to you. Either flush
+  (`wp cache flush`) or move the dropin aside before trusting any read, and do the
+  post-import writes (password reset, option updates) with it out of the way.
+
+- **Flush rewrite rules with the theme loaded.** The `project` custom post type and
+  its `/projects/<slug>/` permalinks are registered by the theme, so
+  `wp rewrite flush --skip-themes` leaves them out and the project pages 404. Run a
+  plain `wp rewrite flush` (no `--skip-themes`) once the theme is in place.
+
+- **`wp db export` broke, but `wp search-replace` works fine.** The serialization
+  fix in step 4 is safe to run through wp-cli on this host.
+
+- **Reset the admin password immediately.** The local database ships `admin`/`admin`.
+  A full import makes that the live login until you change it:
+  `wp user update admin --user_pass='...' --user_email='...'`.
+
+## Post-deploy: enable the contact form email
+
+The theme routes `wp_mail()` through Gmail SMTP when two secrets are present
+(`includes/smtp.php`). On production, set them as constants in the server's
+`wp-config.php`, above the "That's all, stop editing" line. The file lives outside
+the theme, so theme re-uploads never overwrite it, and it is not in git:
+
+```php
+define( 'SW_SMTP_USER', 'vandermerweseren@gmail.com' );   // Gmail that sends
+define( 'SW_SMTP_PASS', 'xxxxxxxxxxxxxxxx' );             // 16-char App Password
+```
+
+Generate the App Password from the sending Google account (2-Step Verification must
+be on). Full walkthrough: `docs/contact-email-setup.md`. Until both are set the form
+validates and shows success but sends nothing; WhatsApp and the mailto link are the
+working channels.
