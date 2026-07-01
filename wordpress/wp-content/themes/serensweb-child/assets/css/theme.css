@@ -38,6 +38,7 @@ body {
   container-name: site;
 }
 img, svg { display: block; max-width: 100%; }
+img { height: auto; }
 button { font: inherit; color: inherit; cursor: pointer; border: 0; background: none; }
 a { color: inherit; text-decoration: none; }
 h1, h2, h3, h4, p { margin: 0; }
@@ -160,7 +161,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
    HERO
    =================================================================== */
 .hero { position: relative; overflow: hidden; padding-block: clamp(72px, 12cqi, 150px); }
-.hero__mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero__mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .hero__mesh::before, .hero__mesh::after {
   content: ""; position: absolute; border-radius: 50%;
   filter: blur(70px); opacity: 0.55;
@@ -238,6 +239,17 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
   color: var(--color-text-dark); transition: transform 0.2s var(--ease), border-color 0.2s, color 0.2s;
 }
 .stack li:hover { transform: translateY(-2px); border-color: var(--color-primary); color: var(--color-primary-strong); }
+
+/* About page (page-about): portrait beside the copy. Single column by default;
+   two columns from 860px in the container query below. */
+.about-page__grid { display: grid; gap: clamp(32px, 6cqi, 60px); align-items: start; }
+.about-page__photo {
+  width: 100%; max-width: 300px; margin-inline: auto; align-self: start;
+  aspect-ratio: 1 / 1; overflow: hidden;
+  border-radius: var(--r-lg); border: 1px solid var(--color-smoke-2);
+}
+.about-page__photo img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.about-page__copy p { color: var(--color-text-dark-2); line-height: 1.65; }
 
 /* ===================================================================
    STRENGTHS
@@ -326,6 +338,38 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .proj__body .cat { font-family: var(--font-mono); font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-primary-strong); }
 .proj__body h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 9px 0 9px; }
 .proj__body p { font-size: 0.95rem; line-height: 1.55; color: var(--color-text-dark-2); }
+
+/* Projects archive (page-projects) and Playground (page-playground) cards.
+   These pages emit block markup with their own class hooks, given the same
+   card language as .proj above. Single column by default; two up from 860px. */
+.projects-grid, .play-grid { display: grid; gap: 22px; grid-template-columns: 1fr; }
+.proj-card, .play-card {
+  background: var(--color-white); border: 1px solid var(--color-smoke-2);
+  border-radius: var(--r-md); overflow: hidden;
+  display: flex; flex-direction: column;
+  transition: transform 0.32s var(--ease), box-shadow 0.32s var(--ease), border-color 0.32s;
+}
+.proj-card:hover, .play-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-card); }
+.proj-card__viz img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.proj-card__body, .play-card__body { padding: 22px 24px 26px; display: flex; flex-direction: column; flex: 1; }
+.proj-card__cat, .play-card__viz span { font-family: var(--font-mono); letter-spacing: 0.04em; }
+.proj-card__cat { font-size: 11.5px; letter-spacing: 0.06em; text-transform: uppercase; color: var(--color-primary-strong); }
+.proj-card__title { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 9px 0; }
+.proj-card__title a, .play-card__body h3 a { color: inherit; text-decoration: none; }
+.proj-card__title a:hover { color: var(--color-primary-strong); }
+.proj-card__excerpt, .play-card__body > p { font-size: 0.95rem; line-height: 1.55; color: var(--color-text-dark-2); }
+
+.play-card__viz { aspect-ratio: 16 / 10; display: grid; place-items: center;
+  background: radial-gradient(130% 115% at 22% 12%, var(--color-primary), #c2410c 48%, #5e1f08 80%, #1a1410); }
+.play-card__viz span { font-size: 11px; padding: 6px 12px; border-radius: var(--r-pill);
+  background: rgba(10,10,10,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
+.play-card--soon { opacity: 0.65; }
+.play-card--soon .play-card__viz { background: var(--color-dark-3); }
+.play-card__body h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 9px; }
+.play-card__tech { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
+.play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;
+  border-radius: var(--r-pill); background: var(--color-white); border: 1px solid var(--color-smoke-2); color: var(--color-text-dark); }
+.play-card .btn { margin-top: auto; align-self: flex-start; }
 
 /* ===================================================================
    PROCESS
@@ -483,6 +527,8 @@ body.frozen .codecard__caret { animation: none; }
 @container site (min-width: 860px) {
   .steps { grid-template-columns: repeat(4, 1fr); }
   .about__grid { grid-template-columns: 1.4fr 1fr; }
+  .about-page__grid { grid-template-columns: 300px 1fr; }
+  .projects-grid, .play-grid { grid-template-columns: 1fr 1fr; }
   .contact__grid { grid-template-columns: 1fr 1fr; }
   .footer__top { grid-template-columns: 1.3fr 1fr; align-items: start; }
   .footer__bottom { flex-direction: row; align-items: center; justify-content: space-between; }
