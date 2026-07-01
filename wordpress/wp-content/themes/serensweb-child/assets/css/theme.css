@@ -161,7 +161,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
    HERO
    =================================================================== */
 .hero { position: relative; overflow: hidden; padding-block: clamp(72px, 12cqi, 150px); }
-.hero__mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.hero__mesh { position: absolute; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
 .hero__mesh::before, .hero__mesh::after {
   content: ""; position: absolute; border-radius: 50%;
   filter: blur(70px); opacity: 0.55;
