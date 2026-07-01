@@ -525,8 +525,7 @@ body.frozen .codecard__caret { animation: none; }
 @container site (min-width: 860px) {
   .steps { grid-template-columns: repeat(4, 1fr); }
   .about__grid { grid-template-columns: 1.4fr 1fr; }
-  .about-page__grid { grid-template-columns: 0.85fr 1.15fr; }
-  .about-page__photo img { max-width: none; }
+  .about-page__grid { grid-template-columns: 300px 1fr; }
   .projects-grid, .play-grid { grid-template-columns: 1fr 1fr; }
   .contact__grid { grid-template-columns: 1fr 1fr; }
   .footer__top { grid-template-columns: 1.3fr 1fr; align-items: start; }
