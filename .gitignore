@@ -19,3 +19,6 @@ wordpress/wp-content/themes/*
 
 # Never track build artefacts or deps that might appear inside the theme.
 wordpress/wp-content/themes/serensweb-child/node_modules/
+
+# Theme zip is a build artefact rebuilt from the theme source on demand.
+serensweb-child.zip
