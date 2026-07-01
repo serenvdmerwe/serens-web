@@ -42,7 +42,14 @@ button { font: inherit; color: inherit; cursor: pointer; border: 0; background: 
 a { color: inherit; text-decoration: none; }
 h1, h2, h3, h4, p { margin: 0; }
 ul { margin: 0; padding: 0; list-style: none; }
-:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 3px; border-radius: 4px; }
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+  border-radius: 4px;
+  /* Soft dark halo hugging the accent ring: invisible on dark surfaces,
+     gives the ring a contrasting edge on light sections so it clears 3:1. */
+  box-shadow: 0 0 0 5px color-mix(in oklab, var(--color-dark) 50%, transparent);
+}
 
 /* ---- 3. LAYOUT PRIMITIVES ---- */
 .wrap { width: 100%; max-width: var(--maxw); margin: 0 auto; padding-inline: var(--gutter); }
