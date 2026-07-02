@@ -52,12 +52,68 @@
         </div>
       </article>
 
-      <article class="play-card play-card--soon">
-        <div class="play-card__viz" aria-hidden="true"><span>Coming soon</span></div>
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--blue" aria-hidden="true"><span>Live demo</span></div>
         <div class="play-card__body">
-          <h3>Next experiment</h3>
-          <p>Another small build is on the way.</p>
-          <ul class="play-card__tech"><li>TBC</li></ul>
+          <h3>Hurricane Tracks Time Machine</h3>
+          <p>Fifty seasons of Atlantic hurricanes from NOAA's best-track archive, animated over a coastline map. Scrub the years, ghost past seasons, and tap any track for the storm behind it.</p>
+          <ul class="play-card__tech"><li>SVG</li><li>Open Data</li><li>Animation</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/hurricane-tracks.html' ); ?>" target="_blank" rel="noopener">
+            Open the map
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--gold" aria-hidden="true"><span>Live demo</span></div>
+        <div class="play-card__body">
+          <h3>How a WordPress Page Loads</h3>
+          <p>A scrollytelling tour from keystroke to paint. Scroll and watch the request travel through DNS, caches, PHP, and the database, including the shortcut most visitors take.</p>
+          <ul class="play-card__tech"><li>SVG</li><li>Scrollytelling</li><li>WordPress</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/wp-page-load.html' ); ?>" target="_blank" rel="noopener">
+            Take the tour
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--violet" aria-hidden="true"><span>Live demo</span></div>
+        <div class="play-card__body">
+          <h3>Contrast: the Game</h3>
+          <p>Guess whether text passes WCAG AA before the fuse burns out. Ten rounds that start friendly and end hugging the 4.5 to 1 boundary, with the real math revealed after every guess.</p>
+          <ul class="play-card__tech"><li>Vanilla JS</li><li>Accessibility</li><li>Game</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/contrast-game.html' ); ?>" target="_blank" rel="noopener">
+            Play the game
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--green" aria-hidden="true"><span>Live demo</span></div>
+        <div class="play-card__body">
+          <h3>Dev Typing Test</h3>
+          <p>How fast do you type real code? PHP, JavaScript, and CSS snippets with per-character feedback, live WPM and accuracy, and indentation typed for you.</p>
+          <ul class="play-card__tech"><li>Vanilla JS</li><li>Geist Mono</li><li>Game</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/dev-typing-test.html' ); ?>" target="_blank" rel="noopener">
+            Start typing
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--clay" aria-hidden="true"><span>Live demo</span></div>
+        <div class="play-card__body">
+          <h3>AI Feature Cost Estimator</h3>
+          <p>Pick a use case, drag the sliders, and see what a Claude-powered feature would cost per month across four model tiers. Real July 2026 list prices, honest arithmetic.</p>
+          <ul class="play-card__tech"><li>Vanilla JS</li><li>AI</li><li>Calculator</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/ai-cost-estimator.html' ); ?>" target="_blank" rel="noopener">
+            Open the estimator
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
         </div>
       </article>
     </div>

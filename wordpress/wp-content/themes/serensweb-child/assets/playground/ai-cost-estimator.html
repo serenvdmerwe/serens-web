@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>What would that AI feature cost? A Claude API estimator</title>
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  :root {
+    --paper: #faf6ee; --card: #ffffff; --ink: #26221a; --muted: #7d7566;
+    --line: #e5ddcd; --accent: #b3541e; --accent-soft: #f6e3d3;
+    --mono: "Geist Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    background: var(--paper); color: var(--ink);
+    background-image: radial-gradient(rgba(38,34,26,0.05) 1px, transparent 1px);
+    background-size: 22px 22px;
+    min-height: 100vh; padding: 30px 16px 60px;
+    display: flex; justify-content: center;
+  }
+  .sheet { width: 100%; max-width: 880px; }
+  h1 { font-size: clamp(26px, 4.6vw, 40px); font-weight: 750; letter-spacing: -0.025em; line-height: 1.08; }
+  h1 em { font-style: normal; color: var(--accent); }
+  p.sub { color: var(--muted); margin-top: 10px; max-width: 58ch; line-height: 1.6; font-size: clamp(14px, 2.2vw, 16px); }
+
+  .grid { display: grid; gap: 18px; margin-top: 26px; }
+  @media (min-width: 760px) { .grid { grid-template-columns: 1fr 340px; align-items: start; } }
+
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 16px; padding: 20px; }
+  .panel h2 { font-size: 13px; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); font-weight: 650; }
+
+  .presets { display: flex; gap: 8px; margin-top: 12px; flex-wrap: wrap; }
+  .presets button {
+    font: inherit; font-size: 13.5px; font-weight: 550; cursor: pointer;
+    padding: 9px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--paper); color: var(--ink); touch-action: manipulation;
+  }
+  .presets button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+  .field { margin-top: 20px; }
+  .field label { display: flex; justify-content: space-between; font-size: 14px; font-weight: 550; }
+  .field label output { font-family: var(--mono); font-size: 13.5px; color: var(--accent); font-weight: 650; }
+  .field input[type="range"] { width: 100%; margin-top: 10px; accent-color: var(--accent); }
+  .field small { color: var(--muted); font-size: 12.5px; }
+
+  .switches { margin-top: 22px; border-top: 1px dashed var(--line); padding-top: 16px; }
+  .switch { display: flex; align-items: flex-start; gap: 10px; margin-top: 10px; font-size: 14px; }
+  .switch input { width: 18px; height: 18px; accent-color: var(--accent); margin-top: 1px; }
+  .switch span small { display: block; color: var(--muted); font-size: 12.5px; margin-top: 2px; line-height: 1.5; }
+
+  .receipt {
+    background: var(--card); border: 1px solid var(--line); border-radius: 4px 4px 16px 16px;
+    padding: 20px 18px 24px; font-family: var(--mono);
+    box-shadow: 0 14px 30px -18px rgba(38,34,26,0.35);
+    border-top: 6px solid var(--accent);
+  }
+  .receipt h2 { font-size: 13px; letter-spacing: 0.14em; text-transform: uppercase; text-align: center; color: var(--muted); }
+  .receipt .meta { text-align: center; font-size: 11.5px; color: var(--muted); margin-top: 4px; }
+  .rule { border: 0; border-top: 1px dashed var(--line); margin: 14px 0; }
+  .model { display: flex; justify-content: space-between; align-items: baseline; padding: 9px 0; gap: 10px; }
+  .model + .model { border-top: 1px dotted var(--line); }
+  .model .nm { font-size: 13px; }
+  .model .nm i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 8px; font-style: normal; }
+  .model .nm small { display: block; color: var(--muted); font-size: 10.5px; margin-top: 2px; margin-left: 17px; }
+  .model .amt { font-size: 17px; font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .model .amt small { display: block; text-align: right; color: var(--muted); font-size: 10.5px; font-weight: 400; }
+  .total { margin-top: 4px; font-size: 11.5px; color: var(--muted); text-align: center; line-height: 1.6; }
+
+  footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; line-height: 1.65; max-width: 72ch; }
+  footer a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="sheet">
+  <h1>What would that AI feature <em>actually cost?</em></h1>
+  <p class="sub">Pick a use case, drag the sliders to your traffic, and see a monthly Claude API bill across four model tiers. Real July 2026 list prices, honest arithmetic, no sales funnel.</p>
+
+  <div class="grid">
+    <div class="panel">
+      <h2>Your feature</h2>
+      <div class="presets" id="presets">
+        <button type="button" class="on" data-p="chat">Support chatbot</button>
+        <button type="button" data-p="summary">Document summarizer</button>
+        <button type="button" data-p="search">Search assistant</button>
+      </div>
+
+      <div class="field">
+        <label>Interactions per month <output id="volOut"></output></label>
+        <input type="range" id="vol" min="0" max="100" value="55">
+        <small>One interaction is one request to the model.</small>
+      </div>
+      <div class="field">
+        <label>Average input tokens <output id="inOut"></output></label>
+        <input type="range" id="tin" min="100" max="20000" step="100" value="1200">
+        <small>Prompt, system instructions, and any context you send. Roughly 0.75 tokens per word.</small>
+      </div>
+      <div class="field">
+        <label>Average output tokens <output id="outOut"></output></label>
+        <input type="range" id="tout" min="50" max="4000" step="50" value="300">
+        <small>The reply length you expect back.</small>
+      </div>
+
+      <div class="switches">
+        <label class="switch"><input type="checkbox" id="batch">
+          <span>Batch processing (not real time)
+          <small>Asynchronous batches are half price. Good for overnight jobs, not for chat.</small></span>
+        </label>
+        <label class="switch"><input type="checkbox" id="cache" checked>
+          <span>Prompt caching on repeated context
+          <small>Assumes 60% of input is a stable, cached prefix billed at about a tenth of the input rate. Simplified: cache writes cost slightly extra.</small></span>
+        </label>
+      </div>
+    </div>
+
+    <div class="receipt" aria-live="polite">
+      <h2>Monthly estimate</h2>
+      <div class="meta" id="recMeta"></div>
+      <hr class="rule">
+      <div id="models"></div>
+      <hr class="rule">
+      <div class="total">Same feature, four price points. The craft is knowing which tier the job really needs.</div>
+    </div>
+  </div>
+
+  <footer>List prices per million tokens as of July 2026: Haiku 4.5 at $1 in / $5 out, Sonnet 5 at $3 / $15, Opus 4.8 at $5 / $25, Fable 5 at $10 / $50 (anthropic.com pricing page has the current numbers). Estimates only: real bills depend on tokenizer counts, cache hit rates, and retries. Built by Seren van der Merwe. <a href="/playground">Back to the playground</a></footer>
+</div>
+
+<script>
+const MODELS = [
+  { name: "Claude Haiku 4.5", tag: "fast and cheap", pin: 1, pout: 5, sw: "#4c9f70" },
+  { name: "Claude Sonnet 5", tag: "the workhorse", pin: 3, pout: 15, sw: "#b3541e" },
+  { name: "Claude Opus 4.8", tag: "hard problems", pin: 5, pout: 25, sw: "#5a4fcf" },
+  { name: "Claude Fable 5", tag: "frontier tier", pin: 10, pout: 50, sw: "#26221a" }
+];
+const PRESETS = {
+  chat:    { vol: 55, tin: 1200, tout: 300 },
+  summary: { vol: 33, tin: 8000, tout: 500 },
+  search:  { vol: 70, tin: 700,  tout: 150 }
+};
+const $ = id => document.getElementById(id);
+/* Volume slider is logarithmic: 0..100 maps to 100..1,000,000. */
+const sliderToVol = v => Math.round(Math.pow(10, 2 + (v / 100) * 4));
+const fmtInt = n => n.toLocaleString("en-US");
+const fmtMoney = n =>
+  n >= 100 ? "$" + Math.round(n).toLocaleString("en-US")
+           : "$" + n.toFixed(2);
+
+function readState() {
+  return {
+    vol: sliderToVol(Number($("vol").value)),
+    tin: Number($("tin").value),
+    tout: Number($("tout").value),
+    batch: $("batch").checked,
+    cache: $("cache").checked
+  };
+}
+function costFor(m, s) {
+  let inRate = m.pin;
+  let effIn = s.tin;
+  if (s.cache) {
+    /* 60% of input billed at a tenth of the rate. */
+    effIn = s.tin * 0.4 + s.tin * 0.6 * 0.1;
+  }
+  let perCall = (effIn * inRate + s.tout * m.pout) / 1e6;
+  if (s.batch) perCall *= 0.5;
+  return perCall * s.vol;
+}
+function paint() {
+  const s = readState();
+  $("volOut").value = fmtInt(s.vol);
+  $("inOut").value = fmtInt(s.tin);
+  $("outOut").value = fmtInt(s.tout);
+  $("recMeta").textContent = fmtInt(s.vol) + " calls x (" + fmtInt(s.tin) + " in + " + fmtInt(s.tout) + " out) tokens";
+  const wrap = $("models");
+  wrap.innerHTML = "";
+  for (const m of MODELS) {
+    const monthly = costFor(m, s);
+    const row = document.createElement("div");
+    row.className = "model";
+    row.innerHTML =
+      '<div class="nm"><i style="background:' + m.sw + '"></i>' + m.name +
+      "<small>" + m.tag + " ($" + m.pin + " / $" + m.pout + " per MTok)</small></div>" +
+      '<div class="amt">' + fmtMoney(monthly) + "<small>" +
+      fmtMoney(monthly / s.vol * 1000) + " per 1k calls</small></div>";
+    wrap.appendChild(row);
+  }
+}
+["vol", "tin", "tout"].forEach(id => $(id).addEventListener("input", paint));
+["batch", "cache"].forEach(id => $(id).addEventListener("change", paint));
+$("presets").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  document.querySelectorAll("#presets button").forEach(x => x.classList.toggle("on", x === b));
+  const p = PRESETS[b.dataset.p];
+  $("vol").value = p.vol; $("tin").value = p.tin; $("tout").value = p.tout;
+  paint();
+});
+paint();
+</script>
+</body>
+</html>
