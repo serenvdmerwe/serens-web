@@ -366,6 +366,12 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
   background: rgba(10,10,10,0.55); color: #fff; border: 1px solid rgba(255,255,255,0.16); }
 .play-card--soon { opacity: 0.65; }
 .play-card--soon .play-card__viz { background: var(--color-dark-3); }
+/* Batch 2 experiments: each card gets its own viz hue so the shelf reads as range. */
+.play-card__viz--violet { background: radial-gradient(130% 115% at 82% 82%, #c79bff, #8b46d8 46%, #4a2585 82%, #17101f); }
+.play-card__viz--green { background: radial-gradient(130% 115% at 20% 86%, #3ee0a5, #129b6b 46%, #0c5039 82%, #0d1714); }
+.play-card__viz--clay { background: radial-gradient(130% 115% at 22% 12%, #ffb37a, #b3541e 48%, #5e2d10 80%, #1a1410); }
+.play-card__viz--gold { background: radial-gradient(130% 115% at 80% 14%, #ffe08a, #d9a441 48%, #6b4c17 82%, #171207); }
+.play-card__viz--blue { background: radial-gradient(130% 115% at 80% 82%, #7cc7ff, #2f6fb8 48%, #123a66 82%, #0a1522); }
 .play-card__body h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 9px; }
 .play-card__tech { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
 .play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;

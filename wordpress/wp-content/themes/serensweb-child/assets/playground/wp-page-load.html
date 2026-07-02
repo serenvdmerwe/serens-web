@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>How a WordPress page loads, from keystroke to paint</title>
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  :root {
+    --bg: #101014; --panel: #17171d; --line: #2a2a33;
+    --ink: #ece9e2; --muted: #9b978c; --gold: #d9a441; --dim-gold: #8a6a2f;
+    --serif: Georgia, "Iowan Old Style", "Times New Roman", serif;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: "Geist", "Segoe UI", system-ui, sans-serif; background: var(--bg); color: var(--ink); }
+
+  .wrap { max-width: 1060px; margin: 0 auto; padding: 0 18px; }
+  header.hero { padding: 72px 0 40px; }
+  .kicker { color: var(--gold); font-size: 13px; letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  h1 { font-family: var(--serif); font-size: clamp(34px, 6.4vw, 62px); line-height: 1.04; margin-top: 14px; font-weight: 500; letter-spacing: -0.01em; }
+  h1 i { color: var(--gold); }
+  .lede { color: var(--muted); max-width: 56ch; margin-top: 18px; font-size: clamp(15px, 2.3vw, 18px); line-height: 1.65; }
+  .hint { margin-top: 26px; color: var(--dim-gold); font-size: 13px; }
+
+  .scrolly { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; position: relative; }
+  .viz {
+    position: sticky; top: 0; z-index: 2; background: var(--bg);
+    padding: 10px 0 6px; border-bottom: 1px solid var(--line);
+  }
+  .viz svg { display: block; width: 100%; height: min(34vh, 300px); }
+  .steps { padding: 6vh 0 10vh; }
+  @media (min-width: 900px) {
+    .scrolly { grid-template-columns: 400px minmax(0, 1fr); gap: 56px; }
+    .viz { position: sticky; top: 0; height: 100vh; display: flex; align-items: center; border: 0; padding: 0; }
+    .viz svg { height: min(88vh, 720px); }
+    .steps { padding: 22vh 0 30vh; }
+  }
+
+  .step {
+    background: var(--panel); border: 1px solid var(--line); border-radius: 14px;
+    padding: 24px 24px 26px; margin-bottom: min(38vh, 340px); max-width: 520px;
+    opacity: 0.45; transition: opacity 0.4s, border-color 0.4s;
+  }
+  .step.on { opacity: 1; border-color: var(--dim-gold); }
+  .step h2 { font-family: var(--serif); font-size: clamp(20px, 3vw, 26px); font-weight: 500; line-height: 1.2; }
+  .step h2 b { color: var(--gold); font-weight: 500; }
+  .step p { color: var(--muted); margin-top: 10px; line-height: 1.7; font-size: 15px; }
+  .step .ms { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--gold); border: 1px solid var(--dim-gold); border-radius: 999px; padding: 4px 12px; }
+
+  /* Diagram states: nodes light up as their step scrolls into view. */
+  .node rect { fill: var(--panel); stroke: var(--line); stroke-width: 1.2; transition: stroke 0.4s, fill 0.4s; }
+  .node text { fill: var(--muted); font-family: "Geist", sans-serif; font-size: 13px; transition: fill 0.4s; }
+  .node .sub { font-size: 10px; fill: #6d6a61; }
+  .rail, .short { fill: none; stroke: var(--line); stroke-width: 2; transition: stroke 0.4s; }
+  .short { stroke-dasharray: 5 5; opacity: 0.35; transition: opacity 0.4s, stroke 0.4s; }
+  .dot { fill: var(--gold); filter: drop-shadow(0 0 6px var(--gold)); transition: transform 0.55s cubic-bezier(0.6, 0, 0.3, 1); }
+  svg[data-s] .node.hit rect { stroke: var(--gold); fill: #1d1a12; }
+  svg[data-s] .node.hit text { fill: var(--ink); }
+  svg[data-s] .node.hit .sub { fill: var(--gold); }
+  svg[data-s="4"] .short { opacity: 1; stroke: var(--gold); }
+  .closing { padding: 30px 0 90px; max-width: 640px; }
+  .closing h2 { font-family: var(--serif); font-size: clamp(26px, 4.4vw, 40px); font-weight: 500; line-height: 1.15; }
+  .closing p { color: var(--muted); margin-top: 14px; line-height: 1.7; font-size: 15.5px; }
+  .closing a { color: var(--gold); }
+  footer { border-top: 1px solid var(--line); padding: 22px 0 46px; color: var(--muted); font-size: 12.5px; }
+  footer a { color: var(--gold); }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .dot, .node rect, .node text, .step, .short { transition: none; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="kicker">A scrollytelling explainer</div>
+    <h1>How a WordPress page loads, <i>from keystroke to paint</i></h1>
+    <p class="lede">Between typing an address and seeing a page, a request makes a small road trip. Knowing the route is how I make client sites fast: most of the journey can be skipped entirely. Scroll and watch it travel.</p>
+    <div class="hint">Scroll to begin the trip</div>
+  </header>
+
+  <div class="scrolly">
+    <div class="viz">
+      <svg id="pipe" viewBox="0 0 340 780" data-s="1" role="img" aria-label="Diagram of a WordPress request pipeline, highlighting each stage as you scroll">
+        <path class="rail" d="M36 48 V 732"/>
+        <path class="short" d="M36 300 C -14 380, -14 560, 36 640"/>
+        <circle class="dot" id="dot" cx="36" cy="48" r="7"/>
+        <g id="nodes"></g>
+      </svg>
+    </div>
+
+    <div class="steps" id="steps">
+      <section class="step" data-s="1">
+        <h2><b>You hit enter.</b> The browser finds the server.</h2>
+        <p>DNS turns serensweb.com into an IP address, then a TLS handshake sets up the padlock. This usually happens once and gets remembered, but on a first visit it is real time spent before a single byte of the page exists.</p>
+        <span class="ms">typically 20 to 120 ms</span>
+      </section>
+      <section class="step" data-s="2">
+        <h2><b>The request lands</b> on the web server.</h2>
+        <p>Software like LiteSpeed, Caddy, or Nginx picks up the request. Its first question is not "what does WordPress say?" but "have I answered this exact question recently?"</p>
+        <span class="ms">under 1 ms to route</span>
+      </section>
+      <section class="step" data-s="3">
+        <h2><b>The page cache check.</b> The fork in the road.</h2>
+        <p>A page cache keeps finished HTML copies of recent pages. If a fresh copy exists, everything below this point on the map simply does not happen. This single yes or no decides most of your load time.</p>
+        <span class="ms">the most important millisecond</span>
+      </section>
+      <section class="step" data-s="4">
+        <h2><b>Cache hit: the shortcut.</b> Most visitors take this road.</h2>
+        <p>The stored HTML is returned immediately. No PHP runs, no database is touched. On a well-configured site this is the everyday path, and it is why two sites on identical hosting can feel a world apart.</p>
+        <span class="ms">roughly 5 to 30 ms total server time</span>
+      </section>
+      <section class="step" data-s="5">
+        <h2><b>Cache miss: PHP wakes up</b> and boots WordPress.</h2>
+        <p>WordPress loads its core, the active theme, and every plugin, on every uncached request. This is why I build with zero plugins where possible: each one is code that must wake up before your visitor sees anything.</p>
+        <span class="ms">50 to 400 ms, theme and plugins decide</span>
+      </section>
+      <section class="step" data-s="6">
+        <h2><b>The database answers</b> (or Redis answers faster).</h2>
+        <p>Content, settings, and menus live in MySQL. WordPress asks dozens of small questions to assemble one page. An object cache like Redis keeps the frequent answers in memory, so repeat questions skip the database queue entirely.</p>
+        <span class="ms">tens of queries, single-digit ms each</span>
+      </section>
+      <section class="step" data-s="7">
+        <h2><b>The theme renders</b> blocks into HTML.</h2>
+        <p>Templates and block patterns are stitched together with your content into the final document. A lean, well-structured theme renders in a blink; a heavy page builder can spend longer here than everything else combined.</p>
+        <span class="ms">where theme craft shows</span>
+      </section>
+      <section class="step" data-s="8">
+        <h2><b>The response travels back</b> and gets remembered.</h2>
+        <p>The finished HTML streams to the browser, and a copy usually goes into the page cache so the next visitor takes the shortcut. Compression squeezes it down to a fraction of its size for the trip.</p>
+        <span class="ms">size matters: smaller is faster</span>
+      </section>
+      <section class="step" data-s="9">
+        <h2><b>Parse and paint.</b> The browser does its half.</h2>
+        <p>HTML is parsed, CSS and fonts load, images decode, and the page paints. Server speed is only half the story: self-hosted fonts, right-sized images, and CSS that does not block are what make this half feel instant.</p>
+        <span class="ms">the half users actually see</span>
+      </section>
+    </div>
+  </div>
+
+  <div class="closing">
+    <h2>What this means for your site</h2>
+    <p>Every fast WordPress site is fast for the same three reasons: most visitors hit a page cache, uncached requests boot the minimum amount of code, and the browser gets lightweight, well-behaved assets. That is the checklist I build against, and it is why this site runs on a custom theme with zero plugins.</p>
+    <p>Curious what your site's road trip looks like? <a href="/contact">Ask me to map it.</a></p>
+  </div>
+
+  <footer>A playground experiment by Seren van der Merwe. Timings are typical ranges, not benchmarks. <a href="/playground">Back to the playground</a></footer>
+</div>
+
+<script>
+const STAGES = [
+  ["Browser", "DNS lookup + TLS handshake"],
+  ["Web server", "LiteSpeed / Caddy / Nginx"],
+  ["Page cache", "is there a finished copy?"],
+  ["Cache hit", "skip straight to the response"],
+  ["PHP + WordPress", "core, theme, plugins boot"],
+  ["Database + Redis", "content and options fetched"],
+  ["Template render", "blocks become HTML"],
+  ["Response", "compressed, cached, sent"],
+  ["Parse + paint", "fonts, CSS, images, pixels"]
+];
+const svg = document.getElementById("pipe");
+const nodesG = document.getElementById("nodes");
+const dot = document.getElementById("dot");
+const TOP = 48, GAP = 85.5;
+STAGES.forEach((s, i) => {
+  const y = TOP + i * GAP;
+  const g = document.createElementNS("http://www.w3.org/2000/svg", "g");
+  g.setAttribute("class", "node");
+  g.dataset.n = i + 1;
+  g.innerHTML =
+    '<rect x="58" y="' + (y - 26) + '" width="268" height="52" rx="12"/>' +
+    '<text x="74" y="' + (y - 3) + '">' + s[0] + "</text>" +
+    '<text class="sub" x="74" y="' + (y + 15) + '">' + s[1] + "</text>";
+  nodesG.appendChild(g);
+});
+
+function setStage(n) {
+  svg.dataset.s = n;
+  document.querySelectorAll(".node").forEach(g => {
+    g.classList.toggle("hit", Number(g.dataset.n) === n);
+  });
+  dot.style.transform = "translateY(" + ((n - 1) * GAP) + "px)";
+  document.querySelectorAll(".step").forEach(st => {
+    st.classList.toggle("on", Number(st.dataset.s) === n);
+  });
+}
+const io = new IntersectionObserver(entries => {
+  for (const e of entries) {
+    if (e.isIntersecting) setStage(Number(e.target.dataset.s));
+  }
+}, { rootMargin: "-40% 0px -40% 0px" });
+document.querySelectorAll(".step").forEach(s => io.observe(s));
+setStage(1);
+</script>
+</body>
+</html>
