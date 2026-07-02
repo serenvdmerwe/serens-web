@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Florida Risk Explorer — every hazard, every county</title>
+<title>Florida Risk Explorer: every hazard, every county</title>
 <style>
   :root { --ocean:#BFDCEA; --ink:#1d2733; --panel:#ffffff; }
   * { box-sizing:border-box; margin:0; }
@@ -28,6 +28,21 @@
   .lbl { font-family:inherit; font-weight:700; fill:#22180f; text-anchor:middle; pointer-events:none; paint-order:stroke; stroke:#ffffff; stroke-width:3.5px; stroke-linejoin:round; }
   .seanote { font-size:26px; font-style:italic; fill:#3a6f8f; font-weight:600; letter-spacing:.04em; }
   footer { margin-top:16px; font-size:13.5px; color:#33424f; max-width:80ch; line-height:1.5; }
+  svg, .chips button { touch-action:manipulation; }
+
+  /* Phones: the readout pins to the top of the screen so tapping any county
+     gives visible feedback, the report card becomes a horizontal scroller,
+     and the SVG text (unreadable below roughly 5px at phone width) is dropped
+     in favor of the county name in the readout. */
+  @media (max-width:700px) {
+    .readout { position:sticky; top:8px; z-index:5; padding:12px 14px; border-left-width:8px; box-shadow:0 4px 14px rgba(20,40,60,.3); }
+    .readout .nm { font-size:19px; }
+    .readout .ds { font-size:14.5px; }
+    .mini { display:flex; overflow-x:auto; gap:6px; margin-top:9px; padding-bottom:4px; -webkit-overflow-scrolling:touch; }
+    .mini div { flex:none; font-size:13px; padding:6px 8px; }
+    .lbl, .seanote { display:none; }
+    .cty.hot { stroke-width:7; }
+  }
 </style>
 </head>
 <body>
@@ -37,9 +52,9 @@
 <div class="chips" id="chips"></div>
 <div class="legend" id="legend"></div>
 
-<div class="readout" id="readout">
+<div class="readout" id="readout" aria-live="polite">
   <div class="nm">Tap any county</div>
-  <div class="ds">You'll see its risk for the chosen hazard — plus a full report card of every hazard.</div>
+  <div class="ds">You'll see its risk for the chosen hazard, plus a full report card of every hazard.</div>
   <div class="mini" id="mini"></div>
 </div>
 
@@ -51,7 +66,7 @@
 </svg>
 
 <footer>
-  Sources: FEMA National Risk Index, NOAA, Florida Office of Insurance Regulation (2025 premiums), Florida Geological Survey. Tiers are simplified for readability; risk varies street by street. Wind, surge and flood drive the biggest losses — sinkholes, lightning and tornadoes matter less for property cost but more for safety habits. Built by Seren.
+  Sources: FEMA National Risk Index, NOAA, Florida Office of Insurance Regulation (2025 premiums), Florida Geological Survey. Tiers are simplified for readability; risk varies street by street. Wind, surge and flood drive the biggest losses. Sinkholes, lightning and tornadoes matter less for property cost but more for safety habits. Built by Seren.
 </footer>
 
 <script>
@@ -96,7 +111,7 @@ function showCounty(n) {
   picked = n;
   const d = DATA[n], L = LAYERS[layer], t = d[layer];
   readout.style.borderLeftColor = COLORS[t];
-  let extra = (layer === 'cost' && d.premium) ? ' — about $' + d.premium.toLocaleString() + '/year' : '';
+  let extra = (layer === 'cost' && d.premium) ? ', about $' + d.premium.toLocaleString() + '/year' : '';
   readout.querySelector('.nm').textContent = n + ' County';
   readout.querySelector('.ds').textContent = L.icon + ' ' + L.name + ': ' + L.words[t] + extra + '.';
   miniEl.innerHTML = Object.entries(LAYERS).map(([k, LL]) => {
