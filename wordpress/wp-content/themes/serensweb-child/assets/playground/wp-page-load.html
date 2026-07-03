@@ -25,7 +25,7 @@
   h1 { font-family: var(--serif); font-size: clamp(34px, 6.4vw, 62px); line-height: 1.04; margin-top: 14px; font-weight: 500; letter-spacing: -0.01em; }
   h1 i { color: var(--gold); }
   .lede { color: var(--muted); max-width: 56ch; margin-top: 18px; font-size: clamp(15px, 2.3vw, 18px); line-height: 1.65; }
-  .hint { margin-top: 26px; color: var(--dim-gold); font-size: 13px; }
+  .hint { display: inline-block; margin-top: 26px; color: var(--dim-gold); font-size: 13px; text-decoration: underline; text-underline-offset: 4px; }
 
   .scrolly { display: grid; grid-template-columns: minmax(0, 1fr); gap: 0; position: relative; }
   .viz {
@@ -53,6 +53,7 @@
   .step .ms { display: inline-block; margin-top: 12px; font-size: 12px; color: var(--gold); border: 1px solid var(--dim-gold); border-radius: 999px; padding: 4px 12px; }
 
   /* Diagram states: nodes light up as their step scrolls into view. */
+  .node { cursor: pointer; }
   .node rect { fill: var(--panel); stroke: var(--line); stroke-width: 1.2; transition: stroke 0.4s, fill 0.4s; }
   .node text { fill: var(--muted); font-family: "Geist", sans-serif; font-size: 13px; transition: fill 0.4s; }
   .node .sub { font-size: 10px; fill: #6d6a61; }
@@ -81,7 +82,7 @@
     <div class="kicker">A scrollytelling explainer</div>
     <h1>How a WordPress page loads, <i>from keystroke to paint</i></h1>
     <p class="lede">Between typing an address and seeing a page, a request makes a small road trip. Knowing the route is how I make client sites fast: most of the journey can be skipped entirely. Scroll and watch it travel.</p>
-    <div class="hint">Scroll to begin the trip</div>
+    <a class="hint" href="#steps">Scroll to begin the trip</a>
   </header>
 
   <div class="scrolly">
@@ -180,7 +181,35 @@ STAGES.forEach((s, i) => {
   nodesG.appendChild(g);
 });
 
+const mqNarrow = matchMedia("(max-width: 899px)");
+const mqStill = matchMedia("(prefers-reduced-motion: reduce)");
+const FULL_H = 780, WIN_H = 320;
+let stage = 1, panRaf = 0;
+
+/* On narrow screens the full pipeline renders too small to read, so the
+   viewBox becomes a window that glides along with the active stage. */
+function panTo(n) {
+  cancelAnimationFrame(panRaf);
+  if (!mqNarrow.matches) { svg.setAttribute("viewBox", "0 0 340 " + FULL_H); return; }
+  const target = Math.max(0, Math.min(TOP + (n - 1) * GAP - WIN_H / 2, FULL_H - WIN_H));
+  const parts = svg.getAttribute("viewBox").split(" ");
+  const from = Number(parts[3]) === FULL_H ? target : Number(parts[1]);
+  if (mqStill.matches || from === target) {
+    svg.setAttribute("viewBox", "0 " + target + " 340 " + WIN_H);
+    return;
+  }
+  const t0 = performance.now();
+  const glide = now => {
+    const k = Math.min(1, (now - t0) / 350);
+    const eased = 1 - Math.pow(1 - k, 3);
+    svg.setAttribute("viewBox", "0 " + (from + (target - from) * eased).toFixed(1) + " 340 " + WIN_H);
+    if (k < 1) panRaf = requestAnimationFrame(glide);
+  };
+  panRaf = requestAnimationFrame(glide);
+}
+
 function setStage(n) {
+  stage = n;
   svg.dataset.s = n;
   document.querySelectorAll(".node").forEach(g => {
     g.classList.toggle("hit", Number(g.dataset.n) === n);
@@ -189,6 +218,7 @@ function setStage(n) {
   document.querySelectorAll(".step").forEach(st => {
     st.classList.toggle("on", Number(st.dataset.s) === n);
   });
+  panTo(n);
 }
 const io = new IntersectionObserver(entries => {
   for (const e of entries) {
@@ -196,6 +226,15 @@ const io = new IntersectionObserver(entries => {
   }
 }, { rootMargin: "-40% 0px -40% 0px" });
 document.querySelectorAll(".step").forEach(s => io.observe(s));
+mqNarrow.addEventListener("change", () => panTo(stage));
+
+/* Tapping a pipeline stage jumps the story to its card. */
+nodesG.addEventListener("click", e => {
+  const g = e.target.closest(".node");
+  if (!g) return;
+  const step = document.querySelector('.step[data-s="' + g.dataset.n + '"]');
+  if (step) step.scrollIntoView({ behavior: mqStill.matches ? "auto" : "smooth", block: "center" });
+});
 setStage(1);
 </script>
 </body>

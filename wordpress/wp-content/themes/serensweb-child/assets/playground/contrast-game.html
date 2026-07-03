@@ -85,7 +85,7 @@
   .end h2 { font-size: 22px; }
   .end h2 b { color: var(--hot); }
   .end p { color: var(--muted); margin-top: 6px; line-height: 1.6; font-size: 14.5px; }
-  .end button {
+  .end button, #start {
     margin-top: 14px; font: inherit; font-weight: 650; padding: 12px 22px;
     border: 0; border-radius: 999px; background: var(--hot); color: #191021; cursor: pointer;
   }
@@ -106,7 +106,7 @@
     <div>Round <b id="round">1/10</b></div>
     <div>Score <b id="score">0</b></div>
     <div class="streak">Streak <b id="streak">0</b></div>
-    <div>Best <b id="best">0</b></div>
+    <div>Best streak <b id="best">0</b></div>
   </div>
 
   <div class="card">
@@ -118,14 +118,15 @@
       </div>
     </div>
     <div class="controls">
-      <button id="btnPass" type="button">Passes AA</button>
-      <button id="btnFail" type="button">Fails AA</button>
+      <button id="btnPass" type="button" disabled>Passes AA</button>
+      <button id="btnFail" type="button" disabled>Fails AA</button>
     </div>
   </div>
 
   <div class="verdict" id="verdict" aria-live="polite">
     <div class="call">Ready when you are.</div>
-    <div class="ratio">Guess before the fuse burns out. A timeout counts as a wrong answer.</div>
+    <div class="ratio">Guess before the fuse burns out. A timeout counts as a wrong answer. Keyboard players: P calls a pass, F calls a fail.</div>
+    <button id="start" type="button">Start the run</button>
   </div>
 
   <div class="end" id="end" aria-live="polite">
@@ -173,6 +174,7 @@ function hslToRgb(h, s, l) {
   return [f(0), f(8), f(4)].map(v => Math.round(v * 255));
 }
 const css = c => "rgb(" + c.join(",") + ")";
+const hex = c => "#" + c.map(v => v.toString(16).padStart(2, "0")).join("");
 
 /* Rejection-sample a fg/bg pair whose ratio lands in [lo, hi] so hues stay varied. */
 function makePair(lo, hi) {
@@ -229,10 +231,12 @@ function answer(saidPass) {
   call.textContent = saidPass === null ? "Too slow. The fuse got you."
     : right ? "Correct." : "Not quite.";
   call.className = "call " + (right ? "good" : "bad");
-  detail.innerHTML = "Actual ratio: <b>" + current.r.toFixed(2) + ":1</b>, which "
+  detail.innerHTML = "Actual ratio: <b>" + current.r.toFixed(2) + ":1</b> ("
+    + hex(current.fg) + " on " + hex(current.bg) + "), which "
     + (passes ? "passes" : "fails") + " AA for normal text (needs 4.5:1)."
     + (passes && current.r < 7 ? " It would still fail AAA (7:1)." : "");
-  setTimeout(nextRound, 1600);
+  /* A wrong call earns extra time to read the math before the next round. */
+  setTimeout(nextRound, right ? 1400 : 2600);
 }
 
 function endRun() {
@@ -258,10 +262,15 @@ $("again").addEventListener("click", () => {
   nextRound();
 });
 document.addEventListener("keydown", e => {
+  if (e.ctrlKey || e.metaKey || e.altKey) return;
   if (e.key === "p" || e.key === "P") answer(true);
   if (e.key === "f" || e.key === "F") answer(false);
 });
-nextRound();
+/* The fuse waits for a deliberate start instead of burning while the rules are read. */
+$("start").addEventListener("click", () => {
+  $("start").style.display = "none";
+  nextRound();
+});
 </script>
 </body>
 </html>
