@@ -31,6 +31,45 @@ add_action( 'wp_head', static function () {
 		'url'      => home_url( '/' ),
 	];
 	echo '<script type="application/ld+json">' . wp_json_encode( $site ) . "</script>\n";
+
+	// Playground page: ItemList of the experiments so crawlers see the catalog.
+	if ( is_page( 'playground' ) ) {
+		$base        = get_stylesheet_directory_uri() . '/assets/playground/';
+		$experiments = [
+			'Risk Explorer: Florida and Cape Town'   => 'florida-risk-explorer.html',
+			'Hurricane Tracks Time Machine'          => 'hurricane-tracks.html',
+			'How South Africa Reaches the Internet'  => 'submarine-cables.html',
+			'Live Earthquake Map'                    => 'earthquakes-live.html',
+			'Planes Overhead'                        => 'planes-overhead.html',
+			'ISS Live Tracker'                       => 'iss-tracker.html',
+			'Golden Hour, Everywhere'                => 'golden-hour.html',
+			'The Wind, as Particles'                 => 'wind-particles.html',
+			'Contrast: the Game'                     => 'contrast-game.html',
+			'Dev Typing Test'                        => 'dev-typing-test.html',
+			'AI Feature Cost Estimator'              => 'ai-cost-estimator.html',
+			'Aptitude Trainer'                       => 'aptitude-trainer/index.html',
+			'How a WordPress Page Loads'             => 'wp-page-load.html',
+		];
+		$items       = [];
+		$position    = 1;
+		foreach ( $experiments as $label => $file ) {
+			$items[] = [
+				'@type'    => 'ListItem',
+				'position' => $position++,
+				'name'     => $label,
+				'url'      => $base . $file,
+			];
+		}
+		$list = [
+			'@context'        => 'https://schema.org',
+			'@type'           => 'ItemList',
+			'name'            => 'SerensWeb Playground experiments',
+			'description'     => 'Interactive maps, browser games, developer tools, installable web apps, and explainers built by Seren van der Merwe.',
+			'numberOfItems'   => count( $items ),
+			'itemListElement' => $items,
+		];
+		echo '<script type="application/ld+json">' . wp_json_encode( $list ) . "</script>\n";
+	}
 	// Open Graph + Twitter card defaults (sitewide). Self-hosted card image, no plugin.
 	$og_image = get_stylesheet_directory_uri() . '/assets/images/og-card.jpg';
 	$og_desc  = 'AI-augmented web developer building fast, modern, conversion-focused websites and web apps.';
