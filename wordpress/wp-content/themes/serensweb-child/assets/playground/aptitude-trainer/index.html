@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#12141f">
+<title>Aptitude Trainer: endless generated practice</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  :root {
+    --bg: #12141f; --panel: #1b1e2e; --line: #2e3247;
+    --ink: #e9ecf8; --muted: #9aa1c0; --teal: #5eead4; --violet: #a78bfa;
+    --good: #4ade80; --bad: #fb7185;
+    --mono: "Geist Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    background: var(--bg); color: var(--ink);
+    background-image: radial-gradient(80% 50% at 50% -8%, #1e2236 0%, transparent 60%);
+    min-height: 100vh; padding: 26px 16px 60px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .app { width: 100%; max-width: 660px; }
+  h1 { font-size: clamp(26px, 5vw, 38px); font-weight: 750; letter-spacing: -0.02em; }
+  h1 em { font-style: normal; color: var(--teal); }
+  p.sub { color: var(--muted); margin-top: 8px; font-size: clamp(14px, 2.3vw, 16px); line-height: 1.6; max-width: 56ch; }
+  .honest { margin-top: 10px; border-left: 3px solid var(--violet); padding: 6px 12px; color: var(--muted); font-size: 13px; line-height: 1.55; }
+
+  .toolbar { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; align-items: center; }
+  .toolbar .badge {
+    font-family: var(--mono); font-size: 11.5px; color: var(--teal);
+    border: 1px solid var(--line); border-radius: 999px; padding: 5px 12px; display: none;
+  }
+  #installBtn {
+    display: none; font: inherit; font-size: 13.5px; font-weight: 650; cursor: pointer;
+    background: var(--violet); color: #14101f; border: 0; border-radius: 999px; padding: 8px 18px;
+  }
+  .fams { display: grid; gap: 12px; margin-top: 20px; }
+  .fam {
+    text-align: left; font: inherit; cursor: pointer; touch-action: manipulation;
+    background: var(--panel); border: 1px solid var(--line); border-radius: 16px;
+    padding: 16px 18px; color: var(--ink); transition: border-color 0.2s, transform 0.15s;
+  }
+  .fam:hover { border-color: var(--teal); transform: translateY(-2px); }
+  .fam h2 { font-size: 18px; font-weight: 700; }
+  .fam h2 span { color: var(--teal); font-family: var(--mono); font-size: 12px; font-weight: 400; margin-left: 8px; }
+  .fam p { color: var(--muted); font-size: 13.5px; margin-top: 4px; line-height: 1.5; }
+  .fam .stats { font-family: var(--mono); font-size: 12px; color: var(--muted); margin-top: 9px; }
+  .fam .stats b { color: var(--ink); font-weight: 650; }
+  .fam .stats .up { color: var(--good); }
+  .fam .stats .down { color: var(--bad); }
+  :focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; }
+
+  .view { display: none; }
+  .view.on { display: block; }
+  .qhead { display: flex; justify-content: space-between; align-items: baseline; margin-top: 4px; font-family: var(--mono); font-size: 12.5px; color: var(--muted); }
+  .qhead b { color: var(--teal); font-size: 14px; }
+  .prompt { margin-top: 14px; font-size: clamp(16px, 2.6vw, 19px); font-weight: 650; line-height: 1.45; }
+
+  .board {
+    margin-top: 14px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 16px; padding: 16px;
+  }
+  .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; max-width: 380px; margin: 0 auto; }
+  .cell { background: #14172380; border: 1px solid var(--line); border-radius: 10px; aspect-ratio: 1; display: grid; place-items: center; }
+  .cell svg { width: 86%; height: 86%; color: var(--ink); }
+  .cell.gap { border-style: dashed; color: var(--violet); font-size: 30px; font-weight: 700; font-family: var(--mono); }
+  .seq { font-family: var(--mono); font-size: clamp(20px, 5vw, 30px); text-align: center; padding: 26px 8px; letter-spacing: 0.04em; }
+  .seq i { font-style: normal; color: var(--violet); }
+  .target { display: grid; place-items: center; padding: 8px; }
+  .target svg { width: 130px; height: 130px; color: var(--ink); }
+
+  .opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 14px; }
+  .opts.six { grid-template-columns: repeat(3, 1fr); }
+  @media (max-width: 480px) { .opts.six { grid-template-columns: repeat(2, 1fr); } }
+  .opt {
+    font: inherit; cursor: pointer; touch-action: manipulation; color: var(--ink);
+    background: var(--panel); border: 2px solid var(--line); border-radius: 12px;
+    padding: 12px; display: grid; place-items: center; min-height: 64px;
+    font-family: var(--mono); font-size: 20px; transition: border-color 0.15s;
+  }
+  .opt svg { width: 74px; height: 74px; color: var(--ink); }
+  .opt:hover { border-color: var(--teal); }
+  .opt.right { border-color: var(--good); background: #16281f; }
+  .opt.wrong { border-color: var(--bad); background: #2a1a20; }
+  .opt:disabled { cursor: default; }
+
+  .explain { margin-top: 12px; min-height: 44px; color: var(--muted); font-size: 14px; line-height: 1.55; }
+  .explain b { color: var(--ink); }
+  .rowbtns { display: flex; gap: 10px; margin-top: 12px; }
+  .btn {
+    font: inherit; font-weight: 650; font-size: 15px; cursor: pointer; touch-action: manipulation;
+    background: var(--teal); color: #0c1a17; border: 0; border-radius: 999px; padding: 12px 26px;
+  }
+  .btn.ghost { background: transparent; color: var(--muted); border: 1px solid var(--line); }
+  .btn:disabled { opacity: 0.4; cursor: default; }
+
+  .sumcard { background: var(--panel); border: 1px solid var(--teal); border-radius: 16px; padding: 20px; margin-top: 16px; }
+  .sumcard h2 { font-size: 22px; }
+  .sumcard h2 b { color: var(--teal); }
+  .sumcard p { color: var(--muted); margin-top: 8px; line-height: 1.6; font-size: 14.5px; }
+  .sumcard p b { color: var(--ink); }
+
+  footer { margin-top: 28px; color: var(--muted); font-size: 12.5px; line-height: 1.6; max-width: 60ch; }
+  footer a { color: var(--teal); }
+</style>
+</head>
+<body>
+<div class="app">
+  <section class="view on" id="home">
+    <h1>Aptitude <em>Trainer</em></h1>
+    <p class="sub">Endless practice for the three puzzle families aptitude tests lean on. Every puzzle is generated on your device the moment you need it: no question bank, no repeats, no account.</p>
+    <p class="honest">Honesty note: this trains familiarity with test patterns. It does not measure intelligence, and nothing here is an IQ score. Progress compares you with your own earlier answers only.</p>
+
+    <div class="toolbar">
+      <button id="installBtn" type="button">Install the app</button>
+      <span class="badge" id="offlineReady">works offline</span>
+      <span class="badge" id="iosHint">iPhone: Share, then Add to Home Screen</span>
+    </div>
+
+    <div class="fams" id="fams"></div>
+
+    <footer>A playground experiment by Seren van der Merwe, built as an installable offline PWA with a service worker and zero dependencies. Your history lives only in this browser. <a href="/playground">Back to the playground</a></footer>
+  </section>
+
+  <section class="view" id="round">
+    <div class="qhead"><span id="qFam"></span><span>question <b id="qNum"></b> of 8 &middot; level <b id="qLvl"></b></span></div>
+    <div class="prompt" id="qPrompt"></div>
+    <div class="board" id="qBoard"></div>
+    <div class="opts" id="qOpts"></div>
+    <div class="explain" id="qExplain"></div>
+    <div class="rowbtns">
+      <button class="btn" id="nextBtn" type="button" disabled>Next</button>
+      <button class="btn ghost" id="quitBtn" type="button">End round</button>
+    </div>
+  </section>
+
+  <section class="view" id="summary">
+    <div class="sumcard">
+      <h2>Round done: <b id="sumScore"></b></h2>
+      <p id="sumText"></p>
+    </div>
+    <div class="rowbtns">
+      <button class="btn" id="againBtn" type="button">Train again</button>
+      <button class="btn ghost" id="homeBtn" type="button">All families</button>
+    </div>
+  </section>
+</div>
+
+<script>
+/* ---------- shared helpers ---------- */
+const $ = id => document.getElementById(id);
+const rnd = n => Math.floor(Math.random() * n);
+const pick = a => a[rnd(a.length)];
+const shuffle = a => { const b = a.slice(); for (let i = b.length - 1; i > 0; i--) { const j = rnd(i + 1); [b[i], b[j]] = [b[j], b[i]]; } return b; };
+
+/* ---------- matrix logic generator ---------- */
+const ATTRS = {
+  shape: ["circle", "square", "triangle", "diamond"],
+  count: [1, 2, 3],
+  fill: ["solid", "outline", "dashed"],
+  size: ["s", "m", "l"]
+};
+function cellArt(cell) {
+  const R = { s: 10, m: 15, l: 20 }[cell.size];
+  const spots = cell.count === 1 ? [[50, 50]] : cell.count === 2 ? [[30, 50], [70, 50]] : [[50, 30], [28, 68], [72, 68]];
+  const st = cell.fill === "solid" ? 'fill="currentColor"'
+    : 'fill="none" stroke="currentColor" stroke-width="4"' + (cell.fill === "dashed" ? ' stroke-dasharray="5 4"' : "");
+  let inner = "";
+  for (const [x, y] of spots) {
+    if (cell.shape === "circle") inner += '<circle cx="' + x + '" cy="' + y + '" r="' + R + '" ' + st + '/>';
+    if (cell.shape === "square") inner += '<rect x="' + (x - R) + '" y="' + (y - R) + '" width="' + 2 * R + '" height="' + 2 * R + '" rx="2" ' + st + '/>';
+    if (cell.shape === "triangle") inner += '<polygon points="' + x + ',' + (y - R) + ' ' + (x - R) + ',' + (y + R) + ' ' + (x + R) + ',' + (y + R) + '" ' + st + '/>';
+    if (cell.shape === "diamond") inner += '<polygon points="' + x + ',' + (y - R) + ' ' + (x + R) + ',' + y + ' ' + x + ',' + (y + R) + ' ' + (x - R) + ',' + y + '" ' + st + '/>';
+  }
+  return '<svg viewBox="0 0 100 100" aria-hidden="true">' + inner + '</svg>';
+}
+const cellKey = c => c.shape + "|" + c.count + "|" + c.fill + "|" + c.size;
+function genMatrix(level) {
+  const nActive = level <= 1 ? 1 : level <= 3 ? 2 : 3;
+  const nLatin = level <= 2 ? 0 : level <= 4 ? 1 : 2;
+  const names = shuffle(Object.keys(ATTRS)).slice(0, nActive);
+  const plan = {}, fixed = {};
+  names.forEach((n, i) => {
+    plan[n] = { vals: shuffle(ATTRS[n]).slice(0, 3), mode: i < nLatin ? "latin" : (i % 2 ? "cols" : "rows"), off: rnd(3) };
+  });
+  for (const n of Object.keys(ATTRS)) if (!plan[n]) fixed[n] = pick(ATTRS[n]);
+  const cellAt = (r, c) => {
+    const cell = Object.assign({}, fixed);
+    for (const [n, p] of Object.entries(plan)) {
+      cell[n] = p.mode === "rows" ? p.vals[r] : p.mode === "cols" ? p.vals[c] : p.vals[(r + c + p.off) % 3];
+    }
+    return cell;
+  };
+  const answer = cellAt(2, 2);
+  const seen = new Set([cellKey(answer)]);
+  const opts = [{ art: cellArt(answer), ok: true }];
+  let guard = 0;
+  while (opts.length < 6 && guard++ < 200) {
+    const m = Object.assign({}, answer);
+    const n = pick(Object.keys(ATTRS));
+    m[n] = pick(ATTRS[n].filter(v => v !== answer[n]));
+    if (seen.has(cellKey(m))) continue;
+    seen.add(cellKey(m));
+    opts.push({ art: cellArt(m), ok: false });
+  }
+  const ruleWords = Object.entries(plan).map(([n, p]) =>
+    n + (p.mode === "rows" ? " is fixed per row" : p.mode === "cols" ? " is fixed per column" : " appears once per row and column")).join("; ");
+  return {
+    prompt: "Which tile completes the pattern?",
+    board: '<div class="grid3">' + [0, 1, 2].map(r => [0, 1, 2].map(c =>
+      (r === 2 && c === 2) ? '<div class="cell gap">?</div>' : '<div class="cell">' + cellArt(cellAt(r, c)) + '</div>'
+    ).join("")).join("") + '</div>',
+    options: shuffle(opts), kind: "art",
+    explain: "The rule: " + ruleWords + "."
+  };
+}
+
+/* ---------- number sequence generator ---------- */
+function genSequence(level) {
+  let terms = [], rule = "", wrongNext = null;
+  const start = 2 + rnd(12);
+  if (level === 1) {
+    const k = 2 + rnd(8);
+    for (let i = 0; i < 7; i++) terms.push(start + i * k);
+    rule = "add " + k + " each step";
+    wrongNext = terms[6] + k + 1;
+  } else if (level === 2) {
+    const a = 3 + rnd(7), b = 1 + rnd(2) === 1 ? -(1 + rnd(4)) : 1 + rnd(4);
+    let v = start + 10;
+    for (let i = 0; i < 7; i++) { terms.push(v); v += (i % 2 === 0 ? a : b); }
+    rule = "alternate adding " + a + " and " + (b < 0 ? "subtracting " + (-b) : "adding " + b);
+    wrongNext = terms[6] + (6 % 2 === 0 ? b : a);
+  } else if (level === 3) {
+    if (rnd(2)) {
+      const k = 2 + rnd(2);
+      let v = 1 + rnd(4);
+      for (let i = 0; i < 7; i++) { terms.push(v); v *= k; }
+      rule = "multiply by " + k + " each step";
+      wrongNext = terms[6] + (terms[6] - terms[5]);
+    } else {
+      let v = start, d = 1 + rnd(3);
+      for (let i = 0; i < 7; i++) { terms.push(v); v += d; d += 1; }
+      rule = "the amount added grows by one each step";
+      wrongNext = terms[6] + (terms[6] - terms[5]);
+    }
+  } else if (level === 4) {
+    const a0 = start, ka = 2 + rnd(5), b0 = start + 5 + rnd(9), kb = 1 + rnd(4);
+    for (let i = 0; i < 7; i++) terms.push(i % 2 === 0 ? a0 + (i / 2) * ka : b0 + ((i - 1) / 2) * kb);
+    rule = "two sequences interleaved: odd positions add " + ka + ", even positions add " + kb;
+    wrongNext = terms[5] + kb;
+  } else {
+    let a = 1 + rnd(3), b = a + 1 + rnd(3);
+    terms = [a, b];
+    for (let i = 2; i < 7; i++) terms.push(terms[i - 1] + terms[i - 2]);
+    rule = "each number is the sum of the two before it";
+    wrongNext = terms[6] + terms[5] + 1;
+  }
+  const answer = terms[6];
+  const shown = terms.slice(0, 6);
+  const set = new Set([answer]);
+  const opts = [{ art: String(answer), ok: true }];
+  for (const cand of [wrongNext, answer + 1 + rnd(3), answer - 1 - rnd(3), answer + 10]) {
+    if (opts.length >= 4) break;
+    const v = Math.round(cand);
+    if (set.has(v)) continue;
+    set.add(v);
+    opts.push({ art: String(v), ok: false });
+  }
+  return {
+    prompt: "What number comes next?",
+    board: '<div class="seq">' + shown.join(", ") + ', <i>?</i></div>',
+    options: shuffle(opts), kind: "num",
+    explain: "The rule: " + rule + ", so the answer is <b>" + answer + "</b>."
+  };
+}
+
+/* ---------- mental rotation generator ---------- */
+const normCells = cells => {
+  const mx = Math.min(...cells.map(c => c[0])), my = Math.min(...cells.map(c => c[1]));
+  return cells.map(c => [c[0] - mx, c[1] - my]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
+};
+const keyOf = cells => normCells(cells).map(c => c.join(",")).join(";");
+const rot90 = cells => cells.map(c => [c[1], -c[0]]);
+const mirror = cells => cells.map(c => [-c[0], c[1]]);
+function polyArt(cells) {
+  const n = normCells(cells);
+  const w = Math.max(...n.map(c => c[0])) + 1, h = Math.max(...n.map(c => c[1])) + 1;
+  const u = Math.min(88 / Math.max(w, h), 22);
+  const ox = (100 - w * u) / 2, oy = (100 - h * u) / 2;
+  return '<svg viewBox="0 0 100 100" aria-hidden="true">' + n.map(c =>
+    '<rect x="' + (ox + c[0] * u + 1) + '" y="' + (oy + c[1] * u + 1) + '" width="' + (u - 2) + '" height="' + (u - 2) + '" rx="2" fill="currentColor"/>'
+  ).join("") + '</svg>';
+}
+function genRotation(level) {
+  const size = [4, 5, 5, 6, 7][level - 1];
+  for (let attempt = 0; attempt < 60; attempt++) {
+    const cells = [[0, 0]];
+    const setk = new Set(["0,0"]);
+    while (cells.length < size) {
+      const base = pick(cells);
+      const step = pick([[1, 0], [-1, 0], [0, 1], [0, -1]]);
+      const nx = [base[0] + step[0], base[1] + step[1]];
+      if (!setk.has(nx.join(","))) { setk.add(nx.join(",")); cells.push(nx); }
+    }
+    let r = cells;
+    const rotKeys = [];
+    for (let i = 0; i < 4; i++) { rotKeys.push(keyOf(r)); r = rot90(r); }
+    let m = mirror(cells);
+    const mirVariants = [];
+    const mirKeys = new Set();
+    for (let i = 0; i < 4; i++) {
+      const k = keyOf(m);
+      if (!rotKeys.includes(k) && !mirKeys.has(k)) { mirKeys.add(k); mirVariants.push(m); }
+      m = rot90(m);
+    }
+    if (mirVariants.length < 3) continue; /* achiral or too symmetric: deal again */
+    let correct = cells;
+    const turns = 1 + rnd(3);
+    for (let i = 0; i < turns; i++) correct = rot90(correct);
+    if (keyOf(correct) === rotKeys[0]) correct = rot90(correct);
+    const opts = shuffle([
+      { art: polyArt(correct), ok: true },
+      ...shuffle(mirVariants).slice(0, 3).map(v => ({ art: polyArt(v), ok: false }))
+    ]);
+    return {
+      prompt: "Which piece is the same shape, just rotated?",
+      board: '<div class="target">' + polyArt(cells) + '</div>',
+      options: opts, kind: "art",
+      explain: "One option is a pure rotation. The other three are <b>mirror images</b>: no amount of turning makes them match."
+    };
+  }
+  return genSequence(Math.min(level, 3)); /* unreachable in practice */
+}
+
+/* ---------- families, stats, adaptivity ---------- */
+const FAMS = {
+  matrix: { name: "Matrix logic", gen: genMatrix, blurb: "A 3x3 grid follows hidden rules. Find the missing tile." },
+  sequence: { name: "Number sequences", gen: genSequence, blurb: "Six numbers, one rule. Say what comes next." },
+  rotation: { name: "Mental rotation", gen: genRotation, blurb: "Spot the rotated original among its mirror images." }
+};
+const store = {
+  load() {
+    try { return JSON.parse(localStorage.getItem("swAptV1")) || {}; } catch (e) { return {}; }
+  },
+  save(s) { localStorage.setItem("swAptV1", JSON.stringify(s)); }
+};
+let S = store.load();
+for (const f of Object.keys(FAMS)) S[f] = S[f] || { level: 1, up: 0, down: 0, hist: [] };
+
+function record(fam, ok, ms) {
+  const st = S[fam];
+  st.hist.push({ ok: ok ? 1 : 0, ms: Math.min(ms, 120000) });
+  if (st.hist.length > 300) st.hist = st.hist.slice(-300);
+  if (ok) { st.up++; st.down = 0; } else { st.down++; st.up = 0; }
+  if (st.up >= 2 && st.level < 5) { st.level++; st.up = 0; }
+  if (st.down >= 2 && st.level > 1) { st.level--; st.down = 0; }
+  store.save(S);
+}
+const accOf = list => list.length ? Math.round(100 * list.reduce((a, x) => a + x.ok, 0) / list.length) : null;
+function famStats(fam) {
+  const h = S[fam].hist;
+  const last = accOf(h.slice(-20));
+  const prev = accOf(h.slice(-40, -20));
+  return { level: S[fam].level, tries: h.length, last, prev };
+}
+
+/* ---------- views ---------- */
+const views = { home: $("home"), round: $("round"), summary: $("summary") };
+function showView(v) { Object.values(views).forEach(x => x.classList.remove("on")); views[v].classList.add("on"); }
+
+function drawHome() {
+  const wrap = $("fams");
+  wrap.innerHTML = "";
+  for (const [key, F] of Object.entries(FAMS)) {
+    const st = famStats(key);
+    let statline = st.tries === 0 ? "untrained: your first round sets the baseline"
+      : "level <b>" + st.level + "</b> of 5 &middot; last 20: <b>" + (st.last ?? 0) + "%</b>";
+    if (st.prev !== null && st.last !== null && st.tries >= 40) {
+      const d = st.last - st.prev;
+      statline += d === 0 ? " &middot; level with your previous 20"
+        : ' &middot; <span class="' + (d > 0 ? "up" : "down") + '">' + (d > 0 ? "up " + d : "down " + (-d)) + ' on your previous 20</span>';
+    }
+    const b = document.createElement("button");
+    b.className = "fam"; b.type = "button";
+    b.innerHTML = "<h2>" + F.name + "<span>" + st.tries + " answered</span></h2><p>" + F.blurb + "</p>" +
+      '<div class="stats">' + statline + "</div>";
+    b.onclick = () => startRound(key);
+    wrap.appendChild(b);
+  }
+}
+
+let R = null;
+function startRound(fam) {
+  R = { fam, i: 0, correct: 0, ms: [], t0: 0 };
+  showView("round");
+  nextQuestion();
+}
+function nextQuestion() {
+  if (R.i >= 8) return endRound();
+  R.i++;
+  const F = FAMS[R.fam];
+  const q = F.gen(S[R.fam].level);
+  R.q = q; R.t0 = performance.now();
+  $("qFam").textContent = F.name;
+  $("qNum").textContent = R.i;
+  $("qLvl").textContent = S[R.fam].level;
+  $("qPrompt").textContent = q.prompt;
+  $("qBoard").innerHTML = q.board;
+  $("qExplain").innerHTML = "";
+  $("nextBtn").disabled = true;
+  const opts = $("qOpts");
+  opts.className = "opts" + (q.options.length > 4 ? " six" : "");
+  opts.innerHTML = "";
+  q.options.forEach(o => {
+    const b = document.createElement("button");
+    b.className = "opt"; b.type = "button";
+    b.innerHTML = o.art;
+    b.onclick = () => answer(b, o);
+    opts.appendChild(b);
+  });
+}
+function answer(btn, opt) {
+  if ($("nextBtn").disabled === false) return;
+  const ms = performance.now() - R.t0;
+  record(R.fam, opt.ok, ms);
+  if (opt.ok) R.correct++;
+  R.ms.push(ms);
+  [...$("qOpts").children].forEach(b => { b.disabled = true; });
+  btn.classList.add(opt.ok ? "right" : "wrong");
+  if (!opt.ok) {
+    const rightIdx = R.q.options.findIndex(o => o.ok);
+    $("qOpts").children[rightIdx].classList.add("right");
+  }
+  $("qExplain").innerHTML = (opt.ok ? "Correct. " : "Not this time. ") + R.q.explain;
+  $("nextBtn").disabled = false;
+  $("nextBtn").focus();
+}
+function endRound() {
+  const avg = R.ms.length ? (R.ms.reduce((a, b) => a + b, 0) / R.ms.length / 1000).toFixed(1) : "0.0";
+  $("sumScore").textContent = R.correct + " of " + R.i;
+  const st = famStats(R.fam);
+  $("sumText").innerHTML = "You averaged <b>" + avg + "s</b> a question on " + FAMS[R.fam].name.toLowerCase() +
+    " and now sit at <b>level " + st.level + "</b> of 5. " +
+    (R.correct >= 7 ? "The generator will push harder next round." :
+     R.correct >= 5 ? "Solid. Consistency beats speed here." :
+     "Levels drop as well as rise, so the puzzles will meet you where you are.");
+  showView("summary");
+}
+$("nextBtn").onclick = nextQuestion;
+$("quitBtn").onclick = () => { drawHome(); showView("home"); };
+$("againBtn").onclick = () => startRound(R.fam);
+$("homeBtn").onclick = () => { drawHome(); showView("home"); };
+drawHome();
+
+/* ---------- PWA plumbing ---------- */
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("./sw.js").then(() => {
+    if (navigator.serviceWorker.controller) $("offlineReady").style.display = "inline-block";
+    navigator.serviceWorker.ready.then(() => { $("offlineReady").style.display = "inline-block"; });
+  }).catch(() => {});
+}
+let deferredPrompt = null;
+window.addEventListener("beforeinstallprompt", e => {
+  e.preventDefault();
+  deferredPrompt = e;
+  $("installBtn").style.display = "inline-block";
+});
+$("installBtn").onclick = async () => {
+  if (!deferredPrompt) return;
+  deferredPrompt.prompt();
+  await deferredPrompt.userChoice;
+  deferredPrompt = null;
+  $("installBtn").style.display = "none";
+};
+const isIos = /iphone|ipad|ipod/i.test(navigator.userAgent);
+const standalone = matchMedia("(display-mode: standalone)").matches || navigator.standalone;
+if (isIos && !standalone) $("iosHint").style.display = "inline-block";
+</script>
+</body>
+</html>

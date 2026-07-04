@@ -372,6 +372,10 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__viz--clay { background: radial-gradient(130% 115% at 22% 12%, #ffb37a, #b3541e 48%, #5e2d10 80%, #1a1410); }
 .play-card__viz--gold { background: radial-gradient(130% 115% at 80% 14%, #ffe08a, #d9a441 48%, #6b4c17 82%, #171207); }
 .play-card__viz--blue { background: radial-gradient(130% 115% at 80% 82%, #7cc7ff, #2f6fb8 48%, #123a66 82%, #0a1522); }
+/* Batch 3 experiments. */
+.play-card__viz--teal { background: radial-gradient(130% 115% at 24% 80%, #7ff5dd, #1fa88c 48%, #0d4a3e 82%, #0a1513); }
+.play-card__viz--cable { background: radial-gradient(130% 115% at 78% 18%, #8ee3ff, #1f7ea8 48%, #0d3a4a 82%, #081218); }
+.play-card__viz--ember { background: radial-gradient(130% 115% at 26% 16%, #ff9c7a, #c8401e 48%, #611d10 80%, #170c0a); }
 .play-card__body h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 0 0 9px; }
 .play-card__tech { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
 .play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;
