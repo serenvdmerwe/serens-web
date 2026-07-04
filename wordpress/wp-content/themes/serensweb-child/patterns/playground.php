@@ -142,6 +142,18 @@
           </a>
         </div>
       </article>
+      <article class="play-card">
+        <div class="play-card__viz play-card__viz--ember" aria-hidden="true"><span>Live data</span></div>
+        <div class="play-card__body">
+          <h3>Live Earthquake Map</h3>
+          <p>Every earthquake the USGS has catalogued in the past day or week, fetched by your browser the moment you open the page. Circle size is magnitude, color is depth, and the three strongest pulse.</p>
+          <ul class="play-card__tech"><li>Live API</li><li>SVG</li><li>Open Data</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/earthquakes-live.html' ); ?>" target="_blank" rel="noopener">
+            Watch the planet
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
     </div>
   </div>
 </section>
