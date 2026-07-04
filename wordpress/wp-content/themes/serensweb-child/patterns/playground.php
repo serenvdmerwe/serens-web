@@ -204,6 +204,19 @@
             </a>
           </div>
         </article>
+
+        <article class="play-card">
+          <div class="play-card__viz play-card__viz--iris" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__body">
+            <h3>Design Token Re-themer</h3>
+            <p>Eight design tokens drive an entire mock landing page: drag the hue, swap the fonts, loosen the spacing, and watch it become a different site. Export the result as CSS custom properties or a WordPress theme.json fragment, with a live WCAG check keeping the palette honest.</p>
+            <ul class="play-card__tech"><li>Design Tokens</li><li>OKLCH</li><li>Accessibility</li></ul>
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/token-rethemer.html' ); ?>" target="_blank" rel="noopener">
+              Open the re-themer
+              <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+        </article>
       </div>
     </div>
 
@@ -228,7 +241,7 @@
 
     <div class="play-section" id="explainers">
       <h2>How the web works</h2>
-      <p class="play-blurb">Scrollytelling explainers on what actually happens between a click and a finished page.</p>
+      <p class="play-blurb">Explainers on what actually happens between a click and a finished page, and on how an AI-augmented build really runs.</p>
       <div class="play-grid">
         <article class="play-card">
           <div class="play-card__viz play-card__viz--gold" aria-hidden="true"><span>Live demo</span></div>
@@ -238,6 +251,19 @@
             <ul class="play-card__tech"><li>SVG</li><li>Scrollytelling</li><li>WordPress</li></ul>
             <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/wp-page-load.html' ); ?>" target="_blank" rel="noopener">
               Take the tour
+              <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+            </a>
+          </div>
+        </article>
+
+        <article class="play-card">
+          <div class="play-card__viz play-card__viz--inkwell" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__body">
+            <h3>The Agentic Build, Replayed</h3>
+            <p>How does an AI-augmented build actually run? Replay the reconstructed session behind the hurricane map one shelf over: the prompts, the tool calls, a failing script, the fix, the checks, and the pull request, at your own speed.</p>
+            <ul class="play-card__tech"><li>AI Workflow</li><li>Vanilla JS</li><li>Storytelling</li></ul>
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/build-replay.html' ); ?>" target="_blank" rel="noopener">
+              Press play
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
           </div>
