@@ -8,6 +8,7 @@
  *
  * functions.php is a thin loader. Real work lives in /includes:
  *   schema.php        JSON-LD structured data
+ *   faq.php           shared Q&A copy for the contact FAQ and its schema
  *   meta.php          document head: titles, descriptions, Open Graph, icons
  *   seo.php           llms.txt endpoint and sitemap pruning
  *   enqueue.php       front-end and editor asset registration
@@ -23,6 +24,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/includes/schema.php';
+require_once __DIR__ . '/includes/faq.php';
 require_once __DIR__ . '/includes/meta.php';
 require_once __DIR__ . '/includes/seo.php';
 require_once __DIR__ . '/includes/enqueue.php';
