@@ -8,6 +8,7 @@
  *
  * functions.php is a thin loader. Real work lives in /includes:
  *   schema.php        JSON-LD structured data
+ *   meta.php          document head: titles, descriptions, Open Graph, icons
  *   enqueue.php       front-end and editor asset registration
  *   patterns.php      block pattern registration
  *   ajax-contact.php  REST handler for the contact form (wp_mail)
@@ -21,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 require_once __DIR__ . '/includes/schema.php';
+require_once __DIR__ . '/includes/meta.php';
 require_once __DIR__ . '/includes/enqueue.php';
 require_once __DIR__ . '/includes/patterns.php';
 require_once __DIR__ . '/includes/ajax-contact.php';
