@@ -381,6 +381,9 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__viz--night { background: radial-gradient(130% 115% at 24% 18%, #9fc4ff, #33549e 48%, #142347 82%, #070b16); }
 .play-card__viz--radar { background: radial-gradient(130% 115% at 50% 85%, #6ef0a5, #1d9c55 48%, #0b4526 82%, #051408); }
 .play-card__viz--storm { background: radial-gradient(130% 115% at 78% 76%, #9fe8d8, #3f8c7c 48%, #1b4038 82%, #0a1412); }
+/* Batch 5 experiments. The iris card is multi-hue on purpose: it is the re-themer. */
+.play-card__viz--iris { background: radial-gradient(70% 70% at 20% 18%, #ff9ec7, transparent 60%), radial-gradient(70% 70% at 82% 26%, #8ad2ff, transparent 60%), radial-gradient(130% 115% at 50% 88%, #ffd98a, #7a4ad8 55%, #241539 85%, #120b1c); }
+.play-card__viz--inkwell { background: radial-gradient(55% 55% at 78% 22%, rgba(242,169,80,0.75), transparent 62%), radial-gradient(130% 115% at 28% 80%, #7fa8d8, #33517e 48%, #16263f 82%, #080e18); }
 
 /* Playground category sections and jump nav (one page, five sections). */
 .play-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }

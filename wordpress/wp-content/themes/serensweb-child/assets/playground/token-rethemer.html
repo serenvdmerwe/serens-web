@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Design Token Re-themer: restyle a whole page from eight tokens</title>
+<style>
+  @font-face {
+    font-family: "Geist";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+
+  /* ---------- inspector chrome (never re-themed) ---------- */
+  :root {
+    --chrome: #0c0c0f; --chrome-2: #121216; --line: #26262c;
+    --ink: #e8e8ec; --dim: #9a9aa6; --ui: #e8632e;
+    --mono: "Geist Mono", Consolas, monospace;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  html, body { height: 100%; }
+  body {
+    font-family: "Geist", "Segoe UI", system-ui, sans-serif;
+    background: var(--chrome); color: var(--ink);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+  :focus-visible { outline: 2px solid var(--ui); outline-offset: 2px; }
+
+  header.bar {
+    display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+    padding: 14px 18px 12px; border-bottom: 1px solid var(--line);
+  }
+  header.bar h1 { font-size: 16px; font-weight: 650; letter-spacing: -0.01em; }
+  header.bar p { font-size: 12.5px; color: var(--dim); }
+
+  main.app { flex: 1; display: flex; min-height: 0; }
+
+  /* panel */
+  aside.panel {
+    width: 328px; flex: none; overflow-y: auto; overscroll-behavior: contain;
+    background: var(--chrome-2); border-right: 1px solid var(--line);
+    padding: 16px 18px 26px;
+  }
+  .panel .intro { font-size: 12.5px; color: var(--dim); line-height: 1.55; }
+  .panel h2 {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--dim);
+    margin: 22px 0 2px; padding-top: 14px; border-top: 1px solid var(--line);
+  }
+  .chips { display: flex; flex-wrap: wrap; gap: 7px; margin-top: 10px; }
+  .chips button {
+    font: inherit; font-size: 12.5px; font-weight: 550; cursor: pointer;
+    padding: 7px 12px; border-radius: 999px; border: 1px solid var(--line);
+    background: transparent; color: var(--ink); touch-action: manipulation;
+  }
+  .chips button:hover { border-color: var(--dim); }
+  .chips button.on { background: var(--ui); border-color: var(--ui); color: #0c0c0f; }
+
+  .field { margin-top: 16px; }
+  .field > label, .field > .grouplabel {
+    display: flex; justify-content: space-between; align-items: baseline;
+    font-size: 13px; font-weight: 550;
+  }
+  .field output { font-family: var(--mono); font-size: 12px; color: var(--ui); }
+  .field input[type="range"] { width: 100%; margin-top: 8px; accent-color: var(--ui); }
+  .hue-strip {
+    height: 6px; border-radius: 3px; margin-top: 8px;
+    background: linear-gradient(90deg, hsl(0 70% 55%), hsl(60 70% 50%), hsl(120 60% 45%),
+      hsl(180 60% 45%), hsl(240 70% 60%), hsl(300 70% 60%), hsl(360 70% 55%));
+  }
+  .hue-strip + input[type="range"] { margin-top: 4px; }
+
+  .contrast { margin-top: 12px; border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; }
+  .contrast .row {
+    display: flex; justify-content: space-between; align-items: center; gap: 8px;
+    font-size: 12.5px; padding: 4px 0;
+  }
+  .contrast .row + .row { border-top: 1px dashed var(--line); }
+  .contrast .val { font-family: var(--mono); font-size: 12px; }
+  .badge {
+    font-family: var(--mono); font-size: 10.5px; font-weight: 700; letter-spacing: 0.06em;
+    padding: 2px 7px; border-radius: 4px;
+  }
+  .badge.pass { background: #12351f; color: #7fe0a5; }
+  .badge.fail { background: #3d1512; color: #ff9c8a; }
+
+  details.export { margin-top: 20px; border-top: 1px solid var(--line); padding-top: 14px; }
+  details.export summary {
+    cursor: pointer; font-family: var(--mono); font-size: 10.5px; font-weight: 600;
+    text-transform: uppercase; letter-spacing: 0.14em; color: var(--dim);
+  }
+  .export-block { margin-top: 12px; }
+  .export-block .head { display: flex; justify-content: space-between; align-items: center; }
+  .export-block .head span { font-size: 12px; font-weight: 600; }
+  .export-block .head button {
+    font: inherit; font-family: var(--mono); font-size: 11px; cursor: pointer;
+    padding: 4px 10px; border-radius: 6px; border: 1px solid var(--line);
+    background: transparent; color: var(--ink);
+  }
+  .export-block pre {
+    margin-top: 7px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px;
+    background: var(--chrome); overflow-x: auto;
+    font-family: var(--mono); font-size: 10.5px; line-height: 1.55; color: var(--dim);
+    max-height: 220px; overflow-y: auto;
+  }
+  .panel footer { margin-top: 22px; font-size: 11.5px; color: var(--dim); line-height: 1.6; }
+  .panel footer a { color: var(--ui); }
+  .reset { background: none; border: 0; padding: 0; font: inherit; font-size: 12.5px;
+    color: var(--dim); text-decoration: underline; cursor: pointer; }
+
+  /* artboard */
+  section.canvas {
+    flex: 1; min-width: 0; overflow: auto; overscroll-behavior: contain;
+    padding: 26px clamp(14px, 3vw, 40px) 60px;
+    background:
+      repeating-conic-gradient(#101014 0% 25%, #0c0c0f 0% 50%) 0 0 / 24px 24px;
+  }
+
+  /* ---------- the mock page: reads nothing but --mk-* tokens ---------- */
+  .mock {
+    max-width: 940px; margin: 0 auto;
+    background: var(--mk-bg); color: var(--mk-text);
+    font-family: var(--mk-body);
+    border-radius: calc(var(--mk-radius) + 4px);
+    box-shadow: 0 30px 80px -30px rgba(0,0,0,0.75);
+    overflow: hidden;
+    transition: background 0.25s, color 0.25s;
+  }
+  .mock * { transition: background 0.25s, color 0.25s, border-color 0.25s, border-radius 0.25s; }
+  @media (prefers-reduced-motion: reduce) {
+    .mock, .mock * { transition: none; }
+  }
+  .m-wrap { padding: 0 calc(var(--mk-space) * 2.2); }
+
+  .m-nav {
+    display: flex; align-items: center; gap: calc(var(--mk-space) * 1.4);
+    padding: calc(var(--mk-space) * 1.1) calc(var(--mk-space) * 2.2);
+    border-bottom: var(--mk-bw) solid var(--mk-border);
+  }
+  .m-logo { font-family: var(--mk-display); font-weight: 750; font-size: 19px; letter-spacing: -0.02em; }
+  .m-logo i { font-style: normal; color: var(--mk-accent); }
+  .m-nav .m-links { display: flex; gap: calc(var(--mk-space) * 1.2); margin-left: auto; font-size: 13.5px; color: var(--mk-muted); }
+  .m-btn {
+    display: inline-block; font-size: 13.5px; font-weight: 600; white-space: nowrap;
+    padding: calc(var(--mk-space) * 0.55) calc(var(--mk-space) * 1.1);
+    border-radius: var(--mk-radius);
+    background: var(--mk-accent); color: var(--mk-accent-ink);
+    border: var(--mk-bw) solid var(--mk-accent);
+  }
+  .m-btn--ghost { background: transparent; color: var(--mk-text); border-color: var(--mk-border); }
+
+  .m-hero {
+    display: grid; gap: calc(var(--mk-space) * 2); align-items: center;
+    padding: calc(var(--mk-space) * 3) calc(var(--mk-space) * 2.2);
+  }
+  @media (min-width: 1000px) { .m-hero { grid-template-columns: 1.2fr 0.8fr; } }
+  .m-badge {
+    display: inline-block; font-size: 11.5px; font-weight: 650; letter-spacing: 0.02em;
+    color: var(--mk-accent); border: var(--mk-bw) solid var(--mk-border);
+    border-radius: 999px; padding: 4px 11px; margin-bottom: calc(var(--mk-space) * 1);
+  }
+  .m-h1 {
+    font-family: var(--mk-display); font-size: var(--mk-h1); line-height: 1.06;
+    letter-spacing: -0.025em; font-weight: 760;
+  }
+  .m-lede { color: var(--mk-muted); font-size: 15.5px; line-height: 1.6; margin-top: calc(var(--mk-space) * 1); max-width: 46ch; }
+  .m-cta { display: flex; flex-wrap: wrap; gap: calc(var(--mk-space) * 0.7); margin-top: calc(var(--mk-space) * 1.5); }
+
+  .m-card {
+    background: var(--mk-surface); border: var(--mk-bw) solid var(--mk-border);
+    border-radius: var(--mk-radius); padding: calc(var(--mk-space) * 1.3);
+  }
+  .m-route .m-route-top { display: flex; justify-content: space-between; align-items: baseline; font-size: 13px; }
+  .m-route .m-route-top b { font-family: var(--mk-display); font-size: 15px; }
+  .m-route .m-route-top span { color: var(--mk-muted); font-size: 12px; }
+  .m-route svg { display: block; width: 100%; height: auto; margin-top: calc(var(--mk-space) * 0.8); }
+  .m-route .m-meta { display: flex; gap: calc(var(--mk-space) * 1); margin-top: calc(var(--mk-space) * 0.8); font-size: 12px; color: var(--mk-muted); }
+  .m-route .m-meta b { color: var(--mk-text); }
+
+  .m-feats {
+    display: grid; gap: calc(var(--mk-space) * 1); grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    padding: 0 calc(var(--mk-space) * 2.2) calc(var(--mk-space) * 2.6);
+  }
+  .m-feats .m-card h3 { font-family: var(--mk-display); font-size: var(--mk-h3); letter-spacing: -0.015em; margin-top: calc(var(--mk-space) * 0.7); }
+  .m-feats .m-card p { color: var(--mk-muted); font-size: 13.5px; line-height: 1.55; margin-top: calc(var(--mk-space) * 0.4); }
+  .m-ic {
+    width: 34px; height: 34px; border-radius: calc(var(--mk-radius) * 0.6);
+    background: var(--mk-surface-2); border: var(--mk-bw) solid var(--mk-border);
+    display: grid; place-items: center; color: var(--mk-accent);
+  }
+
+  .m-stats {
+    display: flex; flex-wrap: wrap; gap: calc(var(--mk-space) * 2.4);
+    padding: calc(var(--mk-space) * 1.6) calc(var(--mk-space) * 2.2);
+    border-block: var(--mk-bw) solid var(--mk-border); background: var(--mk-surface);
+  }
+  .m-stats div b { display: block; font-family: var(--mk-display); font-size: var(--mk-h2); letter-spacing: -0.02em; color: var(--mk-accent); }
+  .m-stats div span { font-size: 12.5px; color: var(--mk-muted); }
+
+  .m-price { display: grid; gap: calc(var(--mk-space) * 2); padding: calc(var(--mk-space) * 2.6) calc(var(--mk-space) * 2.2); align-items: center; }
+  @media (min-width: 1000px) { .m-price { grid-template-columns: 1fr 320px; } }
+  .m-price h2 { font-family: var(--mk-display); font-size: var(--mk-h2); letter-spacing: -0.02em; line-height: 1.12; }
+  .m-price > div > p { color: var(--mk-muted); font-size: 14px; line-height: 1.6; margin-top: calc(var(--mk-space) * 0.7); max-width: 44ch; }
+  .m-plan .m-amount { font-family: var(--mk-display); font-size: var(--mk-h2); }
+  .m-plan .m-amount span { font-size: 13px; color: var(--mk-muted); font-family: var(--mk-body); }
+  .m-plan ul { list-style: none; padding: 0; margin: calc(var(--mk-space) * 0.9) 0; }
+  .m-plan li { font-size: 13.5px; padding: calc(var(--mk-space) * 0.4) 0; border-top: 1px dashed var(--mk-border); }
+  .m-plan li::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--mk-accent); margin-right: 9px; }
+  .m-plan .m-btn { display: block; text-align: center; }
+
+  .m-foot {
+    display: flex; flex-wrap: wrap; gap: calc(var(--mk-space) * 1.5); justify-content: space-between;
+    padding: calc(var(--mk-space) * 1.3) calc(var(--mk-space) * 2.2);
+    border-top: var(--mk-bw) solid var(--mk-border);
+    font-size: 12px; color: var(--mk-muted);
+  }
+
+  /* mobile: artboard on top, panel as a bottom sheet */
+  @media (max-width: 860px) {
+    body { overflow: auto; }
+    main.app { flex-direction: column; }
+    aside.panel {
+      width: 100%; order: 2; border-right: 0; border-top: 1px solid var(--line);
+      max-height: none; border-radius: 18px 18px 0 0;
+    }
+    section.canvas { order: 1; flex: none; padding: 18px 12px 26px; }
+    header.bar p { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <h1>Design Token Re-themer</h1>
+  <p>Eight tokens in, a whole page out. Nothing on the artboard has a hardcoded style.</p>
+</header>
+
+<main class="app">
+  <aside class="panel" aria-label="Design tokens">
+    <p class="intro">Fernway, the page on the artboard, is a fictional walking app I made up
+      for this demo. Every color, font, size, corner, and gap it uses is derived from the
+      eight tokens below, the way I build real sites: decisions live in tokens, pages just
+      read them. My own site re-themes from a single accent token; this is the same idea
+      with all the dials exposed.</p>
+
+    <h2>Presets</h2>
+    <div class="chips" id="presets" role="group" aria-label="Theme presets">
+      <button type="button" data-p="midnight">Midnight</button>
+      <button type="button" data-p="paper">Paper</button>
+      <button type="button" data-p="terminal">Terminal</button>
+      <button type="button" data-p="sorbet">Sorbet</button>
+      <button type="button" data-p="concrete">Concrete</button>
+      <button type="button" id="shuffle">Shuffle</button>
+    </div>
+
+    <h2>Color</h2>
+    <div class="field">
+      <div class="grouplabel"><span id="mode-label">Mode</span></div>
+      <div class="chips" role="group" aria-labelledby="mode-label" id="mode">
+        <button type="button" data-v="dark">Dark</button>
+        <button type="button" data-v="light">Light</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="hue">Accent hue <output id="hue-out"></output></label>
+      <div class="hue-strip" aria-hidden="true"></div>
+      <input type="range" id="hue" min="0" max="359" step="1">
+    </div>
+    <div class="field">
+      <label for="sat">Accent strength <output id="sat-out"></output></label>
+      <input type="range" id="sat" min="0" max="100" step="1">
+    </div>
+
+    <h2>Typography</h2>
+    <div class="field">
+      <div class="grouplabel"><span id="pair-label">Font pairing</span></div>
+      <div class="chips" role="group" aria-labelledby="pair-label" id="pair">
+        <button type="button" data-v="grotesk">Grotesk</button>
+        <button type="button" data-v="editorial">Editorial</button>
+        <button type="button" data-v="system">System</button>
+        <button type="button" data-v="mono">Mono</button>
+      </div>
+    </div>
+    <div class="field">
+      <label for="scale">Type scale ratio <output id="scale-out"></output></label>
+      <input type="range" id="scale" min="1.125" max="1.333" step="0.001">
+    </div>
+
+    <h2>Shape and rhythm</h2>
+    <div class="field">
+      <label for="radius">Corner radius <output id="radius-out"></output></label>
+      <input type="range" id="radius" min="0" max="24" step="1">
+    </div>
+    <div class="field">
+      <label for="bw">Border width <output id="bw-out"></output></label>
+      <input type="range" id="bw" min="1" max="3" step="1">
+    </div>
+    <div class="field">
+      <div class="grouplabel"><span id="dens-label">Density</span></div>
+      <div class="chips" role="group" aria-labelledby="dens-label" id="dens">
+        <button type="button" data-v="compact">Compact</button>
+        <button type="button" data-v="comfortable">Comfortable</button>
+        <button type="button" data-v="airy">Airy</button>
+      </div>
+    </div>
+
+    <h2>Contrast check</h2>
+    <div class="contrast" aria-live="polite">
+      <div class="row"><span>Body text on background</span>
+        <span><span class="val" id="c-text"></span> <span class="badge" id="b-text"></span></span></div>
+      <div class="row"><span>Accent text on background</span>
+        <span><span class="val" id="c-accent"></span> <span class="badge" id="b-accent"></span></span></div>
+    </div>
+    <p class="intro" style="margin-top:8px;">A failing accent is flagged, not blocked.
+      That is the point of tokens: they are power tools, and the check is part of the tooling.
+      Shuffle only deals themes that pass.</p>
+
+    <details class="export">
+      <summary>Export tokens</summary>
+      <div class="export-block">
+        <div class="head"><span>CSS custom properties</span>
+          <button type="button" id="copy-css">Copy</button></div>
+        <pre id="out-css"></pre>
+      </div>
+      <div class="export-block">
+        <div class="head"><span>WordPress theme.json fragment</span>
+          <button type="button" id="copy-json">Copy</button></div>
+        <pre id="out-json"></pre>
+      </div>
+    </details>
+
+    <footer>
+      Built by Seren van der Merwe as a playground experiment. Colors are derived in OKLCH,
+      so every hue lands at the same perceived brightness, and the export is the whole theme:
+      any page that reads these custom properties re-skins itself.
+      Your last theme is saved in this browser. <button type="button" class="reset" id="reset">Reset it</button>.
+      <a href="/playground">Back to the playground</a>
+    </footer>
+  </aside>
+
+  <section class="canvas" aria-label="Preview artboard">
+    <div class="mock" id="mock" aria-hidden="true">
+      <div class="m-nav">
+        <span class="m-logo">Fern<i>way</i></span>
+        <span class="m-links"><span>Trails</span><span>Regions</span><span>Journal</span></span>
+        <span class="m-btn m-btn--ghost">Sign in</span>
+        <span class="m-btn">Get the app</span>
+      </div>
+
+      <div class="m-hero">
+        <div>
+          <span class="m-badge">New: winter trail notes</span>
+          <div class="m-h1">Know every path like a local</div>
+          <p class="m-lede">Fernway maps the quiet walking routes that road maps skip,
+            with offline directions, honest difficulty grades, and notes from people
+            who walked it last week.</p>
+          <div class="m-cta">
+            <span class="m-btn">Start exploring</span>
+            <span class="m-btn m-btn--ghost">See a sample trail</span>
+          </div>
+        </div>
+        <div class="m-card m-route">
+          <div class="m-route-top"><b>Silvermine Loop</b><span>saved offline</span></div>
+          <svg viewBox="0 0 260 90" fill="none" stroke-linecap="round">
+            <path d="M8 74 C 50 70, 62 30, 104 34 S 168 78, 200 56 S 240 18, 252 14"
+              stroke="var(--mk-border)" stroke-width="7"/>
+            <path d="M8 74 C 50 70, 62 30, 104 34 S 168 78, 200 56 S 240 18, 252 14"
+              stroke="var(--mk-accent)" stroke-width="2.5" stroke-dasharray="4 5"/>
+            <circle cx="8" cy="74" r="4" fill="var(--mk-accent)"/>
+            <circle cx="252" cy="14" r="4" fill="var(--mk-text)"/>
+          </svg>
+          <div class="m-meta"><span><b>6.4</b> km</span><span><b>2:10</b> h</span><span><b>easy</b> grade</span></div>
+        </div>
+      </div>
+
+      <div class="m-feats">
+        <div class="m-card">
+          <div class="m-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/><circle cx="12" cy="12" r="5"/></svg></div>
+          <h3>Offline first</h3>
+          <p>Whole regions download to your pocket, because the best trails are the ones without signal.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19h16M6 19V9l6-5 6 5v10"/></svg></div>
+          <h3>Local notes</h3>
+          <p>Short field notes from recent walkers: mud, gates, cows, and where the view actually is.</p>
+        </div>
+        <div class="m-card">
+          <div class="m-ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h3>Season aware</h3>
+          <p>Routes adjust for daylight and weather windows, so a summer stroll does not become a night hike.</p>
+        </div>
+      </div>
+
+      <div class="m-stats">
+        <div><b>120</b><span>regions mapped</span></div>
+        <div><b>38k</b><span>trail notes filed</span></div>
+        <div><b>9 of 10</b><span>walkers come back</span></div>
+      </div>
+
+      <div class="m-price">
+        <div>
+          <h2>Free to wander. Plus, when you roam.</h2>
+          <p>The free plan covers your home region forever. Fernway Plus adds every region,
+            unlimited offline maps, and printable route cards.</p>
+        </div>
+        <div class="m-card m-plan">
+          <div class="m-amount">$4 <span>per month, billed yearly</span></div>
+          <ul>
+            <li>All 120 regions</li>
+            <li>Unlimited offline maps</li>
+            <li>Printable route cards</li>
+            <li>Family sharing for four</li>
+          </ul>
+          <span class="m-btn">Go Plus</span>
+        </div>
+      </div>
+
+      <div class="m-foot">
+        <span>Fernway is a fictional product, styled live by design tokens.</span>
+        <span>Terms, privacy, and other links that go nowhere</span>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+"use strict";
+const $ = id => document.getElementById(id);
+const STORE = "sw-rethemer-v1";
+
+const PAIRS = {
+  grotesk:  { d: '"Geist", "Segoe UI", system-ui, sans-serif', b: '"Geist", "Segoe UI", system-ui, sans-serif' },
+  editorial:{ d: 'Georgia, "Times New Roman", serif',          b: '"Segoe UI", system-ui, sans-serif' },
+  system:   { d: 'system-ui, "Segoe UI", sans-serif',          b: 'system-ui, "Segoe UI", sans-serif' },
+  mono:     { d: '"Geist Mono", Consolas, monospace',          b: '"Geist", "Segoe UI", system-ui, sans-serif' }
+};
+const DENSITY = { compact: 0.8, comfortable: 1, airy: 1.25 };
+
+const PRESETS = {
+  midnight: { mode: "dark",  hue: 262, sat: 62, pair: "grotesk",   scale: 1.2,   radius: 14, bw: 1, dens: "comfortable" },
+  paper:    { mode: "light", hue: 28,  sat: 55, pair: "editorial", scale: 1.25,  radius: 4,  bw: 1, dens: "airy" },
+  terminal: { mode: "dark",  hue: 148, sat: 72, pair: "mono",      scale: 1.125, radius: 0,  bw: 2, dens: "compact" },
+  sorbet:   { mode: "light", hue: 341, sat: 78, pair: "grotesk",   scale: 1.333, radius: 24, bw: 1, dens: "airy" },
+  concrete: { mode: "light", hue: 264, sat: 14, pair: "system",    scale: 1.2,   radius: 2,  bw: 2, dens: "comfortable" }
+};
+
+let state = Object.assign({}, PRESETS.midnight);
+try {
+  const saved = JSON.parse(localStorage.getItem(STORE));
+  if (saved && PAIRS[saved.pair] && DENSITY[saved.dens]) state = saved;
+} catch (e) { /* fresh start */ }
+
+/* ---- OKLCH to sRGB. Math from the OKLab reference implementation. ---- */
+function oklch(L, C, H) {
+  const hr = H * Math.PI / 180;
+  const a = C * Math.cos(hr), b = C * Math.sin(hr);
+  let l = L + 0.3963377774 * a + 0.2158037573 * b;
+  let m = L - 0.1055613458 * a - 0.0638541728 * b;
+  let s = L - 0.0894841775 * a - 1.2914855480 * b;
+  l = l * l * l; m = m * m * m; s = s * s * s;
+  const lin = [
+     4.0767416621 * l - 3.3077115913 * m + 0.2309699292 * s,
+    -1.2684380046 * l + 2.6097574011 * m - 0.3413193965 * s,
+    -0.0041960863 * l - 0.7034186147 * m + 1.7076147010 * s
+  ];
+  return lin.map(c => {
+    c = Math.min(1, Math.max(0, c));
+    c = c <= 0.0031308 ? 12.92 * c : 1.055 * Math.pow(c, 1 / 2.4) - 0.055;
+    return Math.round(c * 255);
+  });
+}
+const rgb = c => "rgb(" + c[0] + ", " + c[1] + ", " + c[2] + ")";
+const hex = c => "#" + c.map(v => v.toString(16).padStart(2, "0")).join("");
+function lum(c) {
+  const f = v => { v /= 255; return v <= 0.03928 ? v / 12.92 : Math.pow((v + 0.055) / 1.055, 2.4); };
+  return 0.2126 * f(c[0]) + 0.7152 * f(c[1]) + 0.0722 * f(c[2]);
+}
+const ratio = (a, b) => {
+  const l1 = lum(a), l2 = lum(b);
+  return (Math.max(l1, l2) + 0.05) / (Math.min(l1, l2) + 0.05);
+};
+
+/* Palette derivation: fixed lightness recipe per mode, hue and chroma from the tokens.
+   The accent pairs with a fixed ink per mode (near-black on dark, near-white on light)
+   and its lightness is nudged until that pairing clears AA, whatever the hue. */
+function derive(s) {
+  const h = s.hue, C = 0.02 + (s.sat / 100) * 0.21;
+  const tint = Math.min(C, 0.03);
+  const dark = s.mode === "dark";
+  const ink = dark ? oklch(0.17, 0.01, h) : oklch(0.99, 0, h);
+  let L = dark ? 0.72 : 0.52;
+  let accent = oklch(L, C, h);
+  for (let i = 0; i < 24 && ratio(accent, ink) < 4.5; i++) {
+    L += dark ? 0.012 : -0.012;
+    accent = oklch(L, C, h);
+  }
+  if (dark) {
+    return {
+      bg: oklch(0.20, tint * 0.6, h), surface: oklch(0.24, tint * 0.7, h),
+      surface2: oklch(0.29, tint * 0.8, h), border: oklch(0.36, tint, h),
+      text: oklch(0.94, 0.01, h), muted: oklch(0.72, 0.02, h),
+      accent: accent, accentInk: ink
+    };
+  }
+  return {
+    bg: oklch(0.975, tint * 0.35, h), surface: oklch(0.995, tint * 0.15, h),
+    surface2: oklch(0.945, tint * 0.45, h), border: oklch(0.885, tint * 0.6, h),
+    text: oklch(0.26, 0.015, h), muted: oklch(0.51, 0.02, h),
+    accent: accent, accentInk: ink
+  };
+}
+
+function typeSizes(s) {
+  const r = s.scale, base = 16;
+  return { h1: Math.round(base * Math.pow(r, 4.2)), h2: Math.round(base * Math.pow(r, 3)), h3: Math.round(base * Math.pow(r, 1.6)) };
+}
+
+function setChips(groupId, value) {
+  document.querySelectorAll("#" + groupId + " button").forEach(b =>
+    b.classList.toggle("on", b.dataset.v === value));
+}
+function badge(el, ok) {
+  el.textContent = ok ? "AA pass" : "AA fail";
+  el.className = "badge " + (ok ? "pass" : "fail");
+}
+
+function exportCss(p, t, s) {
+  const dens = DENSITY[s.dens], pair = PAIRS[s.pair];
+  return [":root {",
+    "  --color-bg: " + rgb(p.bg) + ";",
+    "  --color-surface: " + rgb(p.surface) + ";",
+    "  --color-surface-2: " + rgb(p.surface2) + ";",
+    "  --color-border: " + rgb(p.border) + ";",
+    "  --color-text: " + rgb(p.text) + ";",
+    "  --color-muted: " + rgb(p.muted) + ";",
+    "  --color-accent: " + rgb(p.accent) + ";",
+    "  --color-accent-ink: " + rgb(p.accentInk) + ";",
+    "  --font-display: " + pair.d + ";",
+    "  --font-body: " + pair.b + ";",
+    "  --size-h1: " + t.h1 + "px;",
+    "  --size-h2: " + t.h2 + "px;",
+    "  --size-h3: " + t.h3 + "px;",
+    "  --radius: " + s.radius + "px;",
+    "  --border-width: " + s.bw + "px;",
+    "  --space-unit: " + (16 * dens) + "px;",
+    "}"].join("\n");
+}
+function exportJson(p, t) {
+  const pal = [["accent", p.accent], ["accent-ink", p.accentInk], ["background", p.bg],
+    ["surface", p.surface], ["surface-2", p.surface2], ["border", p.border],
+    ["text", p.text], ["muted", p.muted]];
+  return JSON.stringify({
+    settings: {
+      color: { palette: pal.map(x => ({ slug: x[0], name: x[0].replace(/-/g, " "), color: hex(x[1]) })) },
+      typography: { fontSizes: [
+        { slug: "medium", size: "16px", name: "Medium" },
+        { slug: "large", size: t.h3 + "px", name: "Large" },
+        { slug: "x-large", size: t.h2 + "px", name: "Extra Large" },
+        { slug: "xx-large", size: t.h1 + "px", name: "Huge" }
+      ] }
+    }
+  }, null, 2);
+}
+
+const mock = $("mock");
+function apply(fromPreset) {
+  const p = derive(state), t = typeSizes(state), pair = PAIRS[state.pair];
+  const set = (k, v) => mock.style.setProperty(k, v);
+  set("--mk-bg", rgb(p.bg)); set("--mk-surface", rgb(p.surface)); set("--mk-surface-2", rgb(p.surface2));
+  set("--mk-border", rgb(p.border)); set("--mk-text", rgb(p.text)); set("--mk-muted", rgb(p.muted));
+  set("--mk-accent", rgb(p.accent)); set("--mk-accent-ink", rgb(p.accentInk));
+  set("--mk-display", pair.d); set("--mk-body", pair.b);
+  set("--mk-h1", t.h1 + "px"); set("--mk-h2", t.h2 + "px"); set("--mk-h3", t.h3 + "px");
+  set("--mk-radius", state.radius + "px"); set("--mk-bw", state.bw + "px");
+  set("--mk-space", (16 * DENSITY[state.dens]) + "px");
+  document.body.style.setProperty("--ui", rgb(p.accent));
+
+  $("hue").value = state.hue; $("hue-out").textContent = state.hue + " deg";
+  $("sat").value = state.sat; $("sat-out").textContent = state.sat + "%";
+  $("scale").value = state.scale; $("scale-out").textContent = Number(state.scale).toFixed(3);
+  $("radius").value = state.radius; $("radius-out").textContent = state.radius + " px";
+  $("bw").value = state.bw; $("bw-out").textContent = state.bw + " px";
+  setChips("mode", state.mode); setChips("pair", state.pair); setChips("dens", state.dens);
+
+  const rText = ratio(p.text, p.bg), rAccent = ratio(p.accent, p.bg);
+  $("c-text").textContent = rText.toFixed(1) + ":1"; badge($("b-text"), rText >= 4.5);
+  $("c-accent").textContent = rAccent.toFixed(1) + ":1"; badge($("b-accent"), rAccent >= 4.5);
+
+  $("out-css").textContent = exportCss(p, t, state);
+  $("out-json").textContent = exportJson(p, t);
+
+  if (!fromPreset) document.querySelectorAll("#presets button").forEach(b => b.classList.remove("on"));
+  try { localStorage.setItem(STORE, JSON.stringify(state)); } catch (e) { /* private mode */ }
+}
+
+/* wiring */
+[["hue", "hue"], ["sat", "sat"], ["scale", "scale"], ["radius", "radius"], ["bw", "bw"]]
+  .forEach(([id, key]) => $(id).addEventListener("input", () => {
+    state[key] = id === "scale" ? parseFloat($(id).value) : parseInt($(id).value, 10);
+    apply(false);
+  }));
+[["mode", "mode"], ["pair", "pair"], ["dens", "dens"]].forEach(([id, key]) =>
+  $(id).addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b || !b.dataset.v) return;
+    state[key] = b.dataset.v; apply(false);
+  }));
+$("presets").addEventListener("click", e => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.id === "shuffle") return;
+  state = Object.assign({}, PRESETS[b.dataset.p]);
+  apply(true);
+  document.querySelectorAll("#presets button").forEach(x => x.classList.toggle("on", x === b));
+});
+$("shuffle").addEventListener("click", () => {
+  const pairs = Object.keys(PAIRS), dens = Object.keys(DENSITY);
+  for (let i = 0; i < 40; i++) {
+    state = {
+      mode: Math.random() < 0.5 ? "dark" : "light",
+      hue: Math.floor(Math.random() * 360),
+      sat: 15 + Math.floor(Math.random() * 86),
+      pair: pairs[Math.floor(Math.random() * pairs.length)],
+      scale: 1.125 + Math.random() * 0.208,
+      radius: Math.floor(Math.random() * 25),
+      bw: 1 + Math.floor(Math.random() * 3),
+      dens: dens[Math.floor(Math.random() * dens.length)]
+    };
+    const p = derive(state);
+    if (ratio(p.text, p.bg) >= 4.5 && ratio(p.accent, p.bg) >= 4.5) break;
+  }
+  apply(false);
+});
+$("reset").addEventListener("click", () => {
+  try { localStorage.removeItem(STORE); } catch (e) { /* ignore */ }
+  state = Object.assign({}, PRESETS.midnight);
+  apply(true);
+  document.querySelectorAll("#presets button").forEach(x => x.classList.toggle("on", x.dataset.p === "midnight"));
+});
+function wireCopy(btnId, preId) {
+  $(btnId).addEventListener("click", async () => {
+    const text = $(preId).textContent, b = $(btnId);
+    let ok = false;
+    try { await navigator.clipboard.writeText(text); ok = true; } catch (e) {
+      const ta = document.createElement("textarea");
+      ta.value = text; document.body.appendChild(ta); ta.select();
+      try { ok = document.execCommand("copy"); } catch (e2) { /* leave ok false */ }
+      ta.remove();
+    }
+    b.textContent = ok ? "Copied" : "Select and copy";
+    setTimeout(() => { b.textContent = "Copy"; }, 1600);
+  });
+}
+wireCopy("copy-css", "out-css");
+wireCopy("copy-json", "out-json");
+
+apply(true);
+</script>
+</body>
+</html>

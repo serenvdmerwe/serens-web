@@ -81,7 +81,7 @@ Layout: a session log pane (the star) plus a status rail.
   command lines (docker compose exec, wp pattern checks, curl render checks, the PHP
   HURDAT2 processing script), their condensed output, a failing check, the fix, the
   passing rerun, commits, and the PR. Each event is a typed line or block with an
-  actor tag (Seren, Claude, terminal). About 60 to 80 events across the whole run.
+  actor tag (Seren, Claude, terminal). About fifty events across the whole run.
 - The status rail shows the current phase (Brief, Spec, Data, Build, Verify, Ship)
   as a stepped progress list, a small file tree where touched files light up, and a
   commit strip that grows as commits land.
