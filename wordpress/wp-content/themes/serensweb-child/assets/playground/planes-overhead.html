@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Planes overhead: a live radar scope for your patch of sky</title>
+<style>
+  @font-face {
+    font-family: "Geist Mono";
+    src: url("/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.ttf") format("truetype");
+    font-weight: 100 900; font-display: swap;
+  }
+  :root {
+    --bg: #041008; --panel: #07180c; --line: #12351d;
+    --ink: #d3f5dd; --muted: #79a888; --phos: #3ef58c;
+    --amber: #ffd166;
+  }
+  * { box-sizing: border-box; margin: 0; }
+  body {
+    font-family: "Geist Mono", Consolas, monospace;
+    background: var(--bg); color: var(--ink);
+    min-height: 100vh; padding: 26px 16px 60px;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .wrap { width: 100%; max-width: 860px; }
+  h1 { font-size: clamp(22px, 4.4vw, 34px); font-weight: 700; letter-spacing: -0.01em; line-height: 1.15; }
+  h1 em { font-style: normal; color: var(--phos); }
+  p.sub { color: var(--muted); margin-top: 8px; font-size: clamp(13px, 2.1vw, 15px); line-height: 1.65; max-width: 62ch; }
+
+  .bar { display: flex; gap: 10px; margin: 16px 0 10px; flex-wrap: wrap; align-items: center; }
+  .bar button {
+    font: inherit; font-size: 13.5px; font-weight: 650; cursor: pointer; touch-action: manipulation;
+    background: var(--phos); color: #04270f; border: 0; border-radius: 999px; padding: 10px 20px;
+  }
+  .bar .stamp { font-size: 11px; color: var(--muted); margin-left: auto; }
+  :focus-visible { outline: 2px solid var(--phos); outline-offset: 2px; }
+
+  .scope-box { display: grid; place-items: center; background: radial-gradient(90% 90% at 50% 45%, #06200f 0%, var(--bg) 75%); border: 1px solid var(--line); border-radius: 16px; padding: 12px; }
+  svg { display: block; width: 100%; max-width: 720px; height: auto; }
+  .ring { fill: none; stroke: var(--line); stroke-width: 1.4; }
+  .tick { stroke: var(--line); stroke-width: 1; }
+  .rlab { font-size: 13px; fill: var(--muted); }
+  .sweep { fill: url(#sweepGrad); transform-origin: 400px 400px; animation: spin 6s linear infinite; pointer-events: none; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .sweep { display: none; } }
+  .plane { fill: var(--phos); cursor: pointer; }
+  .plane.hot { fill: var(--amber); filter: drop-shadow(0 0 6px var(--amber)); }
+  .plab { font-size: 11px; fill: var(--muted); pointer-events: none; }
+  .center { fill: var(--amber); }
+
+  .panel {
+    margin-top: 12px; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 12px; padding: 14px 16px; min-height: 88px; font-size: 13.5px;
+  }
+  .panel h2 { font-size: 16px; font-weight: 700; color: var(--phos); }
+  .panel p { color: var(--muted); margin-top: 6px; line-height: 1.65; }
+  .panel b { color: var(--ink); }
+  .panel button { font: inherit; font-size: 13px; font-weight: 650; cursor: pointer; margin-top: 10px; background: var(--phos); color: #04270f; border: 0; border-radius: 999px; padding: 8px 18px; }
+
+  footer { margin-top: 22px; color: var(--muted); font-size: 12px; line-height: 1.65; max-width: 72ch; }
+  footer a { color: var(--phos); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>planes <em>overhead</em></h1>
+  <p class="sub">Every aircraft transmitting within 150 nautical miles, on a scope that refreshes while you watch. The pins take a small detour on their way here: browser to this site's own WordPress REST API, which fetches the flight data server-side, caches it for fifteen seconds, and hands back a trimmed list. The aggregators do not allow browsers to call them directly, so WordPress is quietly the radar's backend.</p>
+
+  <div class="bar">
+    <button id="locate" type="button">Center on me</button>
+    <span class="stamp" id="stamp">warming up&hellip;</span>
+  </div>
+
+  <div class="scope-box">
+    <svg viewBox="0 0 800 800" role="img" aria-label="Radar-style scope showing live aircraft near the chosen center">
+      <defs>
+        <linearGradient id="sweepGrad" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0" stop-color="#3ef58c" stop-opacity="0.16"/>
+          <stop offset="1" stop-color="#3ef58c" stop-opacity="0"/>
+        </linearGradient>
+      </defs>
+      <g id="rings"></g>
+      <path class="sweep" d="M400,400 L800,400 A400,400 0 0 0 730,180 Z"/>
+      <circle class="center" cx="400" cy="400" r="4"/>
+      <g id="planes"></g>
+    </svg>
+  </div>
+
+  <div class="panel" id="panel" aria-live="polite">
+    <h2 id="pTitle">scanning</h2>
+    <p id="pBody">Starting over False Bay, Cape Town. Tap <b>Center on me</b> to move the scope to your sky; your position goes to this site's endpoint only to pick the search area, and is not stored.</p>
+  </div>
+
+  <footer>Flight data by the adsb.lol community network of volunteer ADS-B receivers, relayed through this site's theme REST endpoint (wp-json/serensweb/v1/planes, zero plugins). Coverage depends on volunteer receivers nearby: an empty ocean scope is usually honest, an empty city scope usually means a gap in coverage. Positions are as transmitted by the aircraft. Built by Seren van der Merwe. <a href="/playground">Back to the playground</a></footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const NS = "http://www.w3.org/2000/svg";
+const SCALE = 380 / 150; /* px per nautical mile */
+let center = { lat: -33.97, lon: 18.6, label: "False Bay, Cape Town" };
+let planes = [], timer = null;
+
+(function rings() {
+  const g = $("rings");
+  for (const nm of [50, 100, 150]) {
+    const c = document.createElementNS(NS, "circle");
+    c.setAttribute("class", "ring");
+    c.setAttribute("cx", 400); c.setAttribute("cy", 400);
+    c.setAttribute("r", nm * SCALE);
+    g.appendChild(c);
+    const t = document.createElementNS(NS, "text");
+    t.setAttribute("class", "rlab");
+    t.setAttribute("x", 406); t.setAttribute("y", 400 - nm * SCALE + 16);
+    t.textContent = nm + " nm";
+    g.appendChild(t);
+  }
+  for (let a = 0; a < 360; a += 30) {
+    const r = a * Math.PI / 180;
+    const l = document.createElementNS(NS, "line");
+    l.setAttribute("class", "tick");
+    l.setAttribute("x1", 400 + Math.sin(r) * 372); l.setAttribute("y1", 400 - Math.cos(r) * 372);
+    l.setAttribute("x2", 400 + Math.sin(r) * 380); l.setAttribute("y2", 400 - Math.cos(r) * 380);
+    g.appendChild(l);
+  }
+})();
+
+function toXY(p) {
+  const dxNm = (p.lon - center.lon) * 60 * Math.cos(center.lat * Math.PI / 180);
+  const dyNm = (p.lat - center.lat) * 60;
+  return { x: 400 + dxNm * SCALE, y: 400 - dyNm * SCALE, nm: Math.sqrt(dxNm * dxNm + dyNm * dyNm) };
+}
+function draw() {
+  const g = $("planes");
+  g.innerHTML = "";
+  let shown = 0;
+  planes.forEach((p, i) => {
+    const pos = toXY(p);
+    if (pos.nm > 150) return;
+    shown++;
+    const m = document.createElementNS(NS, "path");
+    m.setAttribute("class", "plane");
+    m.setAttribute("d", "M0,-9 L6,7 L0,3 L-6,7 Z");
+    m.setAttribute("transform", "translate(" + pos.x.toFixed(1) + "," + pos.y.toFixed(1) + ") rotate(" + (p.track || 0) + ")");
+    m.dataset.i = i;
+    g.appendChild(m);
+    if (p.flight) {
+      const t = document.createElementNS(NS, "text");
+      t.setAttribute("class", "plab");
+      t.setAttribute("x", pos.x + 10); t.setAttribute("y", pos.y + 4);
+      t.textContent = p.flight;
+      g.appendChild(t);
+    }
+  });
+  return shown;
+}
+function showPlane(i) {
+  const p = planes[i];
+  document.querySelectorAll(".plane.hot").forEach(e => e.classList.remove("hot"));
+  const el = document.querySelector('.plane[data-i="' + i + '"]');
+  if (el) el.classList.add("hot");
+  const alt = p.alt === "ground" ? "on the ground" : p.alt ? p.alt.toLocaleString("en-US") + " ft" : "altitude unknown";
+  const spd = p.gs ? Math.round(p.gs * 1.852) + " km/h" : "speed unknown";
+  $("pTitle").textContent = (p.flight || p.reg || p.hex) + (p.type ? "  [" + p.type + "]" : "");
+  $("pBody").innerHTML = "<b>" + alt + "</b>, " + spd +
+    (p.track !== null ? ", heading " + p.track + " degrees" : "") +
+    (p.reg && p.flight ? ", registration " + p.reg : "") + ".";
+}
+$("planes").addEventListener("click", e => {
+  const m = e.target.closest(".plane");
+  if (m) showPlane(Number(m.dataset.i));
+});
+
+async function load() {
+  try {
+    const res = await fetch("/wp-json/serensweb/v1/planes?lat=" + center.lat.toFixed(3) + "&lon=" + center.lon.toFixed(3));
+    if (!res.ok) throw new Error("HTTP " + res.status);
+    const data = await res.json();
+    planes = data.planes || [];
+    const shown = draw();
+    $("stamp").textContent = shown + " aircraft on scope, " + (data.cached ? "shared cache" : "fresh fetch") + ", " + new Date().toLocaleTimeString();
+    if (!document.querySelector(".plane.hot")) {
+      $("pTitle").textContent = shown ? "contact" : "clear sky";
+      $("pBody").innerHTML = shown
+        ? "Tracking <b>" + shown + "</b> aircraft around " + center.label + ". Tap any blip for its details."
+        : "No transmitting aircraft on scope around " + center.label + " right now, or no volunteer receiver covers this area.";
+    }
+  } catch (err) {
+    $("pTitle").textContent = "no contact";
+    $("pBody").innerHTML = 'The flight endpoint did not answer (' + err.message + '). <button type="button" id="retry">Try again</button>';
+    $("retry").onclick = load;
+  }
+}
+function start() {
+  clearInterval(timer);
+  load();
+  timer = setInterval(load, 20000);
+}
+$("locate").onclick = () => {
+  if (!navigator.geolocation) return;
+  navigator.geolocation.getCurrentPosition(pos => {
+    center = { lat: pos.coords.latitude, lon: pos.coords.longitude, label: "your position" };
+    document.querySelectorAll(".plane.hot").forEach(e => e.classList.remove("hot"));
+    start();
+  }, () => {
+    $("pBody").innerHTML = "Permission declined, staying over " + center.label + ". The scope works anywhere; your sky just stays private.";
+  }, { timeout: 10000, maximumAge: 600000 });
+};
+start();
+</script>
+</body>
+</html>
