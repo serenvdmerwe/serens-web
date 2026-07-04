@@ -42,7 +42,7 @@
               "fontStyle": "normal",
               "fontWeight": "100 900",
               "fontDisplay": "swap",
-              "src": [ "file:./assets/fonts/Geist-Variable.ttf" ]
+              "src": [ "file:./assets/fonts/Geist-Variable.woff2" ]
             }
           ]
         },
@@ -56,7 +56,7 @@
               "fontStyle": "normal",
               "fontWeight": "100 900",
               "fontDisplay": "swap",
-              "src": [ "file:./assets/fonts/GeistMono-Variable.ttf" ]
+              "src": [ "file:./assets/fonts/GeistMono-Variable.woff2" ]
             }
           ]
         }

@@ -1,12 +1,12 @@
 /* Aptitude Trainer service worker: cache-first so the app works offline. */
-const CACHE = "swapt-v1";
+const CACHE = "swapt-v2";
 const CORE = [
   "./index.html",
   "./manifest.webmanifest",
   "./icon-192.png",
   "./icon-512.png",
-  "/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.ttf",
-  "/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.ttf"
+  "/wp-content/themes/serensweb-child/assets/fonts/Geist-Variable.woff2",
+  "/wp-content/themes/serensweb-child/assets/fonts/GeistMono-Variable.woff2"
 ];
 
 self.addEventListener("install", e => {
