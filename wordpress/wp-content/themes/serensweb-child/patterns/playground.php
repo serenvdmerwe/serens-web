@@ -105,6 +105,19 @@
       </article>
 
       <article class="play-card">
+        <div class="play-card__viz play-card__viz--cable" aria-hidden="true"><span>Live demo</span></div>
+        <div class="play-card__body">
+          <h3>How South Africa Reaches the Internet</h3>
+          <p>Six submarine cables connect this country to the web. Tap each one for its story, then relive the day in March 2024 when the west coast went dark and the east coast quietly carried the load.</p>
+          <ul class="play-card__tech"><li>SVG</li><li>Storytelling</li><li>Infrastructure</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/submarine-cables.html' ); ?>" target="_blank" rel="noopener">
+            Follow the cables
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
         <div class="play-card__viz play-card__viz--teal" aria-hidden="true"><span>Installable app</span></div>
         <div class="play-card__body">
           <h3>Aptitude Trainer</h3>
