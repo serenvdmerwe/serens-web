@@ -76,7 +76,7 @@ wordpress/wp-content/themes/serensweb-child/
 └── assets/
     ├── css/            # tokens.css -> theme.css -> child style.css
     ├── js/             # site-chrome.js, reveal.js (global); work.js, contact-form.js, engage.js (guarded)
-    ├── fonts/          # Geist-Variable.ttf, GeistMono-Variable.ttf (self-hosted, OFL bundled)
+    ├── fonts/          # Geist-Variable.woff2, GeistMono-Variable.woff2 (self-hosted, OFL bundled)
     └── images/         # logo.svg and other motifs
 ```
 

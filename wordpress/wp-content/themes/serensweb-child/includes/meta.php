@@ -23,7 +23,12 @@ add_action( 'do_faviconico', static function () {
 } );
 
 add_action( 'wp_head', static function () {
-	$img_base = get_stylesheet_directory_uri() . '/assets/images';
+	$assets   = get_stylesheet_directory_uri() . '/assets';
+	$img_base = $assets . '/images';
+
+	// Start the primary font download with the page instead of after the CSS.
+	// crossorigin is required on font preloads even for same-origin files.
+	printf( '<link rel="preload" href="%s/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />' . "\n", esc_url( $assets ) );
 
 	// Icons: SVG for modern browsers, ICO fallback, touch icon for home screens.
 	printf( '<link rel="icon" href="%s/favicon.svg" type="image/svg+xml" />' . "\n", esc_url( $img_base ) );

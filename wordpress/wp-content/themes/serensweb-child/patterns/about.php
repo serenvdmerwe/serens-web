@@ -30,7 +30,7 @@
 <section class="section section--light">
   <div class="wrap about-page__grid">
     <div class="about-page__photo">
-      <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/seren-portrait.webp' ); ?>" width="1440" height="1440" alt="Seren van der Merwe" loading="lazy" decoding="async" />
+      <img src="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/images/seren-portrait.webp' ); ?>" width="960" height="960" alt="Seren van der Merwe" loading="lazy" decoding="async" />
     </div>
     <div class="about-page__copy">
       <p class="about__statement">Strategy, design and code from one <em>accountable developer.</em></p>
