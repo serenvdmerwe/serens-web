@@ -105,6 +105,19 @@
       </article>
 
       <article class="play-card">
+        <div class="play-card__viz play-card__viz--teal" aria-hidden="true"><span>Installable app</span></div>
+        <div class="play-card__body">
+          <h3>Aptitude Trainer</h3>
+          <p>An installable app that generates endless matrix logic, number sequence, and mental rotation puzzles on your device, with difficulty that adapts to you. Works fully offline once installed. It trains test patterns; it does not measure intelligence.</p>
+          <ul class="play-card__tech"><li>PWA</li><li>Service Worker</li><li>Offline</li></ul>
+          <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/aptitude-trainer/index.html' ); ?>" target="_blank" rel="noopener">
+            Open the trainer
+            <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <article class="play-card">
         <div class="play-card__viz play-card__viz--clay" aria-hidden="true"><span>Live demo</span></div>
         <div class="play-card__body">
           <h3>AI Feature Cost Estimator</h3>
