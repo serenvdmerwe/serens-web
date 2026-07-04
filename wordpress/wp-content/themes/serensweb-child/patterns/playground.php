@@ -42,8 +42,8 @@
       <article class="play-card">
         <div class="play-card__viz" aria-hidden="true"><span>Live demo</span></div>
         <div class="play-card__body">
-          <h3>Florida Risk Explorer</h3>
-          <p>Pick a natural hazard, then tap any Florida county to see its risk, color-coded green (safest) to red (riskiest), with a full report card across every hazard. Built on public data from FEMA, NOAA, and state agencies.</p>
+          <h3>Risk Explorer: Florida and Cape Town</h3>
+          <p>Two cities, one explorer. Tap any Florida county for its hazard report card built on FEMA and NOAA data, or switch to Cape Town and read the Mother City through its own open data: fire station cover, wetlands, and property valuations for 777 suburbs.</p>
           <ul class="play-card__tech"><li>Vanilla JS</li><li>Interactive Map</li><li>Open Data</li></ul>
           <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/florida-risk-explorer.html' ); ?>" target="_blank" rel="noopener">
             Open the live map
