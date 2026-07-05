@@ -104,7 +104,7 @@ add_action( 'wp_head', static function () {
 	// serensweb_faq_items(). Google reserves FAQ rich results for authority
 	// sites these days; the point here is answer engines quoting exact
 	// first person answers.
-	if ( is_page( 'contact' ) && function_exists( 'serensweb_faq_items' ) ) {
+	if ( is_page( 'contact' ) ) {
 		$questions = [];
 		foreach ( serensweb_faq_items() as $question => $answer ) {
 			$questions[] = [
