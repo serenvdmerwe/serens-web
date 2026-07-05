@@ -443,6 +443,11 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
    bottom-pinned full-width CTA lands on a common baseline whatever the copy. */
 .play-grid { align-items: stretch; }
 .play-grid > .play-card { display: grid; grid-template-rows: auto 1fr; }
+/* Force the body to a real column and pin the CTA to its base. An upstream
+   rule (outside this stylesheet) was flattening the body, making margin-top:auto
+   a no-op and stranding the button mid-card; !important guarantees it wins. */
+.play-grid > .play-card > .play-card__body { display: flex !important; flex-direction: column !important; }
+.play-grid > .play-card > .play-card__body > .btn { margin-top: auto !important; }
 
 /* Project single (single-project): one dark band carries the type label,
    title, full-width site screenshot, body copy, tags, and footer links. */
