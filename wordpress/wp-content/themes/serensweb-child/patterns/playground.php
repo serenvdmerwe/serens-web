@@ -49,6 +49,20 @@
     <div class="play-section" id="maps">
       <h2>Interactive maps and data stories</h2>
       <p class="play-blurb">Live feeds, open government data, and browser APIs turned into maps you can poke: hurricanes, earthquakes, aircraft, the Space Station, the sun, and the wind.</p>
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+        <defs>
+          <filter id="play-glow" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="1.8"/></filter>
+          <g id="play-grid-lines" fill="none" stroke="currentColor" stroke-width="1">
+            <path d="M53 6 Q44 100 53 194"/><path d="M107 6 Q101 100 107 194"/><path d="M160 6 L160 194"/>
+            <path d="M213 6 Q219 100 213 194"/><path d="M267 6 Q276 100 267 194"/>
+            <path d="M6 48 Q160 42 314 48"/><path d="M6 84 Q160 79 314 84"/><path d="M6 120 Q160 115 314 120"/><path d="M6 156 Q160 151 314 156"/>
+          </g>
+          <symbol id="play-grid" viewBox="0 0 320 200">
+            <use href="#play-grid-lines" filter="url(#play-glow)" opacity="0.55"/>
+            <use href="#play-grid-lines" opacity="0.32"/>
+          </symbol>
+        </defs>
+      </svg>
       <div class="play-grid">
         <article class="play-card">
           <div class="play-card__viz" aria-hidden="true"><span>Live demo</span></div>
