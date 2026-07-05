@@ -385,6 +385,41 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__viz--iris { background: radial-gradient(70% 70% at 20% 18%, #ff9ec7, transparent 60%), radial-gradient(70% 70% at 82% 26%, #8ad2ff, transparent 60%), radial-gradient(130% 115% at 50% 88%, #ffd98a, #7a4ad8 55%, #241539 85%, #120b1c); }
 .play-card__viz--inkwell { background: radial-gradient(55% 55% at 78% 22%, rgba(242,169,80,0.75), transparent 62%), radial-gradient(130% 115% at 28% 80%, #7fa8d8, #33517e 48%, #16263f 82%, #080e18); }
 
+/* Playground card motifs: motif cards drop to a dark, near-black canvas with a
+   shared glowing grid (pulled in with <use>) drawn in the live accent colour.
+   The accent switcher rewrites --color-primary on :root, and `color` inherits
+   into the shadow-cloned <use> content, so the grid re-themes with the site
+   with no JavaScript. Each card's own motif sits on top. Motion is gated to
+   hover/focus and off for reduced-motion, so idle cost is zero. */
+.play-card__viz { position: relative; }
+.play-card__viz:has(.play-motif) { background: radial-gradient(130% 115% at 50% 0%, #15171f 0%, #06070b 72%); }
+.play-motif { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--color-primary); }
+.play-card__viz span { position: relative; z-index: 2; }
+@keyframes play-spin { to { transform: rotate(360deg); } }
+@keyframes play-orbit { to { offset-distance: 100%; } }
+@keyframes play-breathe { 50% { opacity: 0.85; } }
+@keyframes play-drift { to { transform: translateX(20px); } }
+@keyframes play-blink { 50% { opacity: 0; } }
+@keyframes play-track { to { transform: translateX(230px); } }
+.play-motif .anim { animation-play-state: paused; }
+.play-card:hover .play-motif .anim,
+.play-card:focus-within .play-motif .anim { animation-play-state: running; }
+.play-motif--radar .sweep { transform-box: view-box; transform-origin: 160px 100px; animation: play-spin 4.2s linear infinite; }
+.play-motif--blue .eye { transform-box: view-box; transform-origin: 214px 88px; animation: play-spin 7s linear infinite; }
+.play-motif--night .iss { offset-path: path('M50 100 A110 46 0 1 1 270 100 A110 46 0 1 1 50 100'); animation: play-orbit 6s linear infinite; }
+.play-motif--cable .pulse { offset-path: path('M64 150 C120 120 200 92 300 74'); animation: play-orbit 5s linear infinite; }
+.play-motif--dawn .glow { animation: play-breathe 3.4s ease-in-out infinite; }
+.play-motif--storm .streaks { animation: play-drift 3.6s ease-in-out infinite alternate; }
+.play-motif--primary .ping { animation: play-breathe 2.6s ease-in-out infinite; }
+.play-motif--violet .choice { animation: play-breathe 2s ease-in-out infinite; }
+.play-motif--green .caret { animation: play-blink 1s steps(1) infinite; }
+.play-motif--clay .knob { animation: play-drift 2.4s ease-in-out infinite alternate; }
+.play-motif--iris .knob { animation: play-drift 3s ease-in-out infinite alternate; }
+.play-motif--teal .q { animation: play-breathe 2s ease-in-out infinite; }
+.play-motif--gold .packet { animation: play-track 3s linear infinite; }
+.play-motif--inkwell .head { animation: play-track 3.4s linear infinite; }
+@media (prefers-reduced-motion: reduce) { .play-motif .anim { animation: none !important; } }
+
 /* Playground category sections and jump nav (one page, five sections). */
 .play-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .play-nav a {
@@ -401,7 +436,18 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__tech { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
 .play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;
   border-radius: var(--r-pill); background: var(--color-white); border: 1px solid var(--color-smoke-2); color: var(--color-text-dark); }
-.play-card .btn { margin-top: auto; align-self: flex-start; }
+.play-card .btn { margin-top: auto; width: 100%; justify-content: center; }
+/* Cards in a row share the row's height via the grid's default stretch. Each
+   card is then its own 2-row grid (viz, then body as 1fr) so the body fills all
+   remaining height deterministically, no reliance on flex-grow, and the
+   bottom-pinned full-width CTA lands on a common baseline whatever the copy. */
+.play-grid { align-items: stretch; }
+.play-grid > .play-card { display: grid; grid-template-rows: auto 1fr; }
+/* Force the body to a real column and pin the CTA to its base. An upstream
+   rule (outside this stylesheet) was flattening the body, making margin-top:auto
+   a no-op and stranding the button mid-card; !important guarantees it wins. */
+.play-grid > .play-card > .play-card__body { display: flex !important; flex-direction: column !important; }
+.play-grid > .play-card > .play-card__body > .btn { margin-top: auto !important; }
 
 /* Project single (single-project): one dark band carries the type label,
    title, full-width site screenshot, body copy, tags, and footer links. */
