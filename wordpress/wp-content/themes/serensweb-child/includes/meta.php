@@ -26,6 +26,11 @@ add_action( 'wp_head', static function () {
 	$assets   = get_stylesheet_directory_uri() . '/assets';
 	$img_base = $assets . '/images';
 
+	// Google Search Console site ownership (URL-prefix property). Bing imports
+	// this verified property, so one tag covers both engines. DNS TXT is the
+	// alternative; the meta tag keeps ownership reproducible in the theme.
+	echo '<meta name="google-site-verification" content="7iBbMdsOS0Kno1VsKJTJ4DrMkqBmmt57TBqeAFjLYKs" />' . "\n";
+
 	// Start the primary font download with the page instead of after the CSS.
 	// crossorigin is required on font preloads even for same-origin files.
 	printf( '<link rel="preload" href="%s/fonts/Geist-Variable.woff2" as="font" type="font/woff2" crossorigin />' . "\n", esc_url( $assets ) );
