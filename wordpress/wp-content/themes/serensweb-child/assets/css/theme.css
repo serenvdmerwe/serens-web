@@ -436,7 +436,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__tech { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 18px; }
 .play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;
   border-radius: var(--r-pill); background: var(--color-white); border: 1px solid var(--color-smoke-2); color: var(--color-text-dark); }
-.play-card .btn { margin-top: auto; align-self: flex-end; min-width: min(15rem, 100%); justify-content: center; }
+.play-card .btn { margin-top: auto; align-self: flex-start; }
 
 /* Project single (single-project): one dark band carries the type label,
    title, full-width site screenshot, body copy, tags, and footer links. */
