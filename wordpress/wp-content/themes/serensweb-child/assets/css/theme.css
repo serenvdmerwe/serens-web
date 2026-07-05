@@ -437,10 +437,12 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__tech li { font-family: var(--font-mono); font-size: 12px; padding: 6px 11px;
   border-radius: var(--r-pill); background: var(--color-white); border: 1px solid var(--color-smoke-2); color: var(--color-text-dark); }
 .play-card .btn { margin-top: auto; width: 100%; justify-content: center; }
-/* Cards in a row share the row's height via the grid's default stretch (kept
-   auto-height, since a fixed height cancels stretch), so their bottom-pinned,
-   full-width CTAs line up on a common baseline whatever the copy length. */
+/* Cards in a row share the row's height via the grid's default stretch. Each
+   card is then its own 2-row grid (viz, then body as 1fr) so the body fills all
+   remaining height deterministically, no reliance on flex-grow, and the
+   bottom-pinned full-width CTA lands on a common baseline whatever the copy. */
 .play-grid { align-items: stretch; }
+.play-grid > .play-card { display: grid; grid-template-rows: auto 1fr; }
 
 /* Project single (single-project): one dark band carries the type label,
    title, full-width site screenshot, body copy, tags, and footer links. */
