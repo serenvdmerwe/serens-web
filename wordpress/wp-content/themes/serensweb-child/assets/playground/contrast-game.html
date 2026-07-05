@@ -93,6 +93,10 @@
   details { margin-top: 18px; color: var(--muted); font-size: 14px; line-height: 1.65; max-width: 60ch; }
   details summary { cursor: pointer; color: var(--ink); font-weight: 600; }
   details code { font-family: var(--mono); font-size: 12.5px; color: var(--hot); }
+  details ol { margin: 8px 0 0; padding-left: 20px; }
+  details li { margin-top: 5px; }
+  details li b { color: var(--ink); }
+  details + details { margin-top: 10px; }
   footer { margin-top: 26px; color: var(--muted); font-size: 12.5px; max-width: 60ch; line-height: 1.6; }
   footer a { color: var(--hot); }
 </style>
@@ -134,6 +138,16 @@
     <p id="finalNote"></p>
     <button id="again" type="button">Play again</button>
   </div>
+
+  <details open>
+    <summary>How to play</summary>
+    <ol>
+      <li>Press <b>Start the run</b>. Each round the fuse bar across the top burns down in about six seconds.</li>
+      <li>Read the sample and decide: is the text readable enough to pass WCAG AA (a ratio of at least 4.5 to 1)?</li>
+      <li>Call it before the fuse runs out: <b>Passes AA</b> or <b>Fails AA</b>, or the keys <code>P</code> and <code>F</code>. A timeout counts as a wrong answer.</li>
+      <li>The real ratio is revealed after every call. Ten rounds that get closer to the boundary; your best streak is saved on this device.</li>
+    </ol>
+  </details>
 
   <details>
     <summary>How the ratio is computed</summary>
