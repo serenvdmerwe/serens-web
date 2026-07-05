@@ -100,6 +100,30 @@ add_action( 'wp_head', static function () {
 		];
 	}
 
+	// Contact page: FAQPage mirroring the visible FAQ section, both fed by
+	// serensweb_faq_items(). Google reserves FAQ rich results for authority
+	// sites these days; the point here is answer engines quoting exact
+	// first person answers.
+	if ( is_page( 'contact' ) ) {
+		$questions = [];
+		foreach ( serensweb_faq_items() as $question => $answer ) {
+			$questions[] = [
+				'@type'          => 'Question',
+				'name'           => $question,
+				'acceptedAnswer' => [
+					'@type' => 'Answer',
+					'text'  => $answer,
+				],
+			];
+		}
+		$graph[] = [
+			'@type'      => 'FAQPage',
+			'@id'        => get_permalink() . '#faq',
+			'mainEntity' => $questions,
+			'isPartOf'   => [ '@id' => $website_id ],
+		];
+	}
+
 	// Playground page: ItemList of the experiments so crawlers see the catalog.
 	if ( is_page( 'playground' ) ) {
 		$base        = get_stylesheet_directory_uri() . '/assets/playground/';

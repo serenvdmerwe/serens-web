@@ -662,3 +662,27 @@ body.frozen .codecard__caret { animation: none; }
 @media (prefers-reduced-motion: reduce) {
   .hero-bg, .hero-bg__svg, .hero-bg__grid { animation: none; transition: none; }
 }
+
+/* ============ FAQ (contact page) ============ */
+/* Native details/summary disclosure list, hairline separated, zero JS. */
+.faq { max-width: 760px; }
+.faq__item { border-top: 1px solid var(--hairline-dark); }
+.faq__item:last-child { border-bottom: 1px solid var(--hairline-dark); }
+.faq__item summary {
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  padding: 20px 4px; cursor: pointer; list-style: none;
+  font-weight: 600; font-size: clamp(1rem, 1.4cqi, 1.12rem); letter-spacing: -0.01em;
+  color: var(--color-text-light);
+  transition: color 0.2s;
+}
+.faq__item summary::-webkit-details-marker { display: none; }
+.faq__item summary:hover { color: var(--color-primary); }
+.faq__item summary:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 6px; }
+.faq__item summary svg { width: 18px; height: 18px; flex: none; color: var(--color-text-muted); transition: transform 0.25s, color 0.2s; }
+.faq__item[open] summary { color: var(--color-primary); }
+.faq__item[open] summary svg { transform: rotate(180deg); color: var(--color-primary); }
+.faq__item > p { margin: 0; padding: 0 4px 22px; max-width: 62ch; color: var(--color-text-muted); line-height: 1.65; }
+
+@media (prefers-reduced-motion: reduce) {
+  .faq__item summary, .faq__item summary svg { transition: none; }
+}
