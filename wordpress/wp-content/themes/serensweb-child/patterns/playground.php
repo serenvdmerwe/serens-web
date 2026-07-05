@@ -104,10 +104,23 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--ember" aria-hidden="true"><span>Live data</span></div>
+          <div class="play-card__viz play-card__viz--ember" aria-hidden="true">
+            <svg class="play-motif play-motif--ember" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g>
+                <circle cx="92" cy="126" r="4" fill="#ffc857"/><circle cx="122" cy="108" r="3" fill="#ff7043"/>
+                <circle cx="176" cy="90" r="3.4" fill="#ffc857"/><circle cx="212" cy="120" r="4.6" fill="#9b8cff"/>
+                <circle cx="246" cy="82" r="3" fill="#ff7043"/><circle cx="72" cy="150" r="2.6" fill="#9b8cff"/>
+                <circle cx="134" cy="70" r="9" fill="#ff7043" stroke="#ffe0cf" stroke-width="1.4"/>
+                <circle cx="230" cy="150" r="8" fill="#ffc857" stroke="#ffe0cf" stroke-width="1.4"/>
+                <circle cx="104" cy="158" r="7" fill="#ff7043" stroke="#ffe0cf" stroke-width="1.4"/>
+              </g>
+            </svg>
+            <span>Live data</span>
+          </div>
           <div class="play-card__body">
             <h3>Live Earthquake Map</h3>
-            <p>Every earthquake the USGS has catalogued in the past day or week, fetched by your browser the moment you open the page. Circle size is magnitude, color is depth, and the three strongest pulse.</p>
+            <p>Every earthquake the USGS has catalogued in the past day or week, fetched by your browser the moment you open the page. Circle size is magnitude, color is depth, and the three strongest are outlined.</p>
             <ul class="play-card__tech"><li>Live API</li><li>SVG</li><li>Open Data</li></ul>
             <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/earthquakes-live.html' ); ?>" target="_blank" rel="noopener">
               Watch the planet
