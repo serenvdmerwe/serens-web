@@ -65,7 +65,23 @@
       </svg>
       <div class="play-grid">
         <article class="play-card">
-          <div class="play-card__viz" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--primary" aria-hidden="true">
+            <svg class="play-motif play-motif--primary" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="none" stroke="currentColor" stroke-width="1" opacity="0.25">
+                <rect x="72" y="64" width="176" height="86" rx="4"/>
+                <path d="M130 64 V150 M190 64 V150 M72 93 H248 M72 121 H248"/>
+              </g>
+              <circle class="ping anim" cx="118" cy="86" r="16" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.55"/>
+              <g fill="currentColor">
+                <path d="M118 70 c-8 0 -14 6 -14 14 c0 10 14 24 14 24 c0 0 14 -14 14 -24 c0 -8 -6 -14 -14 -14 z"/>
+                <circle cx="118" cy="84" r="4.5" fill="#0b0b0e"/>
+                <path d="M206 100 c-7 0 -12 5 -12 12 c0 9 12 21 12 21 c0 0 12 -12 12 -21 c0 -7 -5 -12 -12 -12 z" opacity="0.65"/>
+                <circle cx="206" cy="112" r="3.6" fill="#0b0b0e"/>
+              </g>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Risk Explorer: Florida and Cape Town</h3>
             <p>Two cities, one explorer. Tap any Florida county for its hazard report card built on FEMA and NOAA data, or switch to Cape Town and read the Mother City through its own open data: fire station cover, wetlands, and property valuations for 777 suburbs.</p>
@@ -78,7 +94,21 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--blue" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--blue" aria-hidden="true">
+            <svg class="play-motif play-motif--blue" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="2 6" opacity="0.7">
+                <path d="M20 150 C90 140 150 120 200 96"/>
+                <path d="M30 176 C110 160 170 130 210 92" opacity="0.5"/>
+              </g>
+              <g class="eye anim" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round">
+                <path d="M214 78 a10 10 0 1 1 -8 4"/>
+                <path d="M214 98 a10 10 0 1 1 8 -4"/>
+                <circle cx="214" cy="88" r="2.4" fill="currentColor" stroke="none"/>
+              </g>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Hurricane Tracks Time Machine</h3>
             <p>Fifty seasons of Atlantic hurricanes from NOAA's best-track archive, animated over a coastline map. Scrub the years, ghost past seasons, and tap any track for the storm behind it, with story lines on the monsters drafted by Claude from the data itself.</p>
@@ -91,7 +121,20 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--cable" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--cable" aria-hidden="true">
+            <svg class="play-motif play-motif--cable" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="none" stroke="currentColor" stroke-linecap="round">
+                <path d="M64 150 C120 120 200 92 300 74" stroke-width="1.6" opacity="0.85"/>
+                <path d="M64 150 C130 140 210 130 306 118" stroke-width="1.3" opacity="0.5"/>
+                <path d="M64 150 C120 158 210 168 306 150" stroke-width="1.3" opacity="0.5"/>
+                <path d="M64 150 C110 128 180 118 250 60" stroke-width="1.2" opacity="0.4"/>
+              </g>
+              <circle cx="64" cy="150" r="4.5" fill="currentColor"/>
+              <g class="pulse anim"><circle cx="0" cy="0" r="3.2" fill="#eafaff"/></g>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>How South Africa Reaches the Internet</h3>
             <p>Six submarine cables connect this country to the web. Tap each one for its story, then relive the day in March 2024 when the west coast went dark and the east coast quietly carried the load.</p>
@@ -130,7 +173,29 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--radar" aria-hidden="true"><span>Live data</span></div>
+          <div class="play-card__viz play-card__viz--radar" aria-hidden="true">
+            <svg class="play-motif play-motif--radar" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="none" stroke="currentColor" opacity="0.4">
+                <circle cx="160" cy="100" r="30"/><circle cx="160" cy="100" r="58"/><circle cx="160" cy="100" r="86"/>
+                <line x1="160" y1="12" x2="160" y2="188"/><line x1="72" y1="100" x2="248" y2="100"/>
+              </g>
+              <g class="sweep anim">
+                <path d="M160 100 L160 12 A88 88 0 0 1 248 74 Z" fill="url(#radarFade)"/>
+                <line x1="160" y1="100" x2="160" y2="14" stroke="currentColor" stroke-width="1.8"/>
+              </g>
+              <g fill="currentColor">
+                <circle cx="198" cy="72" r="2.6"/><circle cx="126" cy="132" r="2.2"/><circle cx="212" cy="128" r="2"/>
+              </g>
+              <defs>
+                <linearGradient id="radarFade" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stop-color="currentColor" stop-opacity="0.32"/>
+                  <stop offset="1" stop-color="currentColor" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+            </svg>
+            <span>Live data</span>
+          </div>
           <div class="play-card__body">
             <h3>Planes Overhead</h3>
             <p>A radar scope of every aircraft transmitting within 150 nautical miles of you. The flight data travels through this site's own WordPress REST endpoint, because the upstream sources refuse to talk to browsers directly.</p>
@@ -143,7 +208,15 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--night" aria-hidden="true"><span>Live data</span></div>
+          <div class="play-card__viz play-card__viz--night" aria-hidden="true">
+            <svg class="play-motif play-motif--night" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <ellipse cx="160" cy="100" rx="110" ry="46" fill="none" stroke="currentColor" stroke-width="1.4" stroke-dasharray="3 6" opacity="0.7"/>
+              <path d="M50 100 A110 46 0 0 1 270 100" fill="none" stroke="currentColor" stroke-width="1" opacity="0.25"/>
+              <g class="iss anim"><circle cx="0" cy="0" r="3.6" fill="#eaf1ff"/><circle cx="0" cy="0" r="7" fill="none" stroke="currentColor" stroke-width="1"/></g>
+            </svg>
+            <span>Live data</span>
+          </div>
           <div class="play-card__body">
             <h3>ISS Live Tracker</h3>
             <p>The Space Station's live position, this lap's ground track, and the glowing patch of Earth that can see it, polled every few seconds. One tap tells you how far away it is right now.</p>
@@ -156,7 +229,16 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--dawn" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--dawn" aria-hidden="true">
+            <svg class="play-motif play-motif--dawn" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <circle class="glow anim" cx="160" cy="126" r="34" fill="#ffd98a" opacity="0.26"/>
+              <circle cx="160" cy="126" r="20" fill="#ffe08a"/>
+              <line x1="24" y1="150" x2="296" y2="150" stroke="#ffe0a8" stroke-width="1.2" opacity="0.6"/>
+              <path d="M236 0 L320 0 L320 200 L288 200 Z" fill="#0a0c16" opacity="0.4"/>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Golden Hour, Everywhere</h3>
             <p>A live day and night map with no API behind it: the browser computes the sun's position itself, then geolocation adds your sunrise, sunset, and next golden hour. Pure astronomy, zero data feeds.</p>
@@ -169,7 +251,20 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--storm" aria-hidden="true"><span>Live data</span></div>
+          <div class="play-card__viz play-card__viz--storm" aria-hidden="true">
+            <svg class="play-motif play-motif--storm" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g class="streaks anim" fill="none" stroke="currentColor" stroke-linecap="round">
+                <path d="M40 60 q40 -10 80 0" stroke-width="1.6" opacity="0.8"/>
+                <path d="M120 90 q50 -12 100 2" stroke-width="1.5" opacity="0.7"/>
+                <path d="M30 120 q60 12 120 -2" stroke-width="1.4" opacity="0.6"/>
+                <path d="M150 150 q40 -10 90 4" stroke-width="1.4" opacity="0.55"/>
+                <path d="M60 170 q50 8 110 -4" stroke-width="1.2" opacity="0.45"/>
+                <path d="M200 46 q30 -8 70 4" stroke-width="1.3" opacity="0.6"/>
+              </g>
+            </svg>
+            <span>Live data</span>
+          </div>
           <div class="play-card__body">
             <h3>The Wind, as Particles</h3>
             <p>Thousands of canvas particles riding real surface winds across a world map: trade winds, westerlies, and whatever storm is spinning today, all drawing themselves. One tap fetches the atmosphere as it is right now.</p>

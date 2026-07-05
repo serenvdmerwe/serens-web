@@ -385,22 +385,16 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__viz--iris { background: radial-gradient(70% 70% at 20% 18%, #ff9ec7, transparent 60%), radial-gradient(70% 70% at 82% 26%, #8ad2ff, transparent 60%), radial-gradient(130% 115% at 50% 88%, #ffd98a, #7a4ad8 55%, #241539 85%, #120b1c); }
 .play-card__viz--inkwell { background: radial-gradient(55% 55% at 78% 22%, rgba(242,169,80,0.75), transparent 62%), radial-gradient(130% 115% at 28% 80%, #7fa8d8, #33517e 48%, #16263f 82%, #080e18); }
 
-/* Playground card motifs: a shared glowing grid (pulled in with <use>) plus a
-   per-card motif drawn in each card's own SVG. The grid is tinted per hue
-   through inherited `color` + currentColor (shadow-cloned <use> content only
-   receives inherited properties). Motion is gated to hover/focus and off for
-   reduced-motion, so idle cost is zero. */
+/* Playground card motifs: motif cards drop to a dark, near-black canvas with a
+   shared glowing grid (pulled in with <use>) drawn in the live accent colour.
+   The accent switcher rewrites --color-primary on :root, and `color` inherits
+   into the shadow-cloned <use> content, so the grid re-themes with the site
+   with no JavaScript. Each card's own motif sits on top. Motion is gated to
+   hover/focus and off for reduced-motion, so idle cost is zero. */
 .play-card__viz { position: relative; }
-.play-motif { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: rgba(255,255,255,0.55); }
+.play-card__viz:has(.play-motif) { background: radial-gradient(130% 115% at 50% 0%, #15171f 0%, #06070b 72%); }
+.play-motif { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; color: var(--color-primary); }
 .play-card__viz span { position: relative; z-index: 2; }
-.play-motif--ember   { color: #ffcba8; }
-.play-motif--radar   { color: #9af0bf; }
-.play-motif--night   { color: #a9c8ff; }
-.play-motif--dawn    { color: #ffe0a8; }
-.play-motif--storm   { color: #b8efe0; }
-.play-motif--blue    { color: #a9d4ff; }
-.play-motif--cable   { color: #a6e6ff; }
-.play-motif--primary { color: #ffd0a8; }
 @keyframes play-spin { to { transform: rotate(360deg); } }
 @keyframes play-orbit { to { offset-distance: 100%; } }
 @keyframes play-breathe { 50% { opacity: 0.85; } }
@@ -408,6 +402,13 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-motif .anim { animation-play-state: paused; }
 .play-card:hover .play-motif .anim,
 .play-card:focus-within .play-motif .anim { animation-play-state: running; }
+.play-motif--radar .sweep { transform-box: view-box; transform-origin: 160px 100px; animation: play-spin 4.2s linear infinite; }
+.play-motif--blue .eye { transform-box: view-box; transform-origin: 214px 88px; animation: play-spin 7s linear infinite; }
+.play-motif--night .iss { offset-path: path('M50 100 A110 46 0 1 1 270 100 A110 46 0 1 1 50 100'); animation: play-orbit 6s linear infinite; }
+.play-motif--cable .pulse { offset-path: path('M64 150 C120 120 200 92 300 74'); animation: play-orbit 5s linear infinite; }
+.play-motif--dawn .glow { animation: play-breathe 3.4s ease-in-out infinite; }
+.play-motif--storm .streaks { animation: play-drift 3.6s ease-in-out infinite alternate; }
+.play-motif--primary .ping { animation: play-breathe 2.6s ease-in-out infinite; }
 @media (prefers-reduced-motion: reduce) { .play-motif .anim { animation: none !important; } }
 
 /* Playground category sections and jump nav (one page, five sections). */
