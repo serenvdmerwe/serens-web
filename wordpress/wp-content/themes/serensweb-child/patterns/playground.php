@@ -283,7 +283,20 @@
       <p class="play-blurb">Small games that run entirely in your browser and quietly teach a web skill on the side.</p>
       <div class="play-grid">
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--violet" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--violet" aria-hidden="true">
+            <svg class="play-motif play-motif--violet" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <rect x="92" y="46" width="136" height="70" rx="12" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.7"/>
+              <text x="160" y="88" text-anchor="middle" font-family="Geist, sans-serif" font-size="30" font-weight="700" fill="currentColor">Aa</text>
+              <g class="choice anim">
+                <rect x="98" y="132" width="54" height="24" rx="12" fill="none" stroke="#4ade80" stroke-width="1.4"/>
+                <text x="125" y="148" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" font-weight="700" fill="#4ade80">PASS</text>
+                <rect x="168" y="132" width="54" height="24" rx="12" fill="none" stroke="#fb7185" stroke-width="1.4"/>
+                <text x="195" y="148" text-anchor="middle" font-family="Geist Mono, monospace" font-size="11" font-weight="700" fill="#fb7185">FAIL</text>
+              </g>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Contrast: the Game</h3>
             <p>Guess whether text passes WCAG AA before the fuse burns out. Ten rounds that start friendly and end hugging the 4.5 to 1 boundary, with the real math revealed after every guess.</p>
@@ -296,7 +309,20 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--green" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--green" aria-hidden="true">
+            <svg class="play-motif play-motif--green" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <text x="46" y="133" font-family="Geist Mono, monospace" font-size="15" font-weight="700" fill="currentColor" opacity="0.8">&gt;</text>
+              <g fill="currentColor">
+                <rect x="66" y="66" width="70" height="6" rx="3" opacity="0.75"/>
+                <rect x="66" y="86" width="120" height="6" rx="3" opacity="0.55"/>
+                <rect x="86" y="106" width="90" height="6" rx="3" opacity="0.55"/>
+                <rect x="66" y="126" width="52" height="6" rx="3" opacity="0.4"/>
+              </g>
+              <rect class="caret anim" x="126" y="122" width="9" height="14" fill="currentColor"/>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Dev Typing Test</h3>
             <p>How fast do you type real code? PHP, JavaScript, and CSS snippets with per-character feedback, live WPM and accuracy, and indentation typed for you.</p>
@@ -315,7 +341,24 @@
       <p class="play-blurb">Practical calculators built the way I build client work: honest numbers, real list prices, no signup.</p>
       <div class="play-grid">
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--clay" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--clay" aria-hidden="true">
+            <svg class="play-motif play-motif--clay" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity="0.55">
+                <line x1="62" y1="70" x2="220" y2="70"/>
+                <line x1="62" y1="100" x2="220" y2="100"/>
+              </g>
+              <circle class="knob anim" cx="120" cy="70" r="7" fill="currentColor"/>
+              <circle cx="170" cy="100" r="7" fill="currentColor" opacity="0.85"/>
+              <g fill="currentColor" opacity="0.7">
+                <rect x="62" y="150" width="16" height="20" rx="2"/>
+                <rect x="88" y="138" width="16" height="32" rx="2"/>
+                <rect x="114" y="126" width="16" height="44" rx="2"/>
+                <rect x="140" y="146" width="16" height="24" rx="2"/>
+              </g>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>AI Feature Cost Estimator</h3>
             <p>Pick a use case, drag the sliders, and see what a Claude-powered feature would cost per month across four model tiers. Real July 2026 list prices, honest arithmetic.</p>
@@ -328,7 +371,20 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--iris" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--iris" aria-hidden="true">
+            <svg class="play-motif play-motif--iris" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g>
+                <rect x="72" y="62" width="30" height="30" rx="6" fill="#ff9ec7"/>
+                <rect x="110" y="62" width="30" height="30" rx="6" fill="#8ad2ff"/>
+                <rect x="148" y="62" width="30" height="30" rx="6" fill="#ffd98a"/>
+                <rect x="186" y="62" width="30" height="30" rx="6" fill="#a3e9c4"/>
+              </g>
+              <rect x="72" y="122" width="144" height="6" rx="3" fill="currentColor" opacity="0.5"/>
+              <circle class="knob anim" cx="118" cy="125" r="8" fill="currentColor"/>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>Design Token Re-themer</h3>
             <p>Eight design tokens drive an entire mock landing page: drag the hue, swap the fonts, loosen the spacing, and watch it become a different site. Export the result as CSS custom properties or a WordPress theme.json fragment, with a live WCAG check keeping the palette honest.</p>
@@ -347,7 +403,22 @@
       <p class="play-blurb">Progressive web apps you can put on a home screen. Once installed they keep working with no connection at all.</p>
       <div class="play-grid">
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--teal" aria-hidden="true"><span>Installable app</span></div>
+          <div class="play-card__viz play-card__viz--teal" aria-hidden="true">
+            <svg class="play-motif play-motif--teal" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.35">
+                <rect x="112" y="52" width="96" height="96" rx="6"/>
+                <path d="M144 52 V148 M176 52 V148 M112 84 H208 M112 116 H208"/>
+              </g>
+              <g fill="currentColor">
+                <circle cx="128" cy="68" r="7"/><rect x="153" y="61" width="14" height="14" rx="2"/><circle cx="192" cy="68" r="7"/>
+                <rect x="121" y="93" width="14" height="14" rx="2"/><circle cx="160" cy="100" r="7"/><rect x="185" y="93" width="14" height="14" rx="2"/>
+                <circle cx="128" cy="132" r="7"/><rect x="153" y="125" width="14" height="14" rx="2"/>
+              </g>
+              <text class="q anim" x="192" y="139" text-anchor="middle" font-family="Geist, sans-serif" font-size="22" font-weight="700" fill="currentColor">?</text>
+            </svg>
+            <span>Installable app</span>
+          </div>
           <div class="play-card__body">
             <h3>Aptitude Trainer</h3>
             <p>An installable app that generates endless matrix logic, number sequence, and mental rotation puzzles on your device, with difficulty that adapts to you. Works fully offline once installed. It trains test patterns; it does not measure intelligence.</p>
@@ -366,7 +437,17 @@
       <p class="play-blurb">Explainers on what actually happens between a click and a finished page, and on how an AI-augmented build really runs.</p>
       <div class="play-grid">
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--gold" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--gold" aria-hidden="true">
+            <svg class="play-motif play-motif--gold" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <line x1="44" y1="100" x2="276" y2="100" stroke="currentColor" stroke-width="1.4" opacity="0.5"/>
+              <g fill="currentColor">
+                <circle cx="44" cy="100" r="6"/><circle cx="121" cy="100" r="6"/><circle cx="198" cy="100" r="6"/><circle cx="276" cy="100" r="6"/>
+              </g>
+              <rect class="packet anim" x="40" y="92" width="12" height="16" rx="3" fill="currentColor"/>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>How a WordPress Page Loads</h3>
             <p>A scrollytelling tour from keystroke to paint. Scroll and watch the request travel through DNS, caches, PHP, and the database, including the shortcut most visitors take.</p>
@@ -379,7 +460,20 @@
         </article>
 
         <article class="play-card">
-          <div class="play-card__viz play-card__viz--inkwell" aria-hidden="true"><span>Live demo</span></div>
+          <div class="play-card__viz play-card__viz--inkwell" aria-hidden="true">
+            <svg class="play-motif play-motif--inkwell" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
+              <use href="#play-grid"/>
+              <g fill="currentColor" opacity="0.55">
+                <rect x="60" y="60" width="90" height="6" rx="3"/>
+                <rect x="60" y="76" width="140" height="6" rx="3" opacity="0.8"/>
+                <rect x="60" y="92" width="70" height="6" rx="3"/>
+              </g>
+              <path d="M150 118 l26 15 l-26 15 z" fill="currentColor"/>
+              <rect x="44" y="150" width="232" height="5" rx="2.5" fill="currentColor" opacity="0.3"/>
+              <rect class="head anim" x="44" y="147" width="10" height="11" rx="2" fill="currentColor"/>
+            </svg>
+            <span>Live demo</span>
+          </div>
           <div class="play-card__body">
             <h3>The Agentic Build, Replayed</h3>
             <p>How does an AI-augmented build actually run? Replay the reconstructed session behind the hurricane map one shelf over: the prompts, the tool calls, a failing script, the fix, the checks, and the pull request, at your own speed.</p>
