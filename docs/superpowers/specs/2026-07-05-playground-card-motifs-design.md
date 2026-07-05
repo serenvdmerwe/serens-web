@@ -21,8 +21,11 @@ demo does, adding meaning and life without images or a performance cost.
 - Pure inline SVG and CSS. No images, no screenshots (they add weight, go stale
   on live-data demos), no JavaScript, no plugins. This is the site's whole
   zero-asset, hand-built pitch, so the previews should embody it.
-- Keep each card's existing hue. The spread of colours across the shelf is the
-  "reads as range" identity and stays.
+- Motif cards drop to a dark, near-black canvas. The glowing grid is drawn in
+  the live accent colour (`--color-primary`, which the accent switcher
+  rewrites), so the whole shelf re-themes when a visitor changes accent.
+  Per-card distinction comes from motif shape, not hue. (This supersedes the
+  earlier "keep each card's hue for range" idea, decided during the build.)
 - Two-level visual language: a shared category "family" foundation plus a
   per-item motif on top. Cohesion and distinction at once.
 - Motion is enhancement only. Motifs are static at rest; animation runs on
@@ -51,9 +54,11 @@ A glowing lat/long graticule that every map card carries:
 - 5 meridians (gently bowed) and 4 parallels, on a `0 0 320 200` viewBox.
 - Drawn twice for a neon-line look with no raster: a blurred copy
   (`feGaussianBlur`) for the glow, and a crisp thin copy over it for definition.
-- Stroke colour is themed per card via CSS `color` + `currentColor` so the grid
-  reads against each hue (warm on ember/gold, cool on blue/teal/green).
-- Sits on the hue gradient, behind the item motif and the label pill.
+- Stroke colour is the live accent (`--color-primary`) via inherited `color` +
+  `currentColor`, so the grid re-colours instantly when the visitor switches
+  accent, with no JavaScript.
+- Sits on the dark canvas (scoped with `.play-card__viz:has(.play-motif)` so
+  only motif cards go dark), behind the item motif and the label pill.
 - Hover/focus: the glow layer "breathes" (opacity oscillation, ~3s). Static for
   reduced-motion.
 
