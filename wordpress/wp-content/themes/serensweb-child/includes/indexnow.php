@@ -23,10 +23,20 @@ if ( ! defined( 'ABSPATH' ) ) {
  */
 function serensweb_indexnow_key(): string {
 	$key = get_option( 'serensweb_indexnow_key' );
-	if ( ! is_string( $key ) || '' === $key ) {
-		$key = bin2hex( random_bytes( 16 ) );
-		add_option( 'serensweb_indexnow_key', $key, '', false );
+	if ( is_string( $key ) && '' !== $key ) {
+		return $key;
 	}
+
+	$key = bin2hex( random_bytes( 16 ) );
+
+	// add_option returns false when a concurrent request already inserted the
+	// row (the wp_options name column is unique). That request's key is the
+	// one now served at /{key}.txt, so adopt it rather than returning a key
+	// that was never stored and would fail verification.
+	if ( ! add_option( 'serensweb_indexnow_key', $key, '', false ) ) {
+		$key = (string) get_option( 'serensweb_indexnow_key' );
+	}
+
 	return $key;
 }
 
