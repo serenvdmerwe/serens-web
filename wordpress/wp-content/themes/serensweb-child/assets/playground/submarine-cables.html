@@ -21,6 +21,9 @@
     --mono: "Geist Mono", Consolas, monospace;
   }
   * { box-sizing: border-box; margin: 0; }
+  /* Hidden scrollbars everywhere: scrolling stays functional (wheel, trackpad, keyboard, touch). Matches the main site. */
+  * { scrollbar-width: none; }
+  ::-webkit-scrollbar { width: 0; height: 0; display: none; }
   body {
     font-family: "Geist", "Segoe UI", system-ui, sans-serif;
     background: var(--deep); color: var(--ink);
