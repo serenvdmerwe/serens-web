@@ -137,7 +137,6 @@ add_action( 'wp_head', static function () {
 			'Golden Hour, Everywhere'                => 'golden-hour.html',
 			'The Wind, as Particles'                 => 'wind-particles.html',
 			'Contrast: the Game'                     => 'contrast-game.html',
-			'Dev Typing Test'                        => 'dev-typing-test.html',
 			'AI Feature Cost Estimator'              => 'ai-cost-estimator.html',
 			'Design Token Re-themer'                 => 'token-rethemer.html',
 			'Aptitude Trainer'                       => 'aptitude-trainer/index.html',
