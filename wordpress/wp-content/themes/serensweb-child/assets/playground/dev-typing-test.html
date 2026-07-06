@@ -122,6 +122,10 @@
       <button type="button" class="on" data-lang="php">PHP</button>
       <button type="button" data-lang="js">JavaScript</button>
       <button type="button" data-lang="css">CSS</button>
+      <button type="button" data-lang="html">HTML</button>
+      <button type="button" data-lang="json">JSON</button>
+      <button type="button" data-lang="sql">SQL</button>
+      <button type="button" data-lang="bash">Bash</button>
     </div>
 
     <div class="stats">
@@ -143,7 +147,7 @@
     <details open>
       <summary>How to play</summary>
       <ol>
-        <li>Pick a language: <b>PHP</b>, <b>JavaScript</b>, or <b>CSS</b>.</li>
+        <li>Pick a language tab: the stack this site is built with.</li>
         <li>Click or tap the code box and start typing the snippet. The timer starts on your first keystroke.</li>
         <li>Indentation is typed for you. Correct keys turn green, wrong keys turn red and cost accuracy; <b>Backspace</b> undoes a mistake.</li>
         <li>Press <b>Escape</b> for a fresh snippet. Finish one to see your WPM; your best run is saved in this browser.</li>
@@ -166,6 +170,22 @@ const SNIPPETS = {
   css: [
 ".btn--primary {\n  background: var(--color-primary);\n  border-radius: var(--r-pill);\n  padding: 13px 22px;\n  transition: transform 0.25s var(--ease);\n}\n.btn--primary:hover {\n  transform: translateY(-2px);\n}",
 "@container (min-width: 860px) {\n  .about-page__grid {\n    grid-template-columns: 300px 1fr;\n  }\n  .steps {\n    grid-template-columns: repeat(2, 1fr);\n  }\n}"
+  ],
+  html: [
+'<article class="play-card">\n  <div class="play-card__viz" aria-hidden="true"></div>\n  <div class="play-card__body">\n    <h3>Earthquakes, live</h3>\n    <a class="btn btn--primary" href="/playground">Open</a>\n  </div>\n</article>',
+'<a class="btn btn--primary" href="/contact"\n  data-topic="AI Workflows">\n  Start a project\n</a>'
+  ],
+  json: [
+'{\n  "slug": "primary",\n  "name": "Primary (Orange)",\n  "color": "#F6821F"\n}',
+'{\n  "slug": "h2",\n  "name": "H2",\n  "size": "clamp(30px, 4.6cqi, 51px)"\n}'
+  ],
+  sql: [
+"UPDATE wp_options\nSET option_value = 'https://serensweb.com'\nWHERE option_name IN ('siteurl', 'home');",
+"SELECT post_title, post_date\nFROM wp_posts\nWHERE post_type = 'project'\n  AND post_status = 'publish'\nORDER BY post_date DESC;"
+  ],
+  bash: [
+"docker compose exec serens-web-php-service \\\n  wp search-replace 'serensweb.test' 'serensweb.com' \\\n  --all-tables --precise",
+"git checkout -b feat/typing-languages\ngit add -A\ngit commit -m 'add four languages'\ngit push -u origin HEAD"
   ]
 };
 const $ = id => document.getElementById(id);
