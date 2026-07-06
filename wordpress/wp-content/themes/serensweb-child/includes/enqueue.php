@@ -17,7 +17,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 add_action( 'wp_enqueue_scripts', static function () {
 	$theme_uri = get_stylesheet_directory_uri();
 	$theme_dir = get_stylesheet_directory();
-	$version   = wp_get_theme()->get( 'Version' );
 
 	$asset_version = static function ( $relative ) use ( $theme_dir ) {
 		$path = $theme_dir . '/' . ltrim( $relative, '/' );
@@ -27,7 +26,7 @@ add_action( 'wp_enqueue_scripts', static function () {
 	// Stylesheets in dependency order: tokens -> theme -> child overrides.
 	wp_enqueue_style( 'sw-tokens', $theme_uri . '/assets/css/tokens.css', [], $asset_version( 'assets/css/tokens.css' ) );
 	wp_enqueue_style( 'sw-theme',  $theme_uri . '/assets/css/theme.css',  [ 'sw-tokens' ], $asset_version( 'assets/css/theme.css' ) );
-	wp_enqueue_style( 'serensweb-child', get_stylesheet_uri(), [ 'sw-theme' ], $version );
+	wp_enqueue_style( 'serensweb-child', get_stylesheet_uri(), [ 'sw-theme' ], $asset_version( 'style.css' ) );
 
 	// Behaviour modules, deferred in the footer.
 	wp_enqueue_script( 'sw-site-chrome',  $theme_uri . '/assets/js/site-chrome.js',  [], $asset_version( 'assets/js/site-chrome.js' ), true );
