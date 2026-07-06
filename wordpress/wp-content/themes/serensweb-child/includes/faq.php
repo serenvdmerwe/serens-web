@@ -20,16 +20,13 @@ function serensweb_faq_items(): array {
 			'I use AI tooling through the whole build: scaffolding, refactoring, tests, content passes. It makes me faster, not hands-off. Architecture, design taste, and the final call on what ships stay human, and I review everything the tools produce.',
 
 		'What do you build?' =>
-			'Four things, on purpose: custom WordPress block themes, AI workflows and LLM features, progressive web apps and mobile-first sites, and interactive portfolios and corporate sites. This site is the live sample: a zero-plugin block theme, hand-built.',
+			'Four things, on purpose: custom WordPress block themes, AI workflows and LLM features, progressive web apps and mobile-first sites, and interactive portfolios and corporate sites. This site is the live sample of that work.',
 
 		'How can we work together?' =>
 			'Three ways: full-time, part-time, or per project. The switcher above tunes the form to whichever you pick, and nothing is locked in until we have actually talked.',
 
 		'Do you work remotely?' =>
 			'Yes, fully remote from South Africa (UTC+2), which sits within an hour of most of Europe\'s working day.',
-
-		'Why zero plugins?' =>
-			'Fewer moving parts, fewer security holes, nothing to license or chase updates for. Everything on this site, the contact form included, is hand-built into the theme. Your project does not have to be plugin-free, but the same bias toward lean, owned code carries over.',
 
 		'How fast do you reply?' =>
 			'Every serious enquiry gets a personal reply, promptly. WhatsApp is the quickest channel; the form and the email address land in the same inbox.',

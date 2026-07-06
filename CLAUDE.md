@@ -62,6 +62,31 @@ keep them out. If a section needs that text, fold it into the lede or a real sub
 **No decorative numerals.** The prototype's `01` through `04` numerals on the process steps
 and service cards have been removed. If a sequence matters, express it in words.
 
+## Playground and content boundaries
+
+The playground and all site copy show **what** Seren builds, never **how**. His
+competitive edge is his method and stack, and the site must not give it away.
+
+- **Show output, not method.** A playground demo may showcase a finished thing (a live
+  map, a game, a calculator, an installable app, this site itself). It must never walk a
+  visitor through how it was built.
+- **No stack or infrastructure reveals.** Do not name the server, cache, or hosting choices
+  that make the work fast: no Caddy, Nginx, LiteSpeed, Redis, object caching, or "the
+  shortcut most visitors take" style explainers. These are the secret weapons; keep them off
+  the public site (page copy, chips, alt text, and JSON-LD schema alike).
+- **No build- or workflow-replays.** No reconstructed agentic sessions, real terminal
+  commands, prompts, tool calls, branch names, or step-by-step "how an AI-augmented build
+  runs" content. The fact that the work is AI-augmented is fine; the playbook is not.
+- **No method reveals in FAQ or marketing copy.** Sell the client's outcome (fast, lean,
+  easy to maintain, owned code), not the internal technique ("hand-built into the theme",
+  "zero-plugin", plugin-free rationale). Phrase benefits, not blueprints.
+- **Check the schema too.** When removing method content from a page, remove the matching
+  JSON-LD in `includes/schema.php` and `includes/faq.php` in the same change, or search
+  engines keep indexing what the page no longer shows.
+
+When a new playground idea or section would explain the method, cut it or reduce it to the
+outcome. If unsure whether something is proprietary, treat it as proprietary and ask.
+
 ## Theme structure
 
 ```
@@ -100,3 +125,4 @@ wordpress/wp-content/themes/serensweb-child/
 - Don't reintroduce the `01` through `04` numerals on steps or cards.
 - Don't load fonts from a CDN. Geist and Geist Mono are self-hosted in `assets/fonts/`.
 - Don't reintroduce "studio", "senior", headless commerce, or fabricated metrics. This is Seren's personal AI-augmented portfolio; copy is first person and only makes provable claims.
+- Don't reveal method or stack. No build/workflow replays, no server/cache/hosting names (Caddy, Nginx, Redis, object caching), no "how I build it" explainers or plugin-free/hand-built method reveals in copy, chips, or schema. See "Playground and content boundaries". Show what, never how.
