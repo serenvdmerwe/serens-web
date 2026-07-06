@@ -38,7 +38,7 @@ add_action( 'parse_request', static function ( $wp ) {
 		'',
 		'- [Home](' . $home . '): who I am, the four service areas, my process, and how to reach me.',
 		'- [Projects](' . $projects . '): selected builds and what each one proves.',
-		'- [Playground](' . $home . 'playground/): thirteen interactive experiments: live maps, browser games, honest calculators, and installable apps.',
+		'- [Playground](' . $home . 'playground/): twelve interactive experiments: live maps, browser games, honest calculators, and installable apps.',
 		'- [About](' . $home . 'about/): how I work, with AI tooling for speed and human judgment for taste and correctness.',
 		'- [Contact](' . $home . 'contact/): form, email, and WhatsApp.',
 		'',

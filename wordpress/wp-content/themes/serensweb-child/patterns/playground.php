@@ -306,32 +306,6 @@
             </a>
           </div>
         </article>
-
-        <article class="play-card">
-          <div class="play-card__viz play-card__viz--green" aria-hidden="true">
-            <svg class="play-motif play-motif--green" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
-              <use href="#play-grid"/>
-              <text x="46" y="133" font-family="Geist Mono, monospace" font-size="15" font-weight="700" fill="currentColor" opacity="0.8">&gt;</text>
-              <g fill="currentColor">
-                <rect x="66" y="66" width="70" height="6" rx="3" opacity="0.75"/>
-                <rect x="66" y="86" width="120" height="6" rx="3" opacity="0.55"/>
-                <rect x="86" y="106" width="90" height="6" rx="3" opacity="0.55"/>
-                <rect x="66" y="126" width="52" height="6" rx="3" opacity="0.4"/>
-              </g>
-              <rect class="caret anim" x="126" y="122" width="9" height="14" fill="currentColor"/>
-            </svg>
-            <span>Live demo</span>
-          </div>
-          <div class="play-card__body">
-            <h3>Dev Typing Test</h3>
-            <p>How fast do you type real code? PHP, JavaScript, and CSS snippets with per-character feedback, live WPM and accuracy, and indentation typed for you.</p>
-            <ul class="play-card__tech"><li>Vanilla JS</li><li>Geist Mono</li><li>Game</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/dev-typing-test.html' ); ?>" target="_blank" rel="noopener">
-              Start typing
-              <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </a>
-          </div>
-        </article>
       </div>
     </div>
 
