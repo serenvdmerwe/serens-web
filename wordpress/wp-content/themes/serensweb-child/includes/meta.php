@@ -47,7 +47,7 @@ add_action( 'wp_head', static function () {
 	} elseif ( is_page( 'about' ) ) {
 		$desc = 'How I work: AI tooling for speed, human judgment for taste and correctness, and builds that ship through reviewed pull requests.';
 	} elseif ( is_page( 'playground' ) ) {
-		$desc = 'A shelf of interactive experiments: live maps, browser games, honest calculators, installable apps, and explainers, running plugin-free on open data and browser APIs.';
+		$desc = 'A shelf of interactive experiments: live maps, browser games, honest calculators, and installable apps, running on open data and browser APIs.';
 	} elseif ( is_page( 'contact' ) ) {
 		$desc = 'Tell me what you are building. Email, WhatsApp, or the form; engagement can be full-time, part-time, or per project.';
 	} elseif ( is_post_type_archive( 'project' ) ) {

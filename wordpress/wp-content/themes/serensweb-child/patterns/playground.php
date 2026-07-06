@@ -3,7 +3,7 @@
  * Title: Playground
  * Slug: serensweb-child/playground
  * Categories: serensweb-child
- * Description: Lab page. One page, five category sections (maps, games, tools, apps, explainers) with a jump nav; each experiment is a card with brief, tech chips, and a link-out button.
+ * Description: Lab page. One page, four category sections (maps, games, tools, apps) with a jump nav; each experiment is a card with brief, tech chips, and a link-out button.
  */
 ?>
 <!-- wp:html -->
@@ -31,13 +31,12 @@
   <div class="wrap">
     <div class="section-head">
       <h1 class="h2">Playground</h1>
-      <p class="lede">Things I build and explore for fun: live maps, small games, honest calculators, and apps you can install. Everything runs plugin-free on open data and browser APIs.</p>
+      <p class="lede">Things I build and explore for fun: live maps, small games, honest calculators, and apps you can install. Everything runs on open data and browser APIs.</p>
       <nav class="play-nav" aria-label="Playground categories">
         <a href="#maps">Maps</a>
         <a href="#games">Games</a>
         <a href="#tools">Tools</a>
         <a href="#apps">Apps</a>
-        <a href="#explainers">Explainers</a>
       </nav>
     </div>
   </div>
@@ -425,61 +424,6 @@
             <ul class="play-card__tech"><li>PWA</li><li>Service Worker</li><li>Offline</li></ul>
             <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/aptitude-trainer/index.html' ); ?>" target="_blank" rel="noopener">
               Open the trainer
-              <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </a>
-          </div>
-        </article>
-      </div>
-    </div>
-
-    <div class="play-section" id="explainers">
-      <h2>How the web works</h2>
-      <p class="play-blurb">Explainers on what actually happens between a click and a finished page, and on how an AI-augmented build really runs.</p>
-      <div class="play-grid">
-        <article class="play-card">
-          <div class="play-card__viz play-card__viz--gold" aria-hidden="true">
-            <svg class="play-motif play-motif--gold" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
-              <use href="#play-grid"/>
-              <line x1="44" y1="100" x2="276" y2="100" stroke="currentColor" stroke-width="1.4" opacity="0.5"/>
-              <g fill="currentColor">
-                <circle cx="44" cy="100" r="6"/><circle cx="121" cy="100" r="6"/><circle cx="198" cy="100" r="6"/><circle cx="276" cy="100" r="6"/>
-              </g>
-              <rect class="packet anim" x="40" y="92" width="12" height="16" rx="3" fill="currentColor"/>
-            </svg>
-            <span>Live demo</span>
-          </div>
-          <div class="play-card__body">
-            <h3>How a WordPress Page Loads</h3>
-            <p>A scrollytelling tour from keystroke to paint. Scroll and watch the request travel through DNS, caches, PHP, and the database, including the shortcut most visitors take.</p>
-            <ul class="play-card__tech"><li>SVG</li><li>Scrollytelling</li><li>WordPress</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/wp-page-load.html' ); ?>" target="_blank" rel="noopener">
-              Take the tour
-              <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
-            </a>
-          </div>
-        </article>
-
-        <article class="play-card">
-          <div class="play-card__viz play-card__viz--inkwell" aria-hidden="true">
-            <svg class="play-motif play-motif--inkwell" viewBox="0 0 320 200" aria-hidden="true" focusable="false">
-              <use href="#play-grid"/>
-              <g fill="currentColor" opacity="0.55">
-                <rect x="60" y="60" width="90" height="6" rx="3"/>
-                <rect x="60" y="76" width="140" height="6" rx="3" opacity="0.8"/>
-                <rect x="60" y="92" width="70" height="6" rx="3"/>
-              </g>
-              <path d="M150 118 l26 15 l-26 15 z" fill="currentColor"/>
-              <rect x="44" y="150" width="232" height="5" rx="2.5" fill="currentColor" opacity="0.3"/>
-              <rect class="head anim" x="44" y="147" width="10" height="11" rx="2" fill="currentColor"/>
-            </svg>
-            <span>Live demo</span>
-          </div>
-          <div class="play-card__body">
-            <h3>The Agentic Build, Replayed</h3>
-            <p>How does an AI-augmented build actually run? Replay the reconstructed session behind the hurricane map one shelf over: the prompts, the tool calls, a failing script, the fix, the checks, and the pull request, at your own speed.</p>
-            <ul class="play-card__tech"><li>AI Workflow</li><li>Vanilla JS</li><li>Storytelling</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/build-replay.html' ); ?>" target="_blank" rel="noopener">
-              Press play
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
           </div>

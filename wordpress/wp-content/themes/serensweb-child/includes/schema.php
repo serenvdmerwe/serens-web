@@ -141,8 +141,6 @@ add_action( 'wp_head', static function () {
 			'AI Feature Cost Estimator'              => 'ai-cost-estimator.html',
 			'Design Token Re-themer'                 => 'token-rethemer.html',
 			'Aptitude Trainer'                       => 'aptitude-trainer/index.html',
-			'How a WordPress Page Loads'             => 'wp-page-load.html',
-			'The Agentic Build, Replayed'            => 'build-replay.html',
 		];
 		$items       = [];
 		$position    = 1;
@@ -157,7 +155,7 @@ add_action( 'wp_head', static function () {
 		$graph[] = [
 			'@type'           => 'ItemList',
 			'name'            => 'SerensWeb Playground experiments',
-			'description'     => 'Interactive maps, browser games, developer tools, installable web apps, and explainers built by Seren van der Merwe.',
+			'description'     => 'Interactive maps, browser games, developer tools, and installable web apps built by Seren van der Merwe.',
 			'numberOfItems'   => count( $items ),
 			'itemListElement' => $items,
 		];
