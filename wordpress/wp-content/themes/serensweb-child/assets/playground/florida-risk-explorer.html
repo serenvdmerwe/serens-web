@@ -39,7 +39,23 @@
   .lbl { font-family:inherit; font-weight:700; fill:#22180f; text-anchor:middle; pointer-events:none; paint-order:stroke; stroke:#ffffff; stroke-width:3.5px; stroke-linejoin:round; }
   .seanote { font-size:26px; font-style:italic; fill:#3a6f8f; font-weight:600; letter-spacing:.04em; }
   footer { margin-top:16px; font-size:13.5px; color:#33424f; max-width:80ch; line-height:1.5; }
-  svg, .chips button { touch-action:manipulation; }
+  .chips button { touch-action:manipulation; }
+  /* The map owns its touch gestures (drag to pan, pinch to zoom) so the browser
+     does not scroll or page-zoom over it. */
+  svg { touch-action:none; user-select:none; -webkit-user-select:none; }
+  svg.grabbing { cursor:grabbing; }
+  svg:focus-visible { outline:3px solid var(--ink); outline-offset:2px; }
+
+  .map-tools { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:14px 0 4px; }
+  .map-tools button {
+    font:inherit; font-weight:800; font-size:15px; line-height:1; padding:9px 16px; min-width:44px;
+    border-radius:999px; border:2px solid var(--ink); background:var(--panel);
+    cursor:pointer; touch-action:manipulation;
+  }
+  .map-tools button:disabled { opacity:.4; cursor:default; }
+  .map-tools .zoom-num { padding:9px 4px; }
+  .map-hint { font-size:13.5px; color:#33424f; }
+  @media (max-width:700px) { .map-hint { flex-basis:100%; } }
 
   /* Phones: the readout pins to the top of the screen so tapping any county
      gives visible feedback, the report card becomes a horizontal scroller,
@@ -74,7 +90,14 @@
   <div class="mini" id="mini"></div>
 </div>
 
-<svg viewBox="0 0 1400 1160" role="img" aria-label="Interactive map colored by the chosen layer: Florida counties or Cape Town suburbs">
+<div class="map-tools" role="group" aria-label="Map zoom and pan controls">
+  <button type="button" id="zoomOut" aria-label="Zoom out">&minus;</button>
+  <button type="button" id="zoomReset">Reset view</button>
+  <button type="button" id="zoomIn" aria-label="Zoom in">+</button>
+  <span class="map-hint">Scroll or pinch to zoom, drag to pan. With the map focused, arrow keys pan, plus and minus zoom, 0 resets.</span>
+</div>
+
+<svg viewBox="0 0 1400 1160" tabindex="0" role="img" aria-label="Interactive map colored by the chosen layer: Florida counties or Cape Town suburbs. Scroll or pinch to zoom, drag to pan, arrow keys pan while focused.">
   <g id="fl-sea">
     <text class="seanote" x="330" y="610">Gulf of Mexico</text>
     <text class="seanote" x="1180" y="300">Atlantic Ocean</text>
@@ -258,13 +281,135 @@ function pickArea(e) {
   p.classList.add('hot');
   showArea(p.dataset.n);
 }
-svgEl.addEventListener('click', pickArea);
-svgEl.addEventListener('mouseover', pickArea);
+
+/* Pan and zoom by moving the SVG viewBox. Native hit-testing keeps working, so
+   tap-a-region needs no coordinate maths. The viewBox aspect ratio never changes,
+   which keeps the rendered map free of letterboxing and the layout stable. */
+const BASE = { x: 0, y: 0, w: 1400, h: 1160 };
+const MAX_ZOOM = 8, MIN_W = BASE.w / MAX_ZOOM;
+let vb = Object.assign({}, BASE);
+const pointers = new Map();
+let panLast = null, pinchPrev = 0, downClient = null, moved = false, suppressClick = false;
+const zoomInBtn = document.getElementById('zoomIn');
+const zoomOutBtn = document.getElementById('zoomOut');
+const zoomResetBtn = document.getElementById('zoomReset');
+
+function updateTools() {
+  const atFit = vb.w >= BASE.w - 0.5, atMax = vb.w <= MIN_W + 0.5;
+  zoomOutBtn.disabled = atFit;
+  zoomResetBtn.disabled = atFit;
+  zoomInBtn.disabled = atMax;
+}
+function clampVb() {
+  vb.w = Math.min(BASE.w, Math.max(MIN_W, vb.w));
+  vb.h = vb.w * BASE.h / BASE.w;
+  vb.x = Math.min(BASE.x + BASE.w - vb.w, Math.max(BASE.x, vb.x));
+  vb.y = Math.min(BASE.y + BASE.h - vb.h, Math.max(BASE.y, vb.y));
+}
+function applyVb() {
+  clampVb();
+  svgEl.setAttribute('viewBox', vb.x + ' ' + vb.y + ' ' + vb.w + ' ' + vb.h);
+  updateTools();
+}
+function resetView() { vb = Object.assign({}, BASE); applyVb(); }
+function zoomAt(clientX, clientY, factor) {
+  const r = svgEl.getBoundingClientRect();
+  const fx = (clientX - r.left) / r.width, fy = (clientY - r.top) / r.height;
+  const px = vb.x + fx * vb.w, py = vb.y + fy * vb.h;
+  let nw = Math.min(BASE.w, Math.max(MIN_W, vb.w / factor));
+  const nh = nw * BASE.h / BASE.w;
+  vb.x = px - fx * nw; vb.y = py - fy * nh; vb.w = nw; vb.h = nh;
+  applyVb();
+}
+function zoomCenter(factor) {
+  const r = svgEl.getBoundingClientRect();
+  zoomAt(r.left + r.width / 2, r.top + r.height / 2, factor);
+}
+function pointerDist() {
+  const p = [...pointers.values()];
+  return Math.hypot(p[0].x - p[1].x, p[0].y - p[1].y);
+}
+function pointerMid() {
+  const p = [...pointers.values()];
+  return { x: (p[0].x + p[1].x) / 2, y: (p[0].y + p[1].y) / 2 };
+}
+
+svgEl.addEventListener('wheel', e => {
+  e.preventDefault();
+  zoomAt(e.clientX, e.clientY, e.deltaY < 0 ? 1.15 : 1 / 1.15);
+}, { passive: false });
+
+svgEl.addEventListener('pointerdown', e => {
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  moved = false;
+  downClient = { x: e.clientX, y: e.clientY };
+  if (pointers.size === 1) { panLast = { x: e.clientX, y: e.clientY }; }
+  else if (pointers.size === 2) { pinchPrev = pointerDist(); panLast = null; }
+  try { svgEl.setPointerCapture(e.pointerId); } catch (err) { /* capture is best-effort */ }
+});
+svgEl.addEventListener('pointermove', e => {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+  if (pointers.size >= 2) {
+    const d = pointerDist();
+    if (pinchPrev > 0) { const m = pointerMid(); zoomAt(m.x, m.y, d / pinchPrev); }
+    pinchPrev = d; moved = true; e.preventDefault();
+    return;
+  }
+  if (pointers.size === 1 && panLast) {
+    const r = svgEl.getBoundingClientRect();
+    vb.x -= (e.clientX - panLast.x) / r.width * vb.w;
+    vb.y -= (e.clientY - panLast.y) / r.height * vb.h;
+    applyVb();
+    panLast = { x: e.clientX, y: e.clientY };
+    if (Math.hypot(e.clientX - downClient.x, e.clientY - downClient.y) > 6) {
+      moved = true; svgEl.classList.add('grabbing');
+    }
+    e.preventDefault();
+  }
+});
+function endPointer(e) {
+  if (!pointers.has(e.pointerId)) return;
+  pointers.delete(e.pointerId);
+  if (moved) suppressClick = true;
+  if (pointers.size < 2) pinchPrev = 0;
+  if (pointers.size === 1) { const only = [...pointers.values()][0]; panLast = { x: only.x, y: only.y }; }
+  if (pointers.size === 0) { panLast = null; svgEl.classList.remove('grabbing'); }
+}
+svgEl.addEventListener('pointerup', endPointer);
+svgEl.addEventListener('pointercancel', endPointer);
+
+svgEl.addEventListener('keydown', e => {
+  const step = vb.w * 0.15;
+  if (e.key === 'ArrowUp') vb.y -= step;
+  else if (e.key === 'ArrowDown') vb.y += step;
+  else if (e.key === 'ArrowLeft') vb.x -= step;
+  else if (e.key === 'ArrowRight') vb.x += step;
+  else if (e.key === '+' || e.key === '=') { zoomCenter(1.3); e.preventDefault(); return; }
+  else if (e.key === '-' || e.key === '_') { zoomCenter(1 / 1.3); e.preventDefault(); return; }
+  else if (e.key === '0') { resetView(); e.preventDefault(); return; }
+  else return;
+  applyVb(); e.preventDefault();
+});
+
+zoomInBtn.addEventListener('click', () => zoomCenter(1.3));
+zoomOutBtn.addEventListener('click', () => zoomCenter(1 / 1.3));
+zoomResetBtn.addEventListener('click', resetView);
+
+svgEl.addEventListener('click', e => {
+  if (suppressClick) { suppressClick = false; return; }
+  pickArea(e);
+});
+svgEl.addEventListener('mouseover', e => {
+  if (pointers.size > 0) return;
+  pickArea(e);
+});
 document.getElementById('citySwitch').addEventListener('click', e => {
   const b = e.target.closest('button');
-  if (b && b.dataset.c !== city) setCity(b.dataset.c);
+  if (b && b.dataset.c !== city) { setCity(b.dataset.c); resetView(); }
 });
 setCity('florida');
+resetView();
 </script>
 </body>
 </html>
