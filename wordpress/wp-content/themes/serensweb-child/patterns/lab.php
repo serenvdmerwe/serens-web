@@ -1,7 +1,7 @@
 <?php
 /**
- * Title: Playground
- * Slug: serensweb-child/playground
+ * Title: Lab
+ * Slug: serensweb-child/lab
  * Categories: serensweb-child
  * Description: Lab page. One page, four category sections (maps, games, tools, apps) with a jump nav; each experiment is a card with brief, tech chips, and a link-out button.
  */
@@ -30,9 +30,9 @@
   </div>
   <div class="wrap">
     <div class="section-head">
-      <h1 class="h2">Playground</h1>
+      <h1 class="h2">Lab</h1>
       <p class="lede">Things I build and explore for fun: live maps, small games, honest calculators, and apps you can install. Everything runs on open data and browser APIs.</p>
-      <nav class="play-nav" aria-label="Playground categories">
+      <nav class="play-nav" aria-label="Lab categories">
         <a href="#maps">Maps</a>
         <a href="#games">Games</a>
         <a href="#tools">Tools</a>
@@ -85,7 +85,7 @@
             <h3>Risk Explorer: Florida and Cape Town</h3>
             <p>Two cities, one explorer. Tap any Florida county for its hazard report card built on FEMA and NOAA data, or switch to Cape Town and read the Mother City through its own open data: fire station cover, wetlands, and property valuations for 777 suburbs.</p>
             <ul class="play-card__tech"><li>Vanilla JS</li><li>Interactive Map</li><li>Open Data</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/florida-risk-explorer.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/florida-risk-explorer.html' ); ?>" target="_blank" rel="noopener">
               Open the live map
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -112,7 +112,7 @@
             <h3>Hurricane Tracks Time Machine</h3>
             <p>Fifty seasons of Atlantic hurricanes from NOAA's best-track archive, animated over a coastline map. Scrub the years, ghost past seasons, and tap any track for the storm behind it, with story lines on the monsters drafted by Claude from the data itself.</p>
             <ul class="play-card__tech"><li>SVG</li><li>Open Data</li><li>AI Workflow</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/hurricane-tracks.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/hurricane-tracks.html' ); ?>" target="_blank" rel="noopener">
               Open the map
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -138,7 +138,7 @@
             <h3>How South Africa Reaches the Internet</h3>
             <p>Six submarine cables connect this country to the web. Tap each one for its story, then relive the day in March 2024 when the west coast went dark and the east coast quietly carried the load.</p>
             <ul class="play-card__tech"><li>SVG</li><li>Storytelling</li><li>Infrastructure</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/submarine-cables.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/submarine-cables.html' ); ?>" target="_blank" rel="noopener">
               Follow the cables
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -164,7 +164,7 @@
             <h3>Live Earthquake Map</h3>
             <p>Every earthquake the USGS has catalogued in the past day or week, fetched by your browser the moment you open the page. Circle size is magnitude, color is depth, and the three strongest are outlined.</p>
             <ul class="play-card__tech"><li>Live API</li><li>SVG</li><li>Open Data</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/earthquakes-live.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/earthquakes-live.html' ); ?>" target="_blank" rel="noopener">
               Watch the planet
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -199,7 +199,7 @@
             <h3>Planes Overhead</h3>
             <p>A radar scope of every aircraft transmitting within 150 nautical miles of you. The flight data travels through this site's own WordPress REST endpoint, because the upstream sources refuse to talk to browsers directly.</p>
             <ul class="play-card__tech"><li>WordPress REST</li><li>Live Data</li><li>Geolocation</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/planes-overhead.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/planes-overhead.html' ); ?>" target="_blank" rel="noopener">
               Sweep the sky
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -220,7 +220,7 @@
             <h3>ISS Live Tracker</h3>
             <p>The Space Station's live position, this lap's ground track, and the glowing patch of Earth that can see it, polled every few seconds. One tap tells you how far away it is right now.</p>
             <ul class="play-card__tech"><li>Live API</li><li>SVG</li><li>Geolocation</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/iss-tracker.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/iss-tracker.html' ); ?>" target="_blank" rel="noopener">
               Find the station
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -242,7 +242,7 @@
             <h3>Golden Hour, Everywhere</h3>
             <p>A live day and night map with no API behind it: the browser computes the sun's position itself, then geolocation adds your sunrise, sunset, and next golden hour. Pure astronomy, zero data feeds.</p>
             <ul class="play-card__tech"><li>Astronomy</li><li>Geolocation</li><li>No API</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/golden-hour.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/golden-hour.html' ); ?>" target="_blank" rel="noopener">
               See the light
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -268,7 +268,7 @@
             <h3>The Wind, as Particles</h3>
             <p>Thousands of canvas particles riding real surface winds across a world map: trade winds, westerlies, and whatever storm is spinning today, all drawing themselves. One tap fetches the atmosphere as it is right now.</p>
             <ul class="play-card__tech"><li>Canvas</li><li>Live API</li><li>Animation</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/wind-particles.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/wind-particles.html' ); ?>" target="_blank" rel="noopener">
               Release the particles
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -300,7 +300,7 @@
             <h3>Contrast: the Game</h3>
             <p>Guess whether text passes WCAG AA before the fuse burns out. Ten rounds that start friendly and end hugging the 4.5 to 1 boundary, with the real math revealed after every guess.</p>
             <ul class="play-card__tech"><li>Vanilla JS</li><li>Accessibility</li><li>Game</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/contrast-game.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/contrast-game.html' ); ?>" target="_blank" rel="noopener">
               Play the game
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -336,7 +336,7 @@
             <h3>AI Feature Cost Estimator</h3>
             <p>Pick a use case, drag the sliders, and see what a Claude-powered feature would cost per month across four model tiers. Real July 2026 list prices, honest arithmetic.</p>
             <ul class="play-card__tech"><li>Vanilla JS</li><li>AI</li><li>Calculator</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/ai-cost-estimator.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/ai-cost-estimator.html' ); ?>" target="_blank" rel="noopener">
               Open the estimator
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -362,7 +362,7 @@
             <h3>Design Token Re-themer</h3>
             <p>Eight design tokens drive an entire mock landing page: drag the hue, swap the fonts, loosen the spacing, and watch it become a different site. Export the result as CSS custom properties or a WordPress theme.json fragment, with a live WCAG check keeping the palette honest.</p>
             <ul class="play-card__tech"><li>Design Tokens</li><li>OKLCH</li><li>Accessibility</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/token-rethemer.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/token-rethemer.html' ); ?>" target="_blank" rel="noopener">
               Open the re-themer
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>
@@ -396,7 +396,7 @@
             <h3>Aptitude Trainer</h3>
             <p>An installable app that generates endless matrix logic, number sequence, and mental rotation puzzles on your device, with difficulty that adapts to you. Works fully offline once installed. It trains test patterns; it does not measure intelligence.</p>
             <ul class="play-card__tech"><li>PWA</li><li>Service Worker</li><li>Offline</li></ul>
-            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/playground/aptitude-trainer/index.html' ); ?>" target="_blank" rel="noopener">
+            <a class="btn btn--primary" href="<?php echo esc_url( get_stylesheet_directory_uri() . '/assets/lab/aptitude-trainer/index.html' ); ?>" target="_blank" rel="noopener">
               Open the trainer
               <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
             </a>

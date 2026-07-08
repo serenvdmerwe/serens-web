@@ -5,7 +5,7 @@
  * Person and WebSite carry stable @id fragments and reference each other, so
  * crawlers see one connected entity instead of disjoint blocks. Page-specific
  * nodes (ProfilePage on about, BreadcrumbList on project singles, the
- * Playground ItemList) join the same graph. Service copy mirrors the
+ * Lab ItemList) join the same graph. Service copy mirrors the
  * strengths cards on the home page. sameAs lists the confirmed GitHub and
  * LinkedIn profiles (see the footer social links); no X profile is used.
  */
@@ -124,9 +124,9 @@ add_action( 'wp_head', static function () {
 		];
 	}
 
-	// Playground page: ItemList of the experiments so crawlers see the catalog.
-	if ( is_page( 'playground' ) ) {
-		$base        = get_stylesheet_directory_uri() . '/assets/playground/';
+	// Lab page: ItemList of the experiments so crawlers see the catalog.
+	if ( is_page( 'lab' ) ) {
+		$base        = get_stylesheet_directory_uri() . '/assets/lab/';
 		$experiments = [
 			'Risk Explorer: Florida and Cape Town'   => 'florida-risk-explorer.html',
 			'Hurricane Tracks Time Machine'          => 'hurricane-tracks.html',
@@ -153,7 +153,7 @@ add_action( 'wp_head', static function () {
 		}
 		$graph[] = [
 			'@type'           => 'ItemList',
-			'name'            => 'SerensWeb Playground experiments',
+			'name'            => 'SerensWeb Lab experiments',
 			'description'     => 'Interactive maps, browser games, developer tools, and installable web apps built by Seren van der Merwe.',
 			'numberOfItems'   => count( $items ),
 			'itemListElement' => $items,

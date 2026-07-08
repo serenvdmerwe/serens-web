@@ -1,13 +1,13 @@
 <?php
 /**
- * Live aircraft proxy for the Planes Overhead playground map (theme-only, zero plugins).
+ * Live aircraft proxy for the Planes Overhead lab map (theme-only, zero plugins).
  *
  * The upstream ADS-B aggregators do not send CORS headers, so the static
- * playground page cannot call them from the browser. This read-only GET
+ * lab page cannot call them from the browser. This read-only GET
  * endpoint fetches server-side and returns a trimmed list, which also lets
- * the playground demo honestly say "WordPress is the map's backend".
+ * the lab demo honestly say "WordPress is the map's backend".
  *
- * No nonce: the playground pages are static files with no WP page context to
+ * No nonce: the lab pages are static files with no WP page context to
  * mint one, and this route reads public flight data with no side effects.
  * Abuse is bounded instead: coordinates are validated and bucketed, the
  * upstream radius is fixed server-side, and a short transient means any burst
@@ -55,7 +55,7 @@ function serensweb_handle_planes( WP_REST_Request $request ) {
 	}
 
 	$url = sprintf( 'https://api.adsb.lol/v2/point/%F/%F/150', $blat, $blon );
-	$res = wp_remote_get( $url, [ 'timeout' => 8, 'user-agent' => 'serensweb.com playground (planes overhead demo)' ] );
+	$res = wp_remote_get( $url, [ 'timeout' => 8, 'user-agent' => 'serensweb.com lab (planes overhead demo)' ] );
 	if ( is_wp_error( $res ) || 200 !== wp_remote_retrieve_response_code( $res ) ) {
 		return new WP_Error( 'sw_upstream', 'The flight data service did not answer.', [ 'status' => 502 ] );
 	}

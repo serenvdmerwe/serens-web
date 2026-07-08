@@ -340,7 +340,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .proj__body h3 { font-size: 1.3rem; font-weight: 600; letter-spacing: -0.02em; margin: 9px 0 9px; }
 .proj__body p { font-size: 0.95rem; line-height: 1.55; color: var(--color-text-dark-2); }
 
-/* Projects archive (page-projects) and Playground (page-playground) cards.
+/* Projects archive (page-projects) and Lab (page-lab) cards.
    These pages emit block markup with their own class hooks, given the same
    card language as .proj above. Single column by default; two up from 860px. */
 .projects-grid, .play-grid { display: grid; gap: 22px; grid-template-columns: 1fr; }
@@ -385,7 +385,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-card__viz--iris { background: radial-gradient(70% 70% at 20% 18%, #ff9ec7, transparent 60%), radial-gradient(70% 70% at 82% 26%, #8ad2ff, transparent 60%), radial-gradient(130% 115% at 50% 88%, #ffd98a, #7a4ad8 55%, #241539 85%, #120b1c); }
 .play-card__viz--inkwell { background: radial-gradient(55% 55% at 78% 22%, rgba(242,169,80,0.75), transparent 62%), radial-gradient(130% 115% at 28% 80%, #7fa8d8, #33517e 48%, #16263f 82%, #080e18); }
 
-/* Playground card motifs: motif cards drop to a dark, near-black canvas with a
+/* Lab card motifs: motif cards drop to a dark, near-black canvas with a
    shared glowing grid (pulled in with <use>) drawn in the live accent colour.
    The accent switcher rewrites --color-primary on :root, and `color` inherits
    into the shadow-cloned <use> content, so the grid re-themes with the site
@@ -420,7 +420,7 @@ body.menu-open .drawer { opacity: 1; visibility: visible; transform: none; }
 .play-motif--inkwell .head { animation: play-track 3.4s linear infinite; }
 @media (prefers-reduced-motion: reduce) { .play-motif .anim { animation: none !important; } }
 
-/* Playground category sections and jump nav (one page, five sections). */
+/* Lab category sections and jump nav (one page, five sections). */
 .play-nav { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 18px; }
 .play-nav a {
   font-family: var(--font-mono); font-size: 13px; padding: 7px 16px;

@@ -46,7 +46,7 @@ add_action( 'wp_head', static function () {
 		$desc = 'I am Seren van der Merwe, an AI-augmented web developer. I build custom WordPress themes, progressive web apps, and AI-assisted workflows for founders, marketers, and product teams.';
 	} elseif ( is_page( 'about' ) ) {
 		$desc = 'How I work: AI tooling for speed, human judgment for taste and correctness, and builds that ship through reviewed pull requests.';
-	} elseif ( is_page( 'playground' ) ) {
+	} elseif ( is_page( 'lab' ) ) {
 		$desc = 'A shelf of interactive experiments: live maps, browser games, honest calculators, and installable apps, running on open data and browser APIs.';
 	} elseif ( is_page( 'contact' ) ) {
 		$desc = 'Tell me what you are building. Email, WhatsApp, or the form; engagement can be full-time, part-time, or per project.';

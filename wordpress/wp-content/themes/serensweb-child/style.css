@@ -150,10 +150,10 @@ body.menu-open .wa-float { opacity: 0; pointer-events: none; }
 .nav a[aria-current="page"] { color: var(--color-primary); background: var(--hairline-dark); }
 
 /* =====================================================================
-   Multi-page restructure (Phase 4: Playground + About)
+   Multi-page restructure (Phase 4: Lab + About)
    ===================================================================== */
 
-/* Playground */
+/* Lab */
 .play-grid { display: grid; gap: 22px; grid-template-columns: 1fr; }
 .play-card { background: var(--color-white); border: 1px solid var(--color-smoke-2); border-radius: var(--r-md); overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 .play-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-card); }

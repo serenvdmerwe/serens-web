@@ -11,11 +11,12 @@
  *   faq.php           shared Q&A copy for the contact FAQ and its schema
  *   meta.php          document head: titles, descriptions, Open Graph, icons
  *   seo.php           llms.txt endpoint and sitemap pruning
+ *   redirects.php     301s for renamed URLs (legacy /playground/ to /lab/)
  *   indexnow.php      IndexNow key file and change pings to search engines
  *   enqueue.php       front-end and editor asset registration
  *   patterns.php      block pattern registration
  *   ajax-contact.php  REST handler for the contact form (wp_mail)
- *   ajax-planes.php   REST proxy for the planes-overhead playground map
+ *   ajax-planes.php   REST proxy for the planes-overhead lab map
  *   smtp.php          Gmail SMTP transport for wp_mail (env-driven, no plugin)
  *   cpt-projects.php  Projects custom post type + project_type taxonomy
  */
@@ -28,6 +29,7 @@ require_once __DIR__ . '/includes/schema.php';
 require_once __DIR__ . '/includes/faq.php';
 require_once __DIR__ . '/includes/meta.php';
 require_once __DIR__ . '/includes/seo.php';
+require_once __DIR__ . '/includes/redirects.php';
 require_once __DIR__ . '/includes/indexnow.php';
 require_once __DIR__ . '/includes/enqueue.php';
 require_once __DIR__ . '/includes/patterns.php';
