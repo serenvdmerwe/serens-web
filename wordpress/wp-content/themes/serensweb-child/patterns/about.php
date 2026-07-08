@@ -3,7 +3,7 @@
  * Title: About
  * Slug: serensweb-child/about
  * Categories: serensweb-child
- * Description: About page. Statement, supporting copy, portrait photo, core stack chips, and links to the playground and contact.
+ * Description: About page. Statement, supporting copy, portrait photo, core stack chips, and links to the lab and contact.
  */
 ?>
 <!-- wp:html -->
@@ -42,7 +42,7 @@
         <li>REST APIs</li><li>Docker</li><li>GitHub Actions</li><li>Claude Code</li>
       </ul>
       <div class="about-page__links">
-        <a class="btn btn--ghost" href="/playground">See the playground
+        <a class="btn btn--ghost" href="/lab">See the lab
           <svg class="arr" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg>
         </a>
         <a class="btn btn--primary" href="/contact">Start a project
